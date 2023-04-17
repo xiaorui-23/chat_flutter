@@ -12,6 +12,9 @@
 
 ## 效果图
 
+![](https://raw.githubusercontent.com/xiaorui-23/flutter_chat/master/example/assets/rendering/rendering_1.png)
+![](https://raw.githubusercontent.com/xiaorui-23/flutter_chat/master/example/assets/rendering/rendering_2.png)
+
 ## 特点
 
 <br/>
