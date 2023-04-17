@@ -10,6 +10,8 @@ This is a component package developed purely for `dart` to display chat record l
 
 <br/>
 
+## Rendering
+
 ## Characteristic
 
 <br/>
