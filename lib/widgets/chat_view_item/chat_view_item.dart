@@ -2,10 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_chat/utils/chatViewItemRecordBodyType/chatViewItemRecordBodyType.dart';
+import 'package:flutter_chat/utils/chat_view_item_record_body_type/chat_view_item_record_body_type.dart';
 import 'package:flutter_chat/utils/screenutil/screenutil.dart';
 import 'package:flutter_chat/widgets/avatar/avatar.dart';
-import 'package:flutter_chat/widgets/chatViewItemRecordBody/chatViewItemRecordBody.dart';
+import 'package:flutter_chat/widgets/chat_view_item_record_body/chat_view_item_record_body.dart';
 
 /// 记录项 item
 class ChatViewItem extends StatelessWidget {

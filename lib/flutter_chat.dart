@@ -3,12 +3,12 @@ library flutter_chat;
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_chat/utils/screenutil/screenutil.dart';
-import 'package:flutter_chat/widgets/chatViewItem/chatViewItem.dart';
+import 'package:flutter_chat/widgets/chat_view_item/chat_view_item.dart';
 
 
 
-export 'package:flutter_chat/widgets/chatViewItem/chatViewItem.dart';
-export 'package:flutter_chat/utils/chatViewItemRecordBodyType/chatViewItemRecordBodyType.dart';
+export 'package:flutter_chat/widgets/chat_view_item/chat_view_item.dart';
+export 'package:flutter_chat/utils/chat_view_item_record_body_type/chat_view_item_record_body_type.dart';
 
 
 /// 聊天记录页面容器
@@ -60,16 +60,14 @@ class _ChatViewWidgetState extends State<ChatViewWidget> {
         // 根据 初始渲染时是否需要滑动到底部 状态进行设置
         _initStateScrollBottom();
 
-        return Container(
-            child: ListView.builder(
-                controller: _chatViewWidgetController,
-                padding: const EdgeInsets.all(0),
-                physics: const AlwaysScrollableScrollPhysics(),
-                reverse: widget.isNeedScrollBottom,
-                shrinkWrap: true,
-                itemCount: (widget.children ?? []).length,
-                itemBuilder: (BuildContext context, int index) => widget.children![index]
-            ),
+        return ListView.builder(
+            controller: _chatViewWidgetController,
+            padding: const EdgeInsets.all(0),
+            physics: const AlwaysScrollableScrollPhysics(),
+            reverse: widget.isNeedScrollBottom,
+            shrinkWrap: true,
+            itemCount: (widget.children ?? []).length,
+            itemBuilder: (BuildContext context, int index) => widget.children![index]
         );
     }
 

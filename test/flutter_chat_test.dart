@@ -6,7 +6,7 @@ void main() {
     testWidgets('test flutter_chat', (WidgetTester tester) async {
 
         await tester.runAsync(() async {
-            await tester.pumpWidget(App());
+            await tester.pumpWidget(const App());
 
             expect(find.byType(App), findsOneWidget);
         });
@@ -54,7 +54,7 @@ class _AppState extends State<App> {
                 itemBody: "Hi, 就阿萨德理解啊睡了多久啊是 啊可是建档立卡上的结论是",
             ),
             ChatViewItem(
-                customItem: Text('自定义消息主体'),
+                customItem: const Text('自定义消息主体'),
             ),
             ChatViewItem(
                 isOpenTextSelect: true,
