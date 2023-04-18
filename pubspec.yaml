@@ -1,6 +1,7 @@
 name: chat_flutter
 description: 一个用用于聊天记录展示的 flutter 插件工具包。
 version: 1.0.0
+author: Xiao Rui<3399251596w@gmail.com>
 homepage: https://github.com/xiaorui-23/chat_flutter
 
 environment:
