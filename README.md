@@ -245,5 +245,5 @@ class _MyAppState extends State<MyApp> {
 当您在使用的过程中遇到了问题，可点击[这里](https://github.com/xiaorui-23/chat_flutter)进行`issue`提出问题或者通过下方的联系方式联系我，看到您的联系时或提出的`issue`我将第一时间进行回复并联系您。
 
 - [github](https://github.com/xiaorui-23/chat_flutter)
-- [gitee](https://gitee.com/xiaorui-23/chat_flutter.git)
+- [gitee](https://gitee.com/xiaorui-23/flutter_chat)
 

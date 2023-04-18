@@ -244,6 +244,6 @@ Not currently supported.
 
 When you encounter problems during use, you can click [Here](https://github.com/xiaorui-23/chat_flutter.git) have `issue` ask a question or contact me through the contact information below. When you see your contact or raise a question `issue` I will reply and contact you as soon as possible.
 
-- [github](https://github.com/xiaorui-23/chat_flutter.git)
-- [gitee](https://gitee.com/xiaorui-23/chat_flutter.git)
+- [github](https://github.com/xiaorui-23/chat_flutter)
+- [gitee](https://gitee.com/xiaorui-23/flutter_chat)
 
