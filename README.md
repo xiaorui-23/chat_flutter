@@ -12,8 +12,12 @@
 
 ## 效果图
 
-![](https://raw.githubusercontent.com/xiaorui-23/flutter_chat/master/example/assets/rendering/rendering_1.png)
-![](https://raw.githubusercontent.com/xiaorui-23/flutter_chat/master/example/assets/rendering/rendering_2.png)
+<br/>
+
+<div>
+    <img src="https://raw.githubusercontent.com/xiaorui-23/flutter_chat/master/example/assets/rendering/rendering_2.png" width="200" height="400" />
+    <img src="https://raw.githubusercontent.com/xiaorui-23/flutter_chat/master/example/assets/rendering/rendering_1.png" width="200" height="400" />
+</div>
 
 ## 特点
 
@@ -154,8 +158,6 @@ class _MyAppState extends State<MyApp> {
 
 ## API参数说明
 
-<br/>
-
 ### `ChatViewWidget` 说明
 
 | 名称 | 类型 | 描述 | 默认值 |
@@ -164,11 +166,10 @@ class _MyAppState extends State<MyApp> {
 | `isNeedScrollBottom` | `bool` | 初始渲染时是否滑动到底部  | `false` |
 | `onCreated` | `Function(ScrollController chatViewWidgetController)` | 创建完成时, 返回一个`ScrollController`类型的列表滑动控制器  | -- |
 
-<br/>
 
 ### `ChatViewItem` 说明
 
-<br/>
+
 
 #### 公共参数 API
 
@@ -219,7 +220,7 @@ class _MyAppState extends State<MyApp> {
 | `audioTimelength` | `int` | 音频时长  | `0` |
 | `audioPlayStatus` | `bool` | 播放状态  | `false` |
 
-<br/>
+
 
 #### 图片
 

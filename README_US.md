@@ -152,7 +152,6 @@ If you feel that the cases and usage assistance provided on this page cannot hel
 
 ## API Parameter Description
 
-<br/>
 
 ### `ChatViewWidget` Illustrate
 
@@ -162,11 +161,11 @@ If you feel that the cases and usage assistance provided on this page cannot hel
 | `isNeedScrollBottom` | `bool` | Whether to slide to the bottom during initial rendering  | `false` |
 | `onCreated` | `Function(ScrollController chatViewWidgetController)` | When creation is complete, return a`ScrollController` list controller of type  | -- |
 
-<br/>
+
 
 ### `ChatViewItem` Illustrate
 
-<br/>
+
 
 #### Common Parameter API
 
@@ -206,7 +205,7 @@ If you feel that the cases and usage assistance provided on this page cannot hel
 | `onSelectionChanged` | `Function(SelectedContent?)` | Long press the text menu to select a callback | -- |
 | `createSelectableTextCallback` | `Function(FocusNode focusNode)` | Optional Text Content `widget` callback during creation | -- |
 
-<br/>
+
 
 #### Audio
 
