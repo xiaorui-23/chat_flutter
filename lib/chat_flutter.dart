@@ -1,14 +1,14 @@
 
-library flutter_chat;
+library chat_flutter;
 
 import 'package:flutter/widgets.dart';
-import 'package:flutter_chat/utils/screenutil/screenutil.dart';
-import 'package:flutter_chat/widgets/chat_view_item/chat_view_item.dart';
+import 'package:chat_flutter/utils/screenutil/screenutil.dart';
+import 'package:chat_flutter/widgets/chat_view_item/chat_view_item.dart';
 
 
 
-export 'package:flutter_chat/widgets/chat_view_item/chat_view_item.dart';
-export 'package:flutter_chat/utils/chat_view_item_record_body_type/chat_view_item_record_body_type.dart';
+export 'package:chat_flutter/widgets/chat_view_item/chat_view_item.dart';
+export 'package:chat_flutter/utils/chat_view_item_record_body_type/chat_view_item_record_body_type.dart';
 
 
 /// 聊天记录页面容器

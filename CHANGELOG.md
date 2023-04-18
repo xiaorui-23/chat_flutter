@@ -1,5 +1,5 @@
 
 ## 1.0.0
 
-`flutter_chat` 正式发布。
+`chat_flutter` 正式发布。
 

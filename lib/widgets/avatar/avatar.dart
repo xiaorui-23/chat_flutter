@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_chat/utils/screenutil/screenutil.dart';
+import 'package:chat_flutter/utils/screenutil/screenutil.dart';
 
 /// 头像
 class Avatar extends StatefulWidget {

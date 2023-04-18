@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_chat/flutter_chat.dart';
+import 'package:chat_flutter/chat_flutter.dart';
 
 void main() {
   runApp(MyApp());
@@ -95,7 +95,7 @@ class _MyAppState extends State<MyApp> {
             home: Scaffold(
                 appBar: AppBar(
                     centerTitle: true,
-                    // title: const Text('flutter_chat 插件展示案例'),
+                    // title: const Text('chat_flutter 插件展示案例'),
                 ),
                 backgroundColor: const Color.fromARGB(255, 239, 238, 234),
                 body: GestureDetector(

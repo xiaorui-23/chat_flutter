@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat/flutter_chat.dart';
+import 'package:chat_flutter/chat_flutter.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-    testWidgets('test flutter_chat', (WidgetTester tester) async {
+    testWidgets('test chat_flutter', (WidgetTester tester) async {
 
         await tester.runAsync(() async {
             await tester.pumpWidget(const App());

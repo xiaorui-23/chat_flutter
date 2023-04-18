@@ -1,7 +1,7 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:flutter_chat/utils/screenutil/screenutil.dart';
+import 'package:chat_flutter/utils/screenutil/screenutil.dart';
 
 /// 内容为 音频 的组件盒子
 class AudioBox extends StatefulWidget {

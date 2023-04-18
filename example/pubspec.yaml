@@ -1,5 +1,5 @@
 name: example
-description: flutter_chat 插件的使用案例
+description: chat_flutter 插件的使用案例
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -47,8 +47,8 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
-  # flutter_chat: ^1.0.0
-  flutter_chat: 
+  # chat_flutter: ^1.0.0
+  chat_flutter: 
     path: ../
 
 # For information on the generic Dart part of this file, see the

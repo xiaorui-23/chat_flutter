@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_chat/utils/screenutil/screenutil.dart';
+import 'package:chat_flutter/utils/screenutil/screenutil.dart';
 
 /// 自定义的选择文字组件
 class CustomSelectionArea extends StatefulWidget {

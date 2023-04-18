@@ -1,10 +1,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_chat/utils/chat_view_item_record_body_type/chat_view_item_record_body_type.dart';
-import 'package:flutter_chat/utils/screenutil/screenutil.dart';
-import 'package:flutter_chat/widgets/audio_box/audio_box.dart';
-import 'package:flutter_chat/widgets/custom_selection_area/custom_selection_area.dart';
+import 'package:chat_flutter/utils/chat_view_item_record_body_type/chat_view_item_record_body_type.dart';
+import 'package:chat_flutter/utils/screenutil/screenutil.dart';
+import 'package:chat_flutter/widgets/audio_box/audio_box.dart';
+import 'package:chat_flutter/widgets/custom_selection_area/custom_selection_area.dart';
 
 /// 内容主体
 class ChatViewItemRecordBody extends StatelessWidget {

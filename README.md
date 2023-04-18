@@ -1,5 +1,5 @@
 
-# flutter_chat
+# chat_flutter
 
 这是一个纯 `dart` 开发的开发的 聊天记录 列表展示的组件包，支持图片、文件、语音、文字、视频的基础内容展示。
 
@@ -15,8 +15,8 @@
 <br/>
 
 <div>
-    <img src="https://raw.githubusercontent.com/xiaorui-23/flutter_chat/master/example/assets/rendering/rendering_2.png" width="200" height="400" />
-    <img src="https://raw.githubusercontent.com/xiaorui-23/flutter_chat/master/example/assets/rendering/rendering_1.png" width="200" height="400" />
+    <img src="https://raw.githubusercontent.com/xiaorui-23/chat_flutter/master/example/assets/rendering/rendering_2.png" width="200" height="400" />
+    <img src="https://raw.githubusercontent.com/xiaorui-23/chat_flutter/master/example/assets/rendering/rendering_1.png" width="200" height="400" />
 </div>
 
 ## 特点
@@ -45,14 +45,14 @@
 你可以直接在`pubspec.yaml`文件中的`dependencies`下添加以进行安装。
 
 ```dart
-flutter_chat: ^1.0.0
+chat_flutter: ^1.0.0
 ```
 
 如下面这样：
 
 ```dart
 dependencies:
-  flutter_chat: ^1.0.0
+  chat_flutter: ^1.0.0
 ```
 
 ### 二、
@@ -60,7 +60,7 @@ dependencies:
 你还可以在处于项目根目录的终端中执行下面这条命令进行安装：
 
 ```dart
-flutter pub add flutter_chat
+flutter pub add chat_flutter
 ```
 
 ## 使用 
@@ -68,14 +68,14 @@ flutter pub add flutter_chat
 在需要使用的页面进行引入：
 
 ```dart
-import 'package:flutter_chat/flutter_chat.dart';
+import 'package:chat_flutter/chat_flutter.dart';
 ```
 
 完整使用案例：
 
 ```dart
 import 'package:flutter/material.dart';
-import 'package:flutter_chat/flutter_chat.dart';
+import 'package:chat_flutter/chat_flutter.dart';
 
 void main() {
   runApp(const MyApp());
@@ -106,7 +106,7 @@ class _MyAppState extends State<MyApp> {
 
 <br/>
 
-更多使用案例可点击[这里](https://github.com/xiaorui-23/flutter_chat)中的`/example/lib/main.dart`进行查看。
+更多使用案例可点击[这里](https://github.com/xiaorui-23/chat_flutter)中的`/example/lib/main.dart`进行查看。
 
 <br/>
 
@@ -152,7 +152,7 @@ class _MyAppState extends State<MyApp> {
 
 <br/>
 
-若您感觉到本页面提供的案例、使用帮助无法让您顺利成功上手此插件，您可以点击[这里](https://github.com/xiaorui-23/flutter_chat)并进入`example/lib/main.dart`文件查看详细的使用案例。或者您可以通过下方的联系方式进行联系我。
+若您感觉到本页面提供的案例、使用帮助无法让您顺利成功上手此插件，您可以点击[这里](https://github.com/xiaorui-23/chat_flutter)并进入`example/lib/main.dart`文件查看详细的使用案例。或者您可以通过下方的联系方式进行联系我。
 
 <br/>
 
@@ -242,8 +242,8 @@ class _MyAppState extends State<MyApp> {
 
 <br/>
 
-当您在使用的过程中遇到了问题，可点击[这里](https://github.com/xiaorui-23/flutter_chat)进行`issue`提出问题或者通过下方的联系方式联系我，看到您的联系时或提出的`issue`我将第一时间进行回复并联系您。
+当您在使用的过程中遇到了问题，可点击[这里](https://github.com/xiaorui-23/chat_flutter)进行`issue`提出问题或者通过下方的联系方式联系我，看到您的联系时或提出的`issue`我将第一时间进行回复并联系您。
 
-- [github](https://github.com/xiaorui-23/flutter_chat)
-- [gitee](https://gitee.com/xiaorui-23/flutter_chat.git)
+- [github](https://github.com/xiaorui-23/chat_flutter)
+- [gitee](https://gitee.com/xiaorui-23/chat_flutter.git)
 

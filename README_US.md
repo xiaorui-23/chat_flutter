@@ -1,5 +1,5 @@
 
-# flutter_chat
+# chat_flutter
 
 This is a component package developed purely for `dart` to display chat record lists, supporting the basic content display of images, files, voice, video, and text.
 
@@ -15,8 +15,8 @@ This is a component package developed purely for `dart` to display chat record l
 <br/>
 
 <div>
-    <img src="https://raw.githubusercontent.com/xiaorui-23/flutter_chat/master/example/assets/rendering/rendering_2.png" width="200" height="400" />
-    <img src="https://raw.githubusercontent.com/xiaorui-23/flutter_chat/master/example/assets/rendering/rendering_1.png" width="200" height="400" />
+    <img src="https://raw.githubusercontent.com/xiaorui-23/chat_flutter/master/example/assets/rendering/rendering_2.png" width="200" height="400" />
+    <img src="https://raw.githubusercontent.com/xiaorui-23/chat_flutter/master/example/assets/rendering/rendering_1.png" width="200" height="400" />
 </div>
 
 ## Characteristic
@@ -44,14 +44,14 @@ The display content supports the following basic content:
 You can directly `pubspec.yaml` in the file `dependencies` add below for installation.
 
 ```dart
-flutter_chat: ^1.0.0
+chat_flutter: ^1.0.0
 ```
 
 As follows:
 
 ```dart
 dependencies:
-  flutter_chat: ^1.0.0
+  chat_flutter: ^1.0.0
 ```
 
 ### 2、
@@ -59,7 +59,7 @@ dependencies:
 You can also execute the following command to install from the terminal located in the project root directory:
 
 ```dart
-flutter pub add flutter_chat
+flutter pub add chat_flutter
 ```
 
 ## Use 
@@ -67,14 +67,14 @@ flutter pub add flutter_chat
 Introduce on the required page:
 
 ```dart
-import 'package:flutter_chat/flutter_chat.dart';
+import 'package:chat_flutter/chat_flutter.dart';
 ```
 
 Complete Use Case:
 
 ```dart
 import 'package:flutter/material.dart';
-import 'package:flutter_chat/flutter_chat.dart';
+import 'package:chat_flutter/chat_flutter.dart';
 
 void main() {
   runApp(const MyApp());
@@ -105,7 +105,7 @@ class _MyAppState extends State<MyApp> {
 
 <br/>
 
-More use cases can be found at [Here](https://github.com/xiaorui-23/flutter_chat.git) hit the target `/example/lib/main.dart` review.
+More use cases can be found at [Here](https://github.com/xiaorui-23/chat_flutter.git) hit the target `/example/lib/main.dart` review.
 <br/>
 
 ## Precautions for use
@@ -150,7 +150,7 @@ This plugin provides a high degree of customization to facilitate the functional
 
 <br/>
 
-If you feel that the cases and usage assistance provided on this page cannot help you successfully start using this plugin, you can click [Here](https://github.com/xiaorui-23/flutter_chat.git) and enter `example/lib/main.dart` file View Detailed Use Cases. Alternatively, you can contact me through the contact information below.
+If you feel that the cases and usage assistance provided on this page cannot help you successfully start using this plugin, you can click [Here](https://github.com/xiaorui-23/chat_flutter.git) and enter `example/lib/main.dart` file View Detailed Use Cases. Alternatively, you can contact me through the contact information below.
 
 <br/>
 
@@ -242,8 +242,8 @@ Not currently supported.
 
 <br/>
 
-When you encounter problems during use, you can click [Here](https://github.com/xiaorui-23/flutter_chat.git) have `issue` ask a question or contact me through the contact information below. When you see your contact or raise a question `issue` I will reply and contact you as soon as possible.
+When you encounter problems during use, you can click [Here](https://github.com/xiaorui-23/chat_flutter.git) have `issue` ask a question or contact me through the contact information below. When you see your contact or raise a question `issue` I will reply and contact you as soon as possible.
 
-- [github](https://github.com/xiaorui-23/flutter_chat.git)
-- [gitee](https://gitee.com/xiaorui-23/flutter_chat.git)
+- [github](https://github.com/xiaorui-23/chat_flutter.git)
+- [gitee](https://gitee.com/xiaorui-23/chat_flutter.git)
 
