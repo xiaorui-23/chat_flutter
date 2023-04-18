@@ -12,8 +12,12 @@ This is a component package developed purely for `dart` to display chat record l
 
 ## Rendering
 
-![](https://raw.githubusercontent.com/xiaorui-23/flutter_chat/master/example/assets/rendering/rendering_1.png)
-![](https://raw.githubusercontent.com/xiaorui-23/flutter_chat/master/example/assets/rendering/rendering_2.png)
+<br/>
+
+<div>
+    <img src="https://raw.githubusercontent.com/xiaorui-23/flutter_chat/master/example/assets/rendering/rendering_2.png" width="200" height="400" />
+    <img src="https://raw.githubusercontent.com/xiaorui-23/flutter_chat/master/example/assets/rendering/rendering_1.png" width="200" height="400" />
+</div>
 
 ## Characteristic
 
