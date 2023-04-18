@@ -65,7 +65,7 @@ class _ChatViewWidgetState extends State<ChatViewWidget> {
                 controller: _chatViewWidgetController,
                 padding: const EdgeInsets.all(0),
                 physics: const AlwaysScrollableScrollPhysics(),
-                reverse: true,
+                reverse: widget.isNeedScrollBottom,
                 shrinkWrap: true,
                 itemCount: (widget.children ?? []).length,
                 itemBuilder: (BuildContext context, int index) => widget.children![index]

@@ -10,7 +10,7 @@ enum ChatViewItemRecordBodyType {
     /// 文件
     file,
     /// 视频
-    // video,
+    video,
     /// 图片
     image
 }

@@ -1,7 +1,7 @@
 
 # flutter_chat
 
-This is a component package developed purely for `dart` to display chat record lists, supporting the basic content display of images, files, voice, and text.
+This is a component package developed purely for `dart` to display chat record lists, supporting the basic content display of images, files, voice, video, and text.
 
 
 <br/>
@@ -150,7 +150,7 @@ If you feel that the cases and usage assistance provided on this page cannot hel
 
 <br/>
 
-## Api Parameter Description
+## API Parameter Description
 
 <br/>
 
@@ -168,16 +168,17 @@ If you feel that the cases and usage assistance provided on this page cannot hel
 
 <br/>
 
+#### Common Parameter API
+
+<br/>
+
 | Name | Type | Describe | Default value |
 | :----: | :----: | :----: | :----: |
 | `itemBody` | `dynamic` | Content. according to `itemBodyType` the content conveyed varies depending on the type. When `itemBodyType = ChatViewItemRecordBodyType.audio` time may not be transmitted, and detailed use can refer to case studies.  | -- |
-| `audioTimelength` | `int` | Audio duration  | `0` |
-| `audioPlayStatus` | `bool` | Playing  | `false` |
 | `senderRight` | `bool` | Is it on the right side  | `true` |
 | `avatarPath` | `String` | The avatar address will be the default one when it is not delivered. If it is not delivered, the built-in icon avatar scheme will be used  | -- |
 | `defaultAvatarPath` | `String` | Default avatar address | -- |
 | `isAvatarShow` | `bool` | Is the avatar displayed | `true` |
-| `selectionControls` | `TextSelectionControls` | Text selection controller. When `isOpenTextSelect` the activation is valid. | -- |
 | `avatarSize` | `double` | Avatar size | Adapted `45` |
 | `avatarColor` | `Color` | Head color | -- |
 | `customAvatar` | `Widget` | Custom avatar | -- |
@@ -185,16 +186,52 @@ If you feel that the cases and usage assistance provided on this page cannot hel
 | `customAvatarWidget` | `Widget` | Custom avatar | -- |
 | `itemBodyRecordTime` | `String` | Recording time | -- |
 | `backgroundColor` | `Color` | Record the background color of the main body | `Colors.white` |
-| `itemBodyTextStyle` | `TextStyle` | Record the text style of the main body | `TextStyle (color: const Color(0xff1989fa),fontSize: 16` |
-| `isOpenTextSelect` | `bool` | Do you want to open the long press text menu | `true` |
 | `customItem` | `Widget` | Custom Record Body | -- |
 | `avatarTap` | `Function` | Head image click callback | -- |
 | `itemBodyTap` | `Function` | Content subject click event | -- |
-| `itemBodyMediaTap` | `Function(ChatViewItemRecordBodyType type)` | File, image, audio click events | -- |
+| `itemBodyMediaTap` | `Function(ChatViewItemRecordBodyType type)` | File, image, audio, video click events | -- |
+
+<br/>
+
+#### Text
+
+<br/>
+
+| Name | Type | Describe | Default value |
+| :----: | :----: | :----: | :----: |
+| `selectionControls` | `TextSelectionControls` | Text selection controller. When `isOpenTextSelect` the activation is valid. | -- |
+| `itemBodyTextStyle` | `TextStyle` | Record the text style of the main body | `TextStyle (color: const Color(0xff1989fa),fontSize: 16` |
+| `isOpenTextSelect` | `bool` | Do you want to open the long press text menu | `true` |
 | `contextMenuBuilder` | `Widget Function(BuildContext context, SelectableRegionState selectableRegionState)` | Displayed Tools Menu | -- |
 | `onSelectionChanged` | `Function(SelectedContent?)` | Long press the text menu to select a callback | -- |
 | `createSelectableTextCallback` | `Function(FocusNode focusNode)` | Optional Text Content `widget` callback during creation | -- |
-<!-- | `` | `` |  | -- | -->
+
+<br/>
+
+#### Audio
+
+<br/>
+
+| Name | Type | Describe | Default value |
+| :----: | :----: | :----: | :----: |
+| `audioTimelength` | `int` | Audio duration  | `0` |
+| `audioPlayStatus` | `bool` | Playing  | `false` |
+
+<br/>
+
+#### Image
+
+<br/>
+
+No special parameter description.
+
+<br/>
+
+#### Video
+
+<br/>
+
+Not currently supported.
 
 <br/>
 

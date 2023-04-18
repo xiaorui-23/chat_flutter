@@ -1,7 +1,7 @@
 
 # flutter_chat
 
-这是一个纯 `dart` 开发的开发的 聊天记录 列表展示的组件包，支持图片、文件、语音、文字的基础内容展示。
+这是一个纯 `dart` 开发的开发的 聊天记录 列表展示的组件包，支持图片、文件、语音、文字、视频的基础内容展示。
 
 
 <br/>
@@ -152,7 +152,7 @@ class _MyAppState extends State<MyApp> {
 
 <br/>
 
-## Api 参数说明
+## API参数说明
 
 <br/>
 
@@ -162,7 +162,7 @@ class _MyAppState extends State<MyApp> {
 | :----: | :----: | :----: | :----: |
 | `children` | `List<ChatViewItem>` | 记录列表  | `[]` |
 | `isNeedScrollBottom` | `bool` | 初始渲染时是否滑动到底部  | `false` |
-| `onCreated` | `Function(ScrollController chatViewWidgetController)` | 创建完成时, 返回一个`ScrollController`类型的列表控制器  | -- |
+| `onCreated` | `Function(ScrollController chatViewWidgetController)` | 创建完成时, 返回一个`ScrollController`类型的列表滑动控制器  | -- |
 
 <br/>
 
@@ -170,33 +170,70 @@ class _MyAppState extends State<MyApp> {
 
 <br/>
 
+#### 公共参数 API
+
+<br/>
+
 | 名称 | 类型 | 描述 | 默认值 |
 | :----: | :----: | :----: | :----: |
 | `itemBody` | `dynamic` | 内容。根据`itemBodyType`的类型不同时所传递的内容也不同。当 `itemBodyType = ChatViewItemRecordBodyType.audio`时可不传递，详细使用可参考案例。  | -- |
-| `audioTimelength` | `int` | 音频时长  | `0` |
-| `audioPlayStatus` | `bool` | 播放状态  | `false` |
 | `senderRight` | `bool` | 是否为 右侧 己方  | `true` |
 | `avatarPath` | `String` | 头像地址, 当未传递时，将采用 默认头像地址，若都未传递，则采用 自带的 icon 头像方案  | -- |
 | `defaultAvatarPath` | `String` | 默认头像地址 | -- |
 | `isAvatarShow` | `bool` | 是否展示头像 | `true` |
-| `selectionControls` | `TextSelectionControls` | 文本选择控制器。当 `isOpenTextSelect` 开启有效。 | -- |
 | `avatarSize` | `double` | 头像大小 | 适配后的 `45` |
 | `avatarColor` | `Color` | 头像颜色 | -- |
 | `customAvatar` | `Widget` | 自定义头像 | -- |
 | `itemBodyType` | `ChatViewItemRecordBodyType` | 当前记录内容类型 | `文本｜text` |
 | `customAvatarWidget` | `Widget` | 自定义头像 | -- |
 | `itemBodyRecordTime` | `String` | 记录时间 | -- |
-| `backgroundColor` | `Color` | 记录主体的背景色 | `Colors.white` |
-| `itemBodyTextStyle` | `TextStyle` | 记录主体的文字样式 | `TextStyle (color: const Color(0xff1989fa),fontSize: 16` |
-| `isOpenTextSelect` | `bool` | 是否打开长按文字菜单 | `true` |
+| `backgroundColor` | `Color` | 记录主体的背景色 | `white` |
 | `customItem` | `Widget` | 自定义记录主体 | -- |
 | `avatarTap` | `Function` | 头像点击回调 | -- |
 | `itemBodyTap` | `Function` | 内容主体点击事件 | -- |
 | `itemBodyMediaTap` | `Function(ChatViewItemRecordBodyType type)` | 文件、图片、音频 点击事件 | -- |
+
+<br/>
+
+#### 文本
+
+<br/>
+
+| 名称 | 类型 | 描述 | 默认值 |
+| :----: | :----: | :----: | :----: |
+| `selectionControls` | `TextSelectionControls` | 文本选择控制器。当 `isOpenTextSelect` 开启有效。 | -- |
+| `itemBodyTextStyle` | `TextStyle` | 记录主体的文字样式 | `TextStyle (color: const Color(0xff1989fa),fontSize: 16` |
+| `isOpenTextSelect` | `bool` | 是否打开长按文字菜单 | `true` |
 | `contextMenuBuilder` | `Widget Function(BuildContext context, SelectableRegionState selectableRegionState)` | 显示的工具菜单 | -- |
 | `onSelectionChanged` | `Function(SelectedContent?)` | 长按文字菜单选择回调 | -- |
 | `createSelectableTextCallback` | `Function(FocusNode focusNode)` | 可选文字内容 `widget` 创建时的回调 | -- |
-<!-- | `` | `` |  | -- | -->
+
+<br/>
+
+#### 音频
+
+<br/>
+
+| 名称 | 类型 | 描述 | 默认值 |
+| :----: | :----: | :----: | :----: |
+| `audioTimelength` | `int` | 音频时长  | `0` |
+| `audioPlayStatus` | `bool` | 播放状态  | `false` |
+
+<br/>
+
+#### 图片
+
+<br/>
+
+无特别参数说明。
+
+<br/>
+
+#### 视频
+
+<br/>
+
+暂不支持。
 
 <br/>
 
