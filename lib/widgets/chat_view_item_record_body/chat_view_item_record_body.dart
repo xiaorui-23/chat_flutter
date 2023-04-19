@@ -31,6 +31,10 @@ class ChatViewItemRecordBody extends StatelessWidget {
     final bool audioPlayStatus;
     /// 文本选择控制器
     final TextSelectionControls? selectionControls;
+    /// 自定义时间记录 widget
+    final Widget? customRecordTimeWidget;
+    /// 自定义时间记录样式
+    final TextStyle? customRecordTimeStyle;
     /// 长按文字菜单选择回调
     final Function(SelectedContent?)? onSelectionChanged;
     /// 内容主体点击事件
@@ -60,6 +64,8 @@ class ChatViewItemRecordBody extends StatelessWidget {
         this.itemBodyRecordTime,
         this.createSelectableTextCallback,
         this.customItem,
+        this.customRecordTimeWidget,
+        this.customRecordTimeStyle
     });
 
     
@@ -94,6 +100,7 @@ class ChatViewItemRecordBody extends StatelessWidget {
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
                                                 // 记录时间
+                                                if (customRecordTimeWidget != null) customRecordTimeWidget!,
                                                 if(itemBodyRecordTime != null)
                                                     Container(
                                                         width: sw(235),
@@ -105,7 +112,7 @@ class ChatViewItemRecordBody extends StatelessWidget {
                                                         child: Text(
                                                             itemBodyRecordTime!,
                                                             textAlign: TextAlign.center,
-                                                            style: TextStyle(
+                                                            style: customRecordTimeStyle ?? TextStyle(
                                                                 fontSize: sf(14),
                                                                 color: const Color.fromARGB(255, 183, 182, 182)
                                                             ),
