@@ -1,4 +1,7 @@
 
+## 1.0.4
+
+Optimize known issues.
 
 ## 1.0.3
 

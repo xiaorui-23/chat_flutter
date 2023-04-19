@@ -47,6 +47,10 @@ class ChatViewItem extends StatelessWidget {
     final bool isOpenTextSelect;
     /// 文本选择控制器
     final TextSelectionControls? selectionControls;
+    /// 自定义时间记录 widget
+    final Widget? customRecordTimeWidget;
+    /// 自定义时间记录样式
+    final TextStyle? customRecordTimeStyle;
     /// 显示的工具菜单
     final Widget Function(BuildContext context, SelectableRegionState selectableRegionState)? contextMenuBuilder;
     /// 内容主体点击事件
@@ -85,7 +89,9 @@ class ChatViewItem extends StatelessWidget {
         this.customAvatarWidget,
         this.itemBodyRecordTime,
         this.createSelectableTextCallback,
-        this.customItem
+        this.customItem,
+        this.customRecordTimeWidget,
+        this.customRecordTimeStyle
     });
 
     @override
@@ -125,6 +131,8 @@ class ChatViewItem extends StatelessWidget {
                     customItem: customItem,
                     audioPlayStatus: audioPlayStatus,
                     audioTimelength: audioTimelength,
+                    customRecordTimeStyle: customRecordTimeStyle,
+                    customRecordTimeWidget: customRecordTimeWidget,
                 ),
                 // 己方
                 if (senderRight)
