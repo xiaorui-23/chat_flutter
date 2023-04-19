@@ -79,12 +79,17 @@ class _AudioBoxState extends State<AudioBox> {
                 ),
                 // 时长
                 if (widget.audioTimelength > 0)
-                    Text(
-                        "'${widget.audioTimelength}",
-                        style: TextStyle(
-                            fontSize: sf(15),
-                            color: Colors.black
+                    Container(
+                        constraints: BoxConstraints(
+                            maxWidth: sw(75)
                         ),
+                      child: Text(
+                          "'${widget.audioTimelength}",
+                          style: TextStyle(
+                              fontSize: sf(15),
+                              color: Colors.black
+                          ),
+                      ),
                     ),
                 // 
             ],

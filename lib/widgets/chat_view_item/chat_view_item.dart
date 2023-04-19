@@ -51,10 +51,12 @@ class ChatViewItem extends StatelessWidget {
     final Widget? customRecordTimeWidget;
     /// 自定义时间记录样式
     final TextStyle? customRecordTimeStyle;
+    /// 内容主体约束
+    final BoxConstraints? chatViewItemRecordBodyBoxConstraints;
     /// 显示的工具菜单
     final Widget Function(BuildContext context, SelectableRegionState selectableRegionState)? contextMenuBuilder;
     /// 内容主体点击事件
-    final Function()? itemBodyTap;
+    final Function(ChatViewItemRecordBodyType type)? itemBodyTap;
     /// 文件、图片、音频 点击事件
     final Function(ChatViewItemRecordBodyType type)? itemBodyMediaTap;
     /// 长按文字菜单选择回调
@@ -91,7 +93,8 @@ class ChatViewItem extends StatelessWidget {
         this.createSelectableTextCallback,
         this.customItem,
         this.customRecordTimeWidget,
-        this.customRecordTimeStyle
+        this.customRecordTimeStyle,
+        this.chatViewItemRecordBodyBoxConstraints
     });
 
     @override
@@ -146,11 +149,14 @@ class ChatViewItem extends StatelessWidget {
                                 itemBodyType: itemBodyType,
                                 backgroundColor: backgroundColor,
                                 itemBody: itemBody,
+                                itemBodyTap: itemBodyTap,
                                 itemBodyMediaTap: itemBodyMediaTap,
+                                selectionControls: selectionControls,
                                 isOpenTextSelect: isOpenTextSelect,
                                 contextMenuBuilder: contextMenuBuilder,
                                 onSelectionChanged: onSelectionChanged,
                                 createSelectableTextCallback: createSelectableTextCallback,
+                                chatViewItemRecordBodyBoxConstraints: chatViewItemRecordBodyBoxConstraints,
                                 customItem: customItem,
                                 audioPlayStatus: audioPlayStatus,
                                 audioTimelength: audioTimelength,

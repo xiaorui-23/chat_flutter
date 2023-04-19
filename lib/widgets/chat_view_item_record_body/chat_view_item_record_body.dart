@@ -36,7 +36,7 @@ class ChatViewItemRecordBody extends StatelessWidget {
     /// 长按文字菜单选择回调
     final Function(SelectedContent?)? onSelectionChanged;
     /// 内容主体点击事件
-    final Function()? itemBodyTap;
+    final Function(ChatViewItemRecordBodyType type)? itemBodyTap;
     /// SelectableText 创建时
     final Function(FocusNode focusNode)? createSelectableTextCallback;
     /// 文件、图片、音频 点击事件
@@ -111,7 +111,11 @@ class ChatViewItemRecordBody extends StatelessWidget {
                                                         bottom: sh(10)
                                                     ),
                                                     child: GestureDetector(
-                                                        onTap: itemBodyTap,
+                                                        onTap: () {
+                                                            if(itemBodyTap != null){
+                                                                itemBodyTap!(itemBodyType);
+                                                            }
+                                                        },
                                                         child: isOpenTextSelect && itemBodyType == ChatViewItemRecordBodyType.text ? CustomSelectionArea(
                                                             itemBodyTextStyle: itemBodyTextStyle,
                                                             onSelectionChanged: onSelectionChanged,
@@ -257,7 +261,7 @@ class ChatViewItemRecordBody extends StatelessWidget {
                         // 文字描述
                         Container(
                             constraints: BoxConstraints(
-                                maxWidth: sw(150)
+                                maxWidth: sw(120)
                             ),
                             margin: EdgeInsets.only(
                                 left: sw(10)

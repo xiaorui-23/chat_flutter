@@ -1,5 +1,9 @@
 
 
+## 1.0.7
+
+Adjusting and optimizing the UI layout
+
 ## 1.0.6
 
 Adjusting and optimizing the UI layout
