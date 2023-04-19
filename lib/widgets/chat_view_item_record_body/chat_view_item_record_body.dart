@@ -13,8 +13,6 @@ class ChatViewItemRecordBody extends StatelessWidget {
     final dynamic itemBody;
     /// 自定义记录 item 主体
     final Widget? customItem;
-    /// 记录时间
-    final String? itemBodyRecordTime;
     /// 当前记录内容类型
     final ChatViewItemRecordBodyType itemBodyType;
     /// 背景色
@@ -31,10 +29,6 @@ class ChatViewItemRecordBody extends StatelessWidget {
     final bool audioPlayStatus;
     /// 文本选择控制器
     final TextSelectionControls? selectionControls;
-    /// 自定义时间记录 widget
-    final Widget? customRecordTimeWidget;
-    /// 自定义时间记录样式
-    final TextStyle? customRecordTimeStyle;
     /// 长按文字菜单选择回调
     final Function(SelectedContent?)? onSelectionChanged;
     /// 内容主体点击事件
@@ -61,11 +55,8 @@ class ChatViewItemRecordBody extends StatelessWidget {
         this.contextMenuBuilder,
         this.audioTimelength = 0,
         this.audioPlayStatus = false,
-        this.itemBodyRecordTime,
         this.createSelectableTextCallback,
         this.customItem,
-        this.customRecordTimeWidget,
-        this.customRecordTimeStyle
     });
 
     
@@ -99,25 +90,6 @@ class ChatViewItemRecordBody extends StatelessWidget {
                                             crossAxisAlignment: senderRight ? CrossAxisAlignment.end : CrossAxisAlignment.start,
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
-                                                // 记录时间
-                                                if (customRecordTimeWidget != null) customRecordTimeWidget!,
-                                                if(itemBodyRecordTime != null)
-                                                    Container(
-                                                        width: sw(235),
-                                                        margin: EdgeInsets.only(
-                                                            top: sh(10),
-                                                            bottom: sh(10)
-                                                        ),
-                                                        alignment: Alignment.center,
-                                                        child: Text(
-                                                            itemBodyRecordTime!,
-                                                            textAlign: TextAlign.center,
-                                                            style: customRecordTimeStyle ?? TextStyle(
-                                                                fontSize: sf(14),
-                                                                color: const Color.fromARGB(255, 183, 182, 182)
-                                                            ),
-                                                        ),
-                                                    ),
                                                 // 内容主体
                                                 customItem ?? Container(
                                                     constraints: BoxConstraints(
@@ -162,7 +134,7 @@ class ChatViewItemRecordBody extends StatelessWidget {
                             // 箭头图标
                             if (customItem == null && (!excludeContentType(itemBodyType) || _imageLoadFailStatus))
                                 Positioned(
-                                    top: sh(itemBodyRecordTime == null ? 10 : 45),
+                                    top: sh(10),
                                     right: senderRight ? 0 : null,
                                     left: !senderRight ? 0 : null,
                                     child: Container(

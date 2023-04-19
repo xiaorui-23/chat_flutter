@@ -1,4 +1,8 @@
 
+## 1.0.5
+
+Adjustment structure.
+
 ## 1.0.4
 
 Optimize known issues.
