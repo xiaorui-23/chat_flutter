@@ -90,62 +90,60 @@ class ChatViewItem extends StatelessWidget {
 
     @override
     Widget build(BuildContext context) {
-        return Container(
-            child: Row(
-                mainAxisAlignment: senderRight ? MainAxisAlignment.end : MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                    // 对方
-                    if (!senderRight)
-                        Container(
-                            margin: EdgeInsets.only(
-                                top: sh(itemBodyRecordTime != null ? 45 : 10)
-                            ),
-                            child: customAvatar ?? Avatar(
-                                avatarPath: avatarPath,
-                                defaultAvatarPath: defaultAvatarPath,
-                                isAvatarShow: isAvatarShow,
-                                avatarSize: avatarSize,
-                                avatarColor: avatarColor,
-                                avatarTap: avatarTap,
-                                customAvatarWidget: customAvatarWidget
-                            ),
+        return Row(
+            mainAxisAlignment: senderRight ? MainAxisAlignment.end : MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+                // 对方
+                if (!senderRight)
+                    Container(
+                        margin: EdgeInsets.only(
+                            top: sh(itemBodyRecordTime != null ? 45 : 10)
                         ),
-                    // 消息内容
-                    ChatViewItemRecordBody(
-                        senderRight: senderRight,
-                        itemBodyType: itemBodyType,
-                        backgroundColor: backgroundColor,
-                        itemBody: itemBody,
-                        itemBodyMediaTap: itemBodyMediaTap,
-                        isOpenTextSelect: isOpenTextSelect,
-                        contextMenuBuilder: contextMenuBuilder,
-                        onSelectionChanged: onSelectionChanged,
-                        itemBodyRecordTime: itemBodyRecordTime,
-                        createSelectableTextCallback: createSelectableTextCallback,
-                        customItem: customItem,
-                        audioPlayStatus: audioPlayStatus,
-                        audioTimelength: audioTimelength,
+                        child: customAvatar ?? Avatar(
+                            avatarPath: avatarPath,
+                            defaultAvatarPath: defaultAvatarPath,
+                            isAvatarShow: isAvatarShow,
+                            avatarSize: avatarSize,
+                            avatarColor: avatarColor,
+                            avatarTap: avatarTap,
+                            customAvatarWidget: customAvatarWidget
+                        ),
                     ),
-                    // 己方
-                    if (senderRight)
-                        Container(
-                            margin: EdgeInsets.only(
-                                top: sh(itemBodyRecordTime != null ? 45 : 10)
-                            ),
-                            child: customAvatar ?? Avatar(
-                                avatarPath: avatarPath,
-                                defaultAvatarPath: defaultAvatarPath,
-                                isAvatarShow: isAvatarShow,
-                                avatarSize: avatarSize,
-                                avatarColor: avatarColor,
-                                avatarTap: avatarTap,
-                                customAvatarWidget: customAvatarWidget
-                            ),
+                // 消息内容
+                ChatViewItemRecordBody(
+                    senderRight: senderRight,
+                    itemBodyType: itemBodyType,
+                    backgroundColor: backgroundColor,
+                    itemBody: itemBody,
+                    itemBodyMediaTap: itemBodyMediaTap,
+                    isOpenTextSelect: isOpenTextSelect,
+                    contextMenuBuilder: contextMenuBuilder,
+                    onSelectionChanged: onSelectionChanged,
+                    itemBodyRecordTime: itemBodyRecordTime,
+                    createSelectableTextCallback: createSelectableTextCallback,
+                    customItem: customItem,
+                    audioPlayStatus: audioPlayStatus,
+                    audioTimelength: audioTimelength,
+                ),
+                // 己方
+                if (senderRight)
+                    Container(
+                        margin: EdgeInsets.only(
+                            top: sh(itemBodyRecordTime != null ? 45 : 10)
                         ),
-                    // 
-                ],
-            ),
+                        child: customAvatar ?? Avatar(
+                            avatarPath: avatarPath,
+                            defaultAvatarPath: defaultAvatarPath,
+                            isAvatarShow: isAvatarShow,
+                            avatarSize: avatarSize,
+                            avatarColor: avatarColor,
+                            avatarTap: avatarTap,
+                            customAvatarWidget: customAvatarWidget
+                        ),
+                    ),
+                // 
+            ],
         );
     }
 }

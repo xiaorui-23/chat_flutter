@@ -134,12 +134,12 @@ class ChatViewItemRecordBody extends StatelessWidget {
                                                             contextMenuBuilder: contextMenuBuilder,
                                                             selectionControls: selectionControls,
                                                             createSelectableTextCallback: createSelectableTextCallback,
-                                                            child: _TypeHandlerWidget(
+                                                            child: _typeHandlerWidget(
                                                                 onImageError: (exception, stackTrace) {
                                                                     setState(() {});
                                                                 },
                                                             ),
-                                                        ) : _TypeHandlerWidget(
+                                                        ) : _typeHandlerWidget(
                                                             onImageError: (exception, stackTrace) {
                                                                 setState(() {});
                                                             },
@@ -190,7 +190,7 @@ class ChatViewItemRecordBody extends StatelessWidget {
     }
 
     /// 根据 记录类型返回对应 widget
-    Widget _TypeHandlerWidget ({Function(Object exception, StackTrace? stackTrace)? onImageError}) {
+    Widget _typeHandlerWidget ({Function(Object exception, StackTrace? stackTrace)? onImageError}) {
         // 图片
         if (itemBodyType == ChatViewItemRecordBodyType.image) {
 
@@ -239,43 +239,39 @@ class ChatViewItemRecordBody extends StatelessWidget {
         }
         // 文件
         else if (itemBodyType == ChatViewItemRecordBodyType.file) {
-            return Container(
-                child: GestureDetector(
-                    onTap: () {
-                        if (itemBodyMediaTap != null){
-                            itemBodyMediaTap!(ChatViewItemRecordBodyType.file);
-                        }
-                    },
-                    child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                            // 图标
-                            Container(
-                                child: Icon(
-                                    Icons.file_open,
+            return GestureDetector(
+                onTap: () {
+                    if (itemBodyMediaTap != null){
+                        itemBodyMediaTap!(ChatViewItemRecordBodyType.file);
+                    }
+                },
+                child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                        // 图标
+                        Icon(
+                            Icons.file_open,
+                            color: const Color(0xff1989fa),
+                            size: sf(20),
+                        ),
+                        // 文字描述
+                        Container(
+                            constraints: BoxConstraints(
+                                maxWidth: sw(150)
+                            ),
+                            margin: EdgeInsets.only(
+                                left: sw(10)
+                            ),
+                            child: Text(
+                                '${itemBody ?? ""}',
+                                softWrap: true,
+                                style: itemBodyTextStyle ?? TextStyle (
                                     color: const Color(0xff1989fa),
-                                    size: sf(20),
-                                )
-                            ),
-                            // 文字描述
-                            Container(
-                                constraints: BoxConstraints(
-                                    maxWidth: sw(150)
+                                    fontSize: sf(16)
                                 ),
-                                margin: EdgeInsets.only(
-                                    left: sw(10)
-                                ),
-                                child: Text(
-                                    '${itemBody ?? ""}',
-                                    softWrap: true,
-                                    style: itemBodyTextStyle ?? TextStyle (
-                                        color: const Color(0xff1989fa),
-                                        fontSize: sf(16)
-                                    ),
-                                )
-                            ),
-                        ],
-                    ),
+                            )
+                        ),
+                    ],
                 ),
             );
         }
@@ -295,15 +291,13 @@ class ChatViewItemRecordBody extends StatelessWidget {
         }
         // 文字
         else {
-            return Container(
-                child: Text(
-                    '$itemBody',
-                    textAlign: TextAlign.left,
-                    softWrap: true,
-                    style: itemBodyTextStyle ?? TextStyle(
-                        fontSize: sf(15),
-                        color: Colors.black
-                    ),
+            return Text(
+                '$itemBody',
+                textAlign: TextAlign.left,
+                softWrap: true,
+                style: itemBodyTextStyle ?? TextStyle(
+                    fontSize: sf(15),
+                    color: Colors.black
                 ),
             );
         }
