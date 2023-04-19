@@ -1,4 +1,6 @@
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:chat_flutter/utils/chat_view_item_record_body_type/chat_view_item_record_body_type.dart';
@@ -29,6 +31,8 @@ class ChatViewItemRecordBody extends StatelessWidget {
     final bool audioPlayStatus;
     /// 文本选择控制器
     final TextSelectionControls? selectionControls;
+    /// 内容主体约束
+    final BoxConstraints? chatViewItemRecordBodyBoxConstraints;
     /// 长按文字菜单选择回调
     final Function(SelectedContent?)? onSelectionChanged;
     /// 内容主体点击事件
@@ -47,6 +51,7 @@ class ChatViewItemRecordBody extends StatelessWidget {
         this.backgroundColor = Colors.white,
         this.itemBody,
         this.itemBodyTextStyle,
+        this.chatViewItemRecordBodyBoxConstraints,
         this.itemBodyTap,
         this.itemBodyMediaTap,
         this.selectionControls,
@@ -92,8 +97,8 @@ class ChatViewItemRecordBody extends StatelessWidget {
                                             children: [
                                                 // 内容主体
                                                 customItem ?? Container(
-                                                    constraints: BoxConstraints(
-                                                        maxWidth: sw(230),
+                                                    constraints: chatViewItemRecordBodyBoxConstraints ?? BoxConstraints(
+                                                        maxWidth: sw(170),
                                                     ),
                                                     decoration: excludeContentType(itemBodyType) && !_imageLoadFailStatus ? null : BoxDecoration(
                                                         color: backgroundColor,
@@ -102,8 +107,8 @@ class ChatViewItemRecordBody extends StatelessWidget {
                                                     padding: excludeContentType(itemBodyType) && !_imageLoadFailStatus ? null :  EdgeInsets.only(
                                                         left: sw(10),
                                                         right: sw(10),
-                                                        top: sh(13),
-                                                        bottom: sh(13)
+                                                        top: sh(10),
+                                                        bottom: sh(10)
                                                     ),
                                                     child: GestureDetector(
                                                         onTap: itemBodyTap,
@@ -173,16 +178,32 @@ class ChatViewItemRecordBody extends StatelessWidget {
         // 图片
         if (itemBodyType == ChatViewItemRecordBodyType.image) {
 
+            final NetworkImage networkImage = NetworkImage('$itemBody');
+            
+            double? width;
+            double? height;
+
+            try {
+
+                networkImage.resolve(const ImageConfiguration()).addListener(ImageStreamListener((ImageInfo imageInfo, bool synchronousCall) { 
+
+                    width = imageInfo.image.width * 1.0;
+                    height = imageInfo.image.height * 1.0;
+
+                }));
+
+            } catch (error) {}
+
             Widget container = StatefulBuilder(
                 builder: (context, setState) {
 
                     return Container(
-                        width: _imageLoadFailStatus ? null : sz(200),
-                        height: _imageLoadFailStatus ? null : sz(200),
+                        width: _imageLoadFailStatus ? null : sz(width != null && width! > 160 ? 160 : width ?? 160),
+                        height: _imageLoadFailStatus ? null : sz(height != null && height! > 160 ? 160 : height ?? 160),
                         decoration: BoxDecoration(
                             image: !_imageLoadFailStatus ? DecorationImage(
                                 fit: BoxFit.cover,
-                                image: NetworkImage('$itemBody'),
+                                image: networkImage,
                                 onError: (exception, stackTrace) {
                                     
                                     _imageLoadFailStatus = true;

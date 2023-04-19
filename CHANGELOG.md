@@ -1,4 +1,9 @@
 
+
+## 1.0.5
+
+Adjusting and optimizing the UI layout
+
 ## 1.0.5
 
 Adjustment structure.

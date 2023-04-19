@@ -4,24 +4,24 @@
 This is a component package developed purely for `dart` to display chat record lists, supporting the basic content display of images, files, voice, video, and text.
 
 
-<br/>
+
 
 [中文简体](https://github.com/xiaorui-23/chat_flutter/blob/master/README_CN.md)
 
-<br/>
+
 
 ## Rendering
 
-<br/>
+
 
 <div>
-    <img src="https://raw.githubusercontent.com/xiaorui-23/chat_flutter/master/example/assets/rendering/rendering_2.png" width="200" height="400" />
     <img src="https://raw.githubusercontent.com/xiaorui-23/chat_flutter/master/example/assets/rendering/rendering_1.png" width="200" height="400" />
+    <img src="https://raw.githubusercontent.com/xiaorui-23/chat_flutter/master/example/assets/rendering/rendering_2.png" width="200" height="400" />
 </div>
 
 ## Characteristic
 
-<br/>
+
 
 This tool component can display chat records, commonly used for displaying chat record content.
 
@@ -33,11 +33,11 @@ The display content supports the following basic content:
 - 音频 -> audio
 - 视频 -> video  <--> Not currently supported
 
-<br/>
+
 
 ## Install
 
-<br/>
+
 
 ### 1、
 
@@ -103,56 +103,56 @@ class _MyAppState extends State<MyApp> {
 }
 ```
 
-<br/>
+
 
 More use cases can be found at [Here](https://github.com/xiaorui-23/chat_flutter.git) hit the target `/example/lib/main.dart` review.
-<br/>
+
 
 ## Precautions for use
 
-<br/>
+
 
 This plugin only provides display and does not provide implementation of functions. If the following functions are not implemented:
 
 - When displaying recorded content as audio, this plugin does not implement audio playback, and users need to implement the audio playback function themselves.
 
-<br/>
+
 
 This plugin does not impose width or height restrictions on the content of the plugin, so you need to package the plugin with `widget` set the width and height of the box。
 
-<br/>
+
 
 ## About the Adaptation of Plugin Models
 
-<br/>
+
 
 This plugin itself uses `flutter_screenutil` based on plugins, multiple models have been adapted, so you don't have to worry about encountering problems during use `UI` disorder and other issues, if the model you are using is not properly adapted, resulting in  `UI` for issues such as disordered styles, you can contact me through the contact information below to provide assistance.
 
-<br/>
+
 
 ## About plugin dependency issues
 
-<br/>
+
 
 After the author discovers that the dependencies used in the plugin have been updated, they will be updated as soon as possible. For a smoother experience during use, it is recommended that you update the plugin as soon as possible, or `pubspec.yaml` add before version number in the file `^` symbol for using the latest version of the plugin
 
-<br/>
+
 
 ## About Customization
 
-<br/>
+
 
 This plugin provides a high degree of customization to facilitate the functionality provided by the plugin when you are not satisfied `UI` customize to meet your needs.
 
-<br/>
+
 
 ## Case study and detailed usage reference guide
 
-<br/>
+
 
 If you feel that the cases and usage assistance provided on this page cannot help you successfully start using this plugin, you can click [Here](https://github.com/xiaorui-23/chat_flutter.git) and enter `example/lib/main.dart` file View Detailed Use Cases. Alternatively, you can contact me through the contact information below.
 
-<br/>
+
 
 ## API Parameter Description
 
@@ -173,7 +173,7 @@ If you feel that the cases and usage assistance provided on this page cannot hel
 
 #### Common Parameter API
 
-<br/>
+
 
 | Name | Type | Describe | Default value |
 | :----: | :----: | :----: | :----: |
@@ -185,6 +185,9 @@ If you feel that the cases and usage assistance provided on this page cannot hel
 | `avatarSize` | `double` | Avatar size | Adapted `45` |
 | `avatarColor` | `Color` | Head color | -- |
 | `customAvatar` | `Widget` | Custom avatar | -- |
+| `customRecordTimeWidget` | `Widget` | Custom Time Record `widget` | -- |
+| `customRecordTimeStyle` | `TextStyle` | Custom Time Record Style | -- |
+| `chatViewItemRecordBodyBoxConstraints` | `BoxConstraints` | Content subject constraints | -- |
 | `itemBodyType` | `ChatViewItemRecordBodyType` | Current record content type | `text` |
 | `customAvatarWidget` | `Widget` | Custom avatar | -- |
 | `itemBodyRecordTime` | `String` | Recording time | -- |
@@ -194,11 +197,11 @@ If you feel that the cases and usage assistance provided on this page cannot hel
 | `itemBodyTap` | `Function` | Content subject click event | -- |
 | `itemBodyMediaTap` | `Function(ChatViewItemRecordBodyType type)` | File, image, audio, video click events | -- |
 
-<br/>
+
 
 #### Text
 
-<br/>
+
 
 | Name | Type | Describe | Default value |
 | :----: | :----: | :----: | :----: |
@@ -213,34 +216,34 @@ If you feel that the cases and usage assistance provided on this page cannot hel
 
 #### Audio
 
-<br/>
+
 
 | Name | Type | Describe | Default value |
 | :----: | :----: | :----: | :----: |
 | `audioTimelength` | `int` | Audio duration  | `0` |
 | `audioPlayStatus` | `bool` | Playing  | `false` |
 
-<br/>
+
 
 #### Image
 
-<br/>
+
 
 No special parameter description.
 
-<br/>
+
 
 #### Video
 
-<br/>
+
 
 Not currently supported.
 
-<br/>
+
 
 ## Contact Author
 
-<br/>
+
 
 When you encounter problems during use, you can click [Here](https://github.com/xiaorui-23/chat_flutter.git) have `issue` ask a question or contact me through the contact information below. When you see your contact or raise a question `issue` I will reply and contact you as soon as possible.
 
