@@ -13,20 +13,20 @@ export 'package:chat_flutter/utils/chat_view_item_record_body_type/chat_view_ite
 
 /// 聊天记录页面容器
 class ChatViewWidget extends StatefulWidget {
-    ChatViewWidget({
+
+    /// 记录列表
+    final List<ChatViewItem>? children;
+    /// 初始渲染时是否滑动到底部
+    final bool isNeedScrollBottom;
+    /// 创建完成时
+    final Function(ScrollController chatViewWidgetController)? onCreated;
+
+    const ChatViewWidget({
         super.key,
         this.children,
         this.isNeedScrollBottom = false,
         this.onCreated
     });
-
-
-    /// 记录列表
-    List<ChatViewItem>? children = [];
-    /// 初始渲染时是否滑动到底部
-    bool isNeedScrollBottom;
-    /// 创建完成时
-    Function(ScrollController chatViewWidgetController)? onCreated;
 
     @override
     State<ChatViewWidget> createState() => _ChatViewWidgetState();
@@ -35,9 +35,14 @@ class ChatViewWidget extends StatefulWidget {
 class _ChatViewWidgetState extends State<ChatViewWidget> {
     final ScrollController _chatViewWidgetController = ScrollController();
 
+    /// 记录列表
+    List<ChatViewItem>? _children = [];
+
     @override
     void initState() {
         super.initState();
+
+        _children = widget.children;
 
         Future.delayed(const Duration(milliseconds: 600), () {
             if (widget.onCreated != null){
@@ -66,8 +71,8 @@ class _ChatViewWidgetState extends State<ChatViewWidget> {
             physics: const AlwaysScrollableScrollPhysics(),
             reverse: widget.isNeedScrollBottom,
             shrinkWrap: true,
-            itemCount: (widget.children ?? []).length,
-            itemBuilder: (BuildContext context, int index) => widget.children![index]
+            itemCount: (_children ?? []).length,
+            itemBuilder: (BuildContext context, int index) => _children![index]
         );
     }
 
@@ -77,7 +82,7 @@ class _ChatViewWidgetState extends State<ChatViewWidget> {
             return;
         }
 
-        widget.children = widget.children!.reversed.toList();
+        _children = widget.children!.reversed.toList();
 
     }
 }

@@ -8,6 +8,40 @@ import 'package:chat_flutter/widgets/custom_selection_area/custom_selection_area
 
 /// 内容主体
 class ChatViewItemRecordBody extends StatelessWidget {
+    
+    /// 内容
+    final dynamic itemBody;
+    /// 自定义记录 item 主体
+    final Widget? customItem;
+    /// 记录时间
+    final String? itemBodyRecordTime;
+    /// 当前记录内容类型
+    final ChatViewItemRecordBodyType itemBodyType;
+    /// 背景色
+    final Color backgroundColor;
+    /// 是否为 右侧 己方
+    final bool senderRight;
+    /// 是否打开长按文字菜单
+    final bool isOpenTextSelect;
+    /// 记录主体的文字样式
+    final TextStyle? itemBodyTextStyle;
+    /// 音频时长
+    final int audioTimelength;
+    /// 播放状态
+    final bool audioPlayStatus;
+    /// 文本选择控制器
+    final TextSelectionControls? selectionControls;
+    /// 长按文字菜单选择回调
+    final Function(SelectedContent?)? onSelectionChanged;
+    /// 内容主体点击事件
+    final Function()? itemBodyTap;
+    /// SelectableText 创建时
+    final Function(FocusNode focusNode)? createSelectableTextCallback;
+    /// 文件、图片、音频 点击事件
+    final Function(ChatViewItemRecordBodyType type)? itemBodyMediaTap;
+    /// 显示的工具菜单
+    final Widget Function(BuildContext, SelectableRegionState)? contextMenuBuilder;
+
     ChatViewItemRecordBody({
         super.key,
         this.senderRight = true,
@@ -25,165 +59,133 @@ class ChatViewItemRecordBody extends StatelessWidget {
         this.audioPlayStatus = false,
         this.itemBodyRecordTime,
         this.createSelectableTextCallback,
-        this.customItem
+        this.customItem,
     });
 
-    /// 内容
-    var itemBody;
-    /// 自定义记录 item 主体
-    Widget? customItem;
-    /// 记录时间
-    String? itemBodyRecordTime;
-    /// 当前记录内容类型
-    ChatViewItemRecordBodyType itemBodyType;
-    /// 背景色
-    Color backgroundColor;
-    /// 是否为 右侧 己方
-    bool senderRight;
-    /// 是否打开长按文字菜单
-    bool isOpenTextSelect;
-    /// 记录主体的文字样式
-    TextStyle? itemBodyTextStyle;
-    /// 音频时长
-    int audioTimelength;
-    /// 播放状态
-    bool audioPlayStatus;
-    /// 文本选择控制器
-    TextSelectionControls? selectionControls;
-    /// 长按文字菜单选择回调
-    Function(SelectedContent?)? onSelectionChanged;
-    /// 内容主体点击事件
-    Function()? itemBodyTap;
-    /// SelectableText 创建时
-    Function(FocusNode focusNode)? createSelectableTextCallback;
-    /// 文件、图片、音频 点击事件
-    Function(ChatViewItemRecordBodyType type)? itemBodyMediaTap;
-    /// 显示的工具菜单
-    Widget Function(BuildContext, SelectableRegionState)? contextMenuBuilder;
-
+    
     /// 图片加载失败状态
     bool _imageLoadFailStatus = false;
 
     @override
     Widget build(BuildContext context) {
         return StatefulBuilder(
-          builder: (context, setState) {
-            return Container(
-                padding: EdgeInsets.only(
-                    top: sh(10),
-                    bottom: sh(10)
-                ),
-                child: Stack(
-                    children: [
-                        Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                                Container(
-                                    margin: EdgeInsets.only(
-                                        right: sw(senderRight ? 23 : 0),
-                                        left: sw(!senderRight ? 23 : 0)
-                                    ),
-                                    constraints: BoxConstraints(
-                                        minHeight: sh(45),
-                                    ),
-                                    child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        crossAxisAlignment: senderRight ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                            // 记录时间
-                                            if(itemBodyRecordTime != null)
-                                                Container(
-                                                    width: sw(235),
-                                                    margin: EdgeInsets.only(
-                                                        top: sh(10),
-                                                        bottom: sh(10)
-                                                    ),
-                                                    alignment: Alignment.center,
-                                                    child: Text(
-                                                        itemBodyRecordTime!,
-                                                        textAlign: TextAlign.center,
-                                                        style: TextStyle(
-                                                            fontSize: sf(14),
-                                                            color: const Color.fromARGB(255, 183, 182, 182)
+            builder: (context, setState) {
+                return Container(
+                    padding: EdgeInsets.only(
+                        top: sh(10),
+                        bottom: sh(10)
+                    ),
+                    child: Stack(
+                        children: [
+                            Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                    Container(
+                                        margin: EdgeInsets.only(
+                                            right: sw(senderRight ? 23 : 0),
+                                            left: sw(!senderRight ? 23 : 0)
+                                        ),
+                                        constraints: BoxConstraints(
+                                            minHeight: sh(45),
+                                        ),
+                                        child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: senderRight ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                                // 记录时间
+                                                if(itemBodyRecordTime != null)
+                                                    Container(
+                                                        width: sw(235),
+                                                        margin: EdgeInsets.only(
+                                                            top: sh(10),
+                                                            bottom: sh(10)
+                                                        ),
+                                                        alignment: Alignment.center,
+                                                        child: Text(
+                                                            itemBodyRecordTime!,
+                                                            textAlign: TextAlign.center,
+                                                            style: TextStyle(
+                                                                fontSize: sf(14),
+                                                                color: const Color.fromARGB(255, 183, 182, 182)
+                                                            ),
                                                         ),
                                                     ),
-                                                ),
-                                            // 内容主体
-                                            customItem ?? Container(
-                                                constraints: BoxConstraints(
-                                                    maxWidth: sw(230),
-                                                ),
-                                                decoration: excludeContentType(itemBodyType) && !_imageLoadFailStatus ? null : BoxDecoration(
-                                                    color: backgroundColor,
-                                                    borderRadius: BorderRadius.all(Radius.circular(sr(10))) 
-                                                ),
-                                                padding: excludeContentType(itemBodyType) && !_imageLoadFailStatus ? null :  EdgeInsets.only(
-                                                    left: sw(10),
-                                                    right: sw(10),
-                                                    top: sh(13),
-                                                    bottom: sh(13)
-                                                ),
-                                                child: GestureDetector(
-                                                    onTap: itemBodyTap,
-                                                    child: isOpenTextSelect && itemBodyType == ChatViewItemRecordBodyType.text ? CustomSelectionArea(
-                                                        itemBodyTextStyle: itemBodyTextStyle,
-                                                        onSelectionChanged: onSelectionChanged,
-                                                        contextMenuBuilder: contextMenuBuilder,
-                                                        selectionControls: selectionControls,
-                                                        createSelectableTextCallback: createSelectableTextCallback,
-                                                        child: _TypeHandlerWidget(
+                                                // 内容主体
+                                                customItem ?? Container(
+                                                    constraints: BoxConstraints(
+                                                        maxWidth: sw(230),
+                                                    ),
+                                                    decoration: excludeContentType(itemBodyType) && !_imageLoadFailStatus ? null : BoxDecoration(
+                                                        color: backgroundColor,
+                                                        borderRadius: BorderRadius.all(Radius.circular(sr(10))) 
+                                                    ),
+                                                    padding: excludeContentType(itemBodyType) && !_imageLoadFailStatus ? null :  EdgeInsets.only(
+                                                        left: sw(10),
+                                                        right: sw(10),
+                                                        top: sh(13),
+                                                        bottom: sh(13)
+                                                    ),
+                                                    child: GestureDetector(
+                                                        onTap: itemBodyTap,
+                                                        child: isOpenTextSelect && itemBodyType == ChatViewItemRecordBodyType.text ? CustomSelectionArea(
+                                                            itemBodyTextStyle: itemBodyTextStyle,
+                                                            onSelectionChanged: onSelectionChanged,
+                                                            contextMenuBuilder: contextMenuBuilder,
+                                                            selectionControls: selectionControls,
+                                                            createSelectableTextCallback: createSelectableTextCallback,
+                                                            child: _TypeHandlerWidget(
+                                                                onImageError: (exception, stackTrace) {
+                                                                    setState(() {});
+                                                                },
+                                                            ),
+                                                        ) : _TypeHandlerWidget(
                                                             onImageError: (exception, stackTrace) {
                                                                 setState(() {});
                                                             },
-                                                        ),
-                                                    ) : _TypeHandlerWidget(
-                                                        onImageError: (exception, stackTrace) {
-                                                            setState(() {});
-                                                        },
-                                                    )
+                                                        )
+                                                    ),
                                                 ),
-                                            ),
-                                            // 
-                                        ],
+                                                // 
+                                            ],
+                                        ),
                                     ),
-                                ),
-                            ],
-                        ),
-                        // 箭头图标
-                        if (customItem == null && (!excludeContentType(itemBodyType) || _imageLoadFailStatus))
-                            Positioned(
-                                top: sh(itemBodyRecordTime == null ? 10 : 45),
-                                right: senderRight ? 0 : null,
-                                left: !senderRight ? 0 : null,
-                                child: Container(
-                                    decoration: BoxDecoration(
-                                        border:  Border(
-                                            bottom: BorderSide(
-                                                width: sw(12),
-                                                color: Colors.transparent,
-                                            ),
-                                            top: BorderSide(
-                                                width: sw(12),
-                                                color: Colors.transparent,
-                                            ),
-                                            left: BorderSide(
-                                                width: sw(12),
-                                                color: senderRight ? backgroundColor : Colors.transparent,
-                                            ),
-                                            right: BorderSide(
-                                                width: sw(12),
-                                                color: !senderRight ? backgroundColor : Colors.transparent,
-                                            )
-                                        )
-                                    ),
-                                )
+                                ],
                             ),
-                        // 
-                    ],
-                ),
-            );
-          }
+                            // 箭头图标
+                            if (customItem == null && (!excludeContentType(itemBodyType) || _imageLoadFailStatus))
+                                Positioned(
+                                    top: sh(itemBodyRecordTime == null ? 10 : 45),
+                                    right: senderRight ? 0 : null,
+                                    left: !senderRight ? 0 : null,
+                                    child: Container(
+                                        decoration: BoxDecoration(
+                                            border:  Border(
+                                                bottom: BorderSide(
+                                                    width: sw(12),
+                                                    color: Colors.transparent,
+                                                ),
+                                                top: BorderSide(
+                                                    width: sw(12),
+                                                    color: Colors.transparent,
+                                                ),
+                                                left: BorderSide(
+                                                    width: sw(12),
+                                                    color: senderRight ? backgroundColor : Colors.transparent,
+                                                ),
+                                                right: BorderSide(
+                                                    width: sw(12),
+                                                    color: !senderRight ? backgroundColor : Colors.transparent,
+                                                )
+                                            )
+                                        ),
+                                    )
+                                ),
+                            // 
+                        ],
+                    ),
+                );
+            }
         );
     }
 

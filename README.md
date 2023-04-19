@@ -1,16 +1,16 @@
 
 # chat_flutter
 
-这是一个纯 `dart` 开发的开发的 聊天记录 列表展示的组件包，支持图片、文件、语音、文字、视频的基础内容展示。
+This is a component package developed purely for `dart` to display chat record lists, supporting the basic content display of images, files, voice, video, and text.
 
 
 <br/>
 
-[English](/README_US.md)
+[中文简体](https://github.com/xiaorui-23/chat_flutter/blob/master/README_CN.md)
 
 <br/>
 
-## 效果图
+## Rendering
 
 <br/>
 
@@ -19,59 +19,58 @@
     <img src="https://raw.githubusercontent.com/xiaorui-23/chat_flutter/master/example/assets/rendering/rendering_1.png" width="200" height="400" />
 </div>
 
-## 特点
+## Characteristic
 
 <br/>
 
-此工具组件可以展示聊天记录，常用于聊天记录内容的展示。
+This tool component can display chat records, commonly used for displaying chat record content.
 
-展示内容支持以下基础内容：
+The display content supports the following basic content:
 
 - 图片 -> image
 - 文件 -> file
 - 文字 -> text
 - 音频 -> audio
-- 视频 -> video  <--> 暂不支持
-
-
-<br/>
-
-## 安装
+- 视频 -> video  <--> Not currently supported
 
 <br/>
 
-### 一、
+## Install
 
-你可以直接在`pubspec.yaml`文件中的`dependencies`下添加以进行安装。
+<br/>
+
+### 1、
+
+You can directly `pubspec.yaml` in the file `dependencies` add below for installation.
 
 ```dart
 chat_flutter: ^1.0.0
 ```
 
-如下面这样：
+As follows:
 
 ```dart
 dependencies:
   chat_flutter: ^1.0.0
 ```
 
-### 二、
+### 2、
 
-你还可以在处于项目根目录的终端中执行下面这条命令进行安装：
+You can also execute the following command to install from the terminal located in the project root directory:
 
 ```dart
 flutter pub add chat_flutter
 ```
 
-## 使用 
+## Use 
 
-在需要使用的页面进行引入：
+Introduce on the required page:
 
 ```dart
 import 'package:chat_flutter/chat_flutter.dart';
 ```
 
-完整使用案例：
+Complete Use Case:
 
 ```dart
 import 'package:flutter/material.dart';
@@ -106,143 +105,144 @@ class _MyAppState extends State<MyApp> {
 
 <br/>
 
-更多使用案例可点击[这里](https://github.com/xiaorui-23/chat_flutter)中的`/example/lib/main.dart`进行查看。
+More use cases can be found at [Here](https://github.com/xiaorui-23/chat_flutter.git) hit the target `/example/lib/main.dart` review.
+<br/>
+
+## Precautions for use
 
 <br/>
 
-## 使用注意
+This plugin only provides display and does not provide implementation of functions. If the following functions are not implemented:
+
+- When displaying recorded content as audio, this plugin does not implement audio playback, and users need to implement the audio playback function themselves.
 
 <br/>
 
-本插件只提供展示，不提供功能的实现。如以下功能并未实现：
-
-- 当展示记录内容为音频时，本插件并未实现音频的播放，需要使用者自己实现音频播放功能。
+This plugin does not impose width or height restrictions on the content of the plugin, so you need to package the plugin with `widget` set the width and height of the box。
 
 <br/>
 
-本插件未对插件内容进行宽度、高度限制，故此您在使用的过程中需要对插件包裹的`widget`盒子进行设定宽高。
+## About the Adaptation of Plugin Models
 
 <br/>
 
-## 关于插件机型适配问题
+This plugin itself uses `flutter_screenutil` based on plugins, multiple models have been adapted, so you don't have to worry about encountering problems during use `UI` disorder and other issues, if the model you are using is not properly adapted, resulting in  `UI` for issues such as disordered styles, you can contact me through the contact information below to provide assistance.
 
 <br/>
 
-本插件自身以`flutter_screenutil`插件为基础进行了多机型适配，故此您在使用的过程中不必担心在使用的过程中遇到`UI`错乱等问题，若您使用的机型未进行到适配，导致 `UI` 样式错乱等问题，您可以通过下方的联系方式联系我，以便为您提供帮助。
+## About plugin dependency issues
 
 <br/>
 
-## 关于插件依赖问题
+After the author discovers that the dependencies used in the plugin have been updated, they will be updated as soon as possible. For a smoother experience during use, it is recommended that you update the plugin as soon as possible, or `pubspec.yaml` add before version number in the file `^` symbol for using the latest version of the plugin
 
 <br/>
 
-作者发现插件中使用的依赖有更新后，将在第一时间进行依赖更新。为了您在使用过程中有更顺畅的体验，建议您第一时间更新插件，或者在`pubspec.yaml`文件中版本号前添加`^`符号，以便使用最新版本的插件。
+## About Customization
 
 <br/>
 
-## 关于自定义
+This plugin provides a high degree of customization to facilitate the functionality provided by the plugin when you are not satisfied `UI` customize to meet your needs.
 
 <br/>
 
-此插件提供了高度的自定义，以方便您不满足时插件方面提供的功能及`UI`时进行自定义，以达到您的需求。
+## Case study and detailed usage reference guide
 
 <br/>
 
-## 案例及详细使用参考指南
+If you feel that the cases and usage assistance provided on this page cannot help you successfully start using this plugin, you can click [Here](https://github.com/xiaorui-23/chat_flutter.git) and enter `example/lib/main.dart` file View Detailed Use Cases. Alternatively, you can contact me through the contact information below.
 
 <br/>
 
-若您感觉到本页面提供的案例、使用帮助无法让您顺利成功上手此插件，您可以点击[这里](https://github.com/xiaorui-23/chat_flutter)并进入`example/lib/main.dart`文件查看详细的使用案例。或者您可以通过下方的联系方式进行联系我。
+## API Parameter Description
 
-<br/>
 
-## API参数说明
+### `ChatViewWidget` Illustrate
 
-### `ChatViewWidget` 说明
-
-| 名称 | 类型 | 描述 | 默认值 |
+| Name | Type | Describe | Default value |
 | :----: | :----: | :----: | :----: |
-| `children` | `List<ChatViewItem>` | 记录列表  | `[]` |
-| `isNeedScrollBottom` | `bool` | 初始渲染时是否滑动到底部  | `false` |
-| `onCreated` | `Function(ScrollController chatViewWidgetController)` | 创建完成时, 返回一个`ScrollController`类型的列表滑动控制器  | -- |
-
-
-### `ChatViewItem` 说明
+| `children` | `List<ChatViewItem>` | record list  | `[]` |
+| `isNeedScrollBottom` | `bool` | Whether to slide to the bottom during initial rendering  | `false` |
+| `onCreated` | `Function(ScrollController chatViewWidgetController)` | When creation is complete, return a`ScrollController` list controller of type  | -- |
 
 
 
-#### 公共参数 API
+### `ChatViewItem` Illustrate
+
+
+
+#### Common Parameter API
 
 <br/>
 
-| 名称 | 类型 | 描述 | 默认值 |
+| Name | Type | Describe | Default value |
 | :----: | :----: | :----: | :----: |
-| `itemBody` | `dynamic` | 内容。根据`itemBodyType`的类型不同时所传递的内容也不同。当 `itemBodyType = ChatViewItemRecordBodyType.audio`时可不传递，详细使用可参考案例。  | -- |
-| `senderRight` | `bool` | 是否为 右侧 己方  | `true` |
-| `avatarPath` | `String` | 头像地址, 当未传递时，将采用 默认头像地址，若都未传递，则采用 自带的 icon 头像方案  | -- |
-| `defaultAvatarPath` | `String` | 默认头像地址 | -- |
-| `isAvatarShow` | `bool` | 是否展示头像 | `true` |
-| `avatarSize` | `double` | 头像大小 | 适配后的 `45` |
-| `avatarColor` | `Color` | 头像颜色 | -- |
-| `customAvatar` | `Widget` | 自定义头像 | -- |
-| `itemBodyType` | `ChatViewItemRecordBodyType` | 当前记录内容类型 | `文本｜text` |
-| `customAvatarWidget` | `Widget` | 自定义头像 | -- |
-| `itemBodyRecordTime` | `String` | 记录时间 | -- |
-| `backgroundColor` | `Color` | 记录主体的背景色 | `Colors.white` |
-| `customItem` | `Widget` | 自定义记录主体 | -- |
-| `avatarTap` | `Function` | 头像点击回调 | -- |
-| `itemBodyTap` | `Function` | 内容主体点击事件 | -- |
-| `itemBodyMediaTap` | `Function(ChatViewItemRecordBodyType type)` | 文件、图片、音频 点击事件 | -- |
+| `itemBody` | `dynamic` | Content. according to `itemBodyType` the content conveyed varies depending on the type. When `itemBodyType = ChatViewItemRecordBodyType.audio` time may not be transmitted, and detailed use can refer to case studies.  | -- |
+| `senderRight` | `bool` | Is it on the right side  | `true` |
+| `avatarPath` | `String` | The avatar address will be the default one when it is not delivered. If it is not delivered, the built-in icon avatar scheme will be used  | -- |
+| `defaultAvatarPath` | `String` | Default avatar address | -- |
+| `isAvatarShow` | `bool` | Is the avatar displayed | `true` |
+| `avatarSize` | `double` | Avatar size | Adapted `45` |
+| `avatarColor` | `Color` | Head color | -- |
+| `customAvatar` | `Widget` | Custom avatar | -- |
+| `itemBodyType` | `ChatViewItemRecordBodyType` | Current record content type | `text` |
+| `customAvatarWidget` | `Widget` | Custom avatar | -- |
+| `itemBodyRecordTime` | `String` | Recording time | -- |
+| `backgroundColor` | `Color` | Record the background color of the main body | `Colors.white` |
+| `customItem` | `Widget` | Custom Record Body | -- |
+| `avatarTap` | `Function` | Head image click callback | -- |
+| `itemBodyTap` | `Function` | Content subject click event | -- |
+| `itemBodyMediaTap` | `Function(ChatViewItemRecordBodyType type)` | File, image, audio, video click events | -- |
 
 <br/>
 
-#### 文本
+#### Text
 
 <br/>
 
-| 名称 | 类型 | 描述 | 默认值 |
+| Name | Type | Describe | Default value |
 | :----: | :----: | :----: | :----: |
-| `selectionControls` | `TextSelectionControls` | 文本选择控制器。当 `isOpenTextSelect` 开启有效。 | -- |
-| `itemBodyTextStyle` | `TextStyle` | 记录主体的文字样式 | `TextStyle (color: const Color(0xff1989fa),fontSize: 16` |
-| `isOpenTextSelect` | `bool` | 是否打开长按文字菜单 | `true` |
-| `contextMenuBuilder` | `Widget Function(BuildContext context, SelectableRegionState selectableRegionState)` | 显示的工具菜单 | -- |
-| `onSelectionChanged` | `Function(SelectedContent?)` | 长按文字菜单选择回调 | -- |
-| `createSelectableTextCallback` | `Function(FocusNode focusNode)` | 可选文字内容 `widget` 创建时的回调 | -- |
+| `selectionControls` | `TextSelectionControls` | Text selection controller. When `isOpenTextSelect` the activation is valid. | -- |
+| `itemBodyTextStyle` | `TextStyle` | Record the text style of the main body | `TextStyle (color: const Color(0xff1989fa),fontSize: 16` |
+| `isOpenTextSelect` | `bool` | Do you want to open the long press text menu | `true` |
+| `contextMenuBuilder` | `Widget Function(BuildContext context, SelectableRegionState selectableRegionState)` | Displayed Tools Menu | -- |
+| `onSelectionChanged` | `Function(SelectedContent?)` | Long press the text menu to select a callback | -- |
+| `createSelectableTextCallback` | `Function(FocusNode focusNode)` | Optional Text Content `widget` callback during creation | -- |
+
+
+
+#### Audio
 
 <br/>
 
-#### 音频
-
-<br/>
-
-| 名称 | 类型 | 描述 | 默认值 |
+| Name | Type | Describe | Default value |
 | :----: | :----: | :----: | :----: |
-| `audioTimelength` | `int` | 音频时长  | `0` |
-| `audioPlayStatus` | `bool` | 播放状态  | `false` |
-
-
-
-#### 图片
+| `audioTimelength` | `int` | Audio duration  | `0` |
+| `audioPlayStatus` | `bool` | Playing  | `false` |
 
 <br/>
 
-无特别参数说明。
+#### Image
 
 <br/>
 
-#### 视频
+No special parameter description.
 
 <br/>
 
-暂不支持。
+#### Video
 
 <br/>
 
-## 联系作者
+Not currently supported.
 
 <br/>
 
-当您在使用的过程中遇到了问题，可点击[这里](https://github.com/xiaorui-23/chat_flutter)进行`issue`提出问题或者通过下方的联系方式联系我，看到您的联系时或提出的`issue`我将第一时间进行回复并联系您。
+## Contact Author
+
+<br/>
+
+When you encounter problems during use, you can click [Here](https://github.com/xiaorui-23/chat_flutter.git) have `issue` ask a question or contact me through the contact information below. When you see your contact or raise a question `issue` I will reply and contact you as soon as possible.
 
 - [github](https://github.com/xiaorui-23/chat_flutter)
 - [gitee](https://gitee.com/xiaorui-23/flutter_chat)
