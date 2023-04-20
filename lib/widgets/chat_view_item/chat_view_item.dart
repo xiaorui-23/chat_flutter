@@ -158,6 +158,7 @@ class ChatViewItem extends StatelessWidget {
                                 createSelectableTextCallback: createSelectableTextCallback,
                                 chatViewItemRecordBodyBoxConstraints: chatViewItemRecordBodyBoxConstraints,
                                 customItem: customItem,
+                                itemBodyTextStyle: itemBodyTextStyle,
                                 audioPlayStatus: audioPlayStatus,
                                 audioTimelength: audioTimelength,
                             ),

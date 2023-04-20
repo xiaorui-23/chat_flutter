@@ -54,18 +54,22 @@ class _AudioBoxState extends State<AudioBox> {
         return Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-                StatefulBuilder(
-                    builder: ((context, setState) {
-                        return audioFrequencyStatusWidget(
-                            callback: () {
-                                iconSwitchStatus = !iconSwitchStatus;
-
-                                setState (() {
-                                    
-                                });
-                            }
-                        );
-                    })
+                Container(
+                    width: sz(20),
+                    height: sz(20),
+                    child: StatefulBuilder(
+                        builder: ((context, setState) {
+                            return audioFrequencyStatusWidget(
+                                callback: () {
+                                    iconSwitchStatus = !iconSwitchStatus;
+                    
+                                    setState (() {
+                                        
+                                    });
+                                }
+                            );
+                        })
+                    ),
                 ),
                 // 间隙盒子
                 SizedBox(
