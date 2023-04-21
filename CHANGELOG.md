@@ -1,5 +1,9 @@
 
 
+## 1.0.10
+
+Optimize known issues.
+
 ## 1.0.9
 
 Optimize known issues.
