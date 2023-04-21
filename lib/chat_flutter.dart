@@ -42,8 +42,6 @@ class _ChatViewWidgetState extends State<ChatViewWidget> {
     void initState() {
         super.initState();
 
-        _children = widget.children;
-
         Future.delayed(const Duration(milliseconds: 600), () {
             if (widget.onCreated != null){
                 widget.onCreated!(_chatViewWidgetController);
@@ -78,6 +76,8 @@ class _ChatViewWidgetState extends State<ChatViewWidget> {
 
     /// 根据 初始渲染时是否需要滑动到底部 状态进行设置
     void _initStateScrollBottom () {
+        _children = widget.children;
+
         if (!widget.isNeedScrollBottom){
             return;
         }

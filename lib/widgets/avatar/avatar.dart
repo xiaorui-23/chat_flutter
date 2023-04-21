@@ -40,6 +40,8 @@ class _AvatarState extends State<Avatar> {
     
     /// 头像加载失败状态
     bool _avatarErrorStatus = false;
+    /// 默认头像加载失败状态
+    bool _defaultAvatarErrorStatus = false;
 
     /// 头像地址处理
     /// * [_avatarPath] 头像地址
@@ -51,6 +53,11 @@ class _AvatarState extends State<Avatar> {
         bool isAssetsPath = true;
         // 当前需要使用的地址
         String currentUsePath = tempAvatarPath ?? tampDefaultAvatarPath ?? '';
+
+        // 头像加载失败，采用默认头像
+        if (_avatarErrorStatus) {
+            currentUsePath = tampDefaultAvatarPath ?? '';
+        }
 
         // 判断当前地址是否使用默认地址
         if (tempAvatarPath != null){
@@ -80,12 +87,16 @@ class _AvatarState extends State<Avatar> {
                     child: widget.customAvatarWidget ?? Container(
                         width: widget.avatarSize ?? sz(45),
                         height: widget.avatarSize ?? sz(45),
-                        decoration: (widget.avatarPath != null || widget.defaultAvatarPath != null || !_avatarErrorStatus) ? BoxDecoration(
+                        decoration: (widget.avatarPath != null || widget.defaultAvatarPath != null || !_avatarErrorStatus || !_defaultAvatarErrorStatus) ? BoxDecoration(
                             image:  DecorationImage(
                                 fit: BoxFit.cover,
                                 image: _handlerAvatarPath (widget.avatarPath, widget.defaultAvatarPath),
                                 onError: (exception, stackTrace) {
-                                    _avatarErrorStatus = true;
+                                    if (_avatarErrorStatus) {
+                                        _defaultAvatarErrorStatus = true;
+                                    } else {
+                                        _avatarErrorStatus = true;
+                                    }
 
                                     Future.delayed(const Duration(milliseconds: 300), () {
                                         if(mounted) {
@@ -96,7 +107,7 @@ class _AvatarState extends State<Avatar> {
                             ),
                             borderRadius: BorderRadius.circular(widget.avatarSize ?? sz(45))
                         ) : null,
-                        child: ((widget.avatarPath == null && widget.defaultAvatarPath == null) || _avatarErrorStatus) ? Icon(
+                        child: ((widget.avatarPath == null && widget.defaultAvatarPath == null) || (_avatarErrorStatus && _defaultAvatarErrorStatus)) ? Icon(
                             Icons.account_circle,
                             size: widget.avatarSize ?? sz(45),
                             color: widget.avatarColor,
