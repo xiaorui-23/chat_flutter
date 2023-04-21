@@ -54,7 +54,7 @@ class _AudioBoxState extends State<AudioBox> {
         return Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-                Container(
+                SizedBox(
                     width: sz(20),
                     height: sz(20),
                     child: StatefulBuilder(

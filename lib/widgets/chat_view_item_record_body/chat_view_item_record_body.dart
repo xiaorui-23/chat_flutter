@@ -1,6 +1,4 @@
 
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:chat_flutter/utils/chat_view_item_record_body_type/chat_view_item_record_body_type.dart';
@@ -196,7 +194,9 @@ class ChatViewItemRecordBody extends StatelessWidget {
 
                 }));
 
-            } catch (error) {}
+            } catch (error) {
+                debugPrint("chat_flutter 插件提示：图片 -> $itemBody <- 信息获取失败");
+            }
 
             Widget container = StatefulBuilder(
                 builder: (context, setState) {
