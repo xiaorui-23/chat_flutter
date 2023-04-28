@@ -41,7 +41,7 @@
 pub.dev 地址导航：
 
 - pub.dev: [https://pub.dev/packages/chat_flutter](https://pub.dev/packages/chat_flutter)
-- pub.flutter-io.cn: [https://pub.flutter-io.cn/packages/chat_flutter](https://pub.dev/packages/chat_flutter) -> (中国镜像地址)
+- pub.flutter-io.cn: [https://pub.flutter-io.cn/packages/chat_flutter](https://pub.flutter-io.cn/packages/chat_flutter) -> (中国镜像地址)
 
 ### 一、
 
