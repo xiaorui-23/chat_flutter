@@ -40,7 +40,7 @@ The display content supports the following basic content:
 pub.dev Address Navigation：
 
 - pub.dev: [https://pub.dev/packages/chat_flutter](https://pub.dev/packages/chat_flutter)
-- pub.flutter-io.cn: [https://pub.flutter-io.cn/packages/chat_flutter](https://pub.dev/packages/chat_flutter) -> (China Mirror Address)
+- pub.flutter-io.cn: [https://pub.flutter-io.cn/packages/chat_flutter](https://pub.flutter-io.cn/packages/chat_flutter) -> (China Mirror Address)
 
 ### 1、
 
