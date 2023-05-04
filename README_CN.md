@@ -17,6 +17,7 @@
 <div>
     <img src="https://raw.githubusercontent.com/xiaorui-23/chat_flutter/master/example/assets/rendering/rendering_1.png" width="200" height="400" />
     <img src="https://raw.githubusercontent.com/xiaorui-23/chat_flutter/master/example/assets/rendering/rendering_2.png" width="200" height="400" />
+    <img src="https://raw.githubusercontent.com/xiaorui-23/chat_flutter/master/example/assets/rendering/rendering_3.png" width="200" height="400" />
 </div>
 
 ## 特点
@@ -168,6 +169,7 @@ class _MyAppState extends State<MyApp> {
 | `children` | `List<ChatViewItem>` | 记录列表  | `[]` |
 | `isNeedScrollBottom` | `bool` | 初始渲染时是否滑动到底部  | `false` |
 | `onCreated` | `Function(ScrollController chatViewWidgetController)` | 创建完成时, 返回一个`ScrollController`类型的列表滑动控制器  | -- |
+| `isOpenPreviewImage` | `bool` | 是否开启图片预览  | `false` |
 
 
 ### `ChatViewItem` 说明
@@ -202,6 +204,12 @@ class _MyAppState extends State<MyApp> {
 
 
 
+
+
+#### 下方为不同类型的参数 API
+
+
+
 #### 文本
 
 
@@ -232,7 +240,12 @@ class _MyAppState extends State<MyApp> {
 
 
 
-无特别参数说明。
+| 名称 | 类型 | 描述 | 默认值 |
+| :----: | :----: | :----: | :----: |
+| `previewImageLongPressMenu` | `List<String>` | 预览图片长按显示菜单  | -- |
+| `onPreviewImageTapMenu` | `Function(String data, int index, List<String> menuList)` | 预览图片菜单点击回调  | -- |
+| `customPreviewImageCallback` | `Function(String imagePath)` | 自定义预览图片回调。注：当传递该参数时将不再使用库提供的预览方案。  | -- |
+| `customLongPress` | `Function(BuildContext context)` | 自定义长按图片显示回调  | -- |
 
 
 

@@ -17,6 +17,7 @@ This is a component package developed purely for `dart` to display chat record l
 <div>
     <img src="https://raw.githubusercontent.com/xiaorui-23/chat_flutter/master/example/assets/rendering/rendering_1.png" width="200" height="400" />
     <img src="https://raw.githubusercontent.com/xiaorui-23/chat_flutter/master/example/assets/rendering/rendering_2.png" width="200" height="400" />
+    <img src="https://raw.githubusercontent.com/xiaorui-23/chat_flutter/master/example/assets/rendering/rendering_3.png" width="200" height="400" />
 </div>
 
 ## Characteristic
@@ -167,6 +168,7 @@ If you feel that the cases and usage assistance provided on this page cannot hel
 | `children` | `List<ChatViewItem>` | record list  | `[]` |
 | `isNeedScrollBottom` | `bool` | Whether to slide to the bottom during initial rendering  | `false` |
 | `onCreated` | `Function(ScrollController chatViewWidgetController)` | When creation is complete, return a`ScrollController` list controller of type  | -- |
+| `isOpenPreviewImage` | `bool` | Do you want to enable image preview  | `false` |
 
 
 
@@ -202,6 +204,10 @@ If you feel that the cases and usage assistance provided on this page cannot hel
 
 
 
+#### Below are different types of parameters API
+
+
+
 #### Text
 
 
@@ -232,7 +238,12 @@ If you feel that the cases and usage assistance provided on this page cannot hel
 
 
 
-No special parameter description.
+| Name | Type | Describe | Default value |
+| :----: | :----: | :----: | :----: |
+| `previewImageLongPressMenu` | `List<String>` | Preview Image Long Press to Display Menu  | -- |
+| `onPreviewImageTapMenu` | `Function(String data, int index, List<String> menuList)` | Preview Image Menu Click Callback  | -- |
+| `customPreviewImageCallback` | `Function(String imagePath)` | Custom preview image callback. Note: When passing this parameter, the preview scheme provided by the library will no longer be used.  | -- |
+| `customLongPress` | `Function(BuildContext context)` | Custom long press image display callback  | -- |
 
 
 

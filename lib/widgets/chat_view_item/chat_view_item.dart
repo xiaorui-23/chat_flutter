@@ -53,18 +53,26 @@ class ChatViewItem extends StatelessWidget {
     final TextStyle? customRecordTimeStyle;
     /// 内容主体约束
     final BoxConstraints? chatViewItemRecordBodyBoxConstraints;
+    /// 预览图片长按显示菜单
+    final List<String>? previewImageLongPressMenu;
+    /// 预览图片菜单点击回调
+    final void Function(String data, int index, List<String> menuList)? onPreviewImageTapMenu;
+    /// 自定义预览图片回调
+    final void Function(String imagePath)? customPreviewImageCallback;
+    /// 自定义长按显示菜单回调
+    final void Function(BuildContext context)? customLongPress;
     /// 显示的工具菜单
     final Widget Function(BuildContext context, SelectableRegionState selectableRegionState)? contextMenuBuilder;
     /// 内容主体点击事件
-    final Function(ChatViewItemRecordBodyType type)? itemBodyTap;
+    final void Function(ChatViewItemRecordBodyType type)? itemBodyTap;
     /// 文件、图片、音频 点击事件
-    final Function(ChatViewItemRecordBodyType type)? itemBodyMediaTap;
+    final void Function(ChatViewItemRecordBodyType type)? itemBodyMediaTap;
     /// 长按文字菜单选择回调
-    final Function(SelectedContent?)? onSelectionChanged;
+    final void Function(SelectedContent?)? onSelectionChanged;
     /// 头像点击回调
-    final Function()? avatarTap;
+    final void Function()? avatarTap;
     /// 可选文字内容 widget 创建时的回调
-    final Function(FocusNode focusNode)? createSelectableTextCallback;
+    final void Function(FocusNode focusNode)? createSelectableTextCallback;
 
     const ChatViewItem({
         super.key,
@@ -79,6 +87,7 @@ class ChatViewItem extends StatelessWidget {
         this.avatarSize,
         this.avatarColor,
         this.customAvatar,
+        this.previewImageLongPressMenu,
         this.itemBodyType = ChatViewItemRecordBodyType.text,
         this.backgroundColor = Colors.white,
         this.avatarTap,
@@ -94,7 +103,10 @@ class ChatViewItem extends StatelessWidget {
         this.customItem,
         this.customRecordTimeWidget,
         this.customRecordTimeStyle,
-        this.chatViewItemRecordBodyBoxConstraints
+        this.chatViewItemRecordBodyBoxConstraints,
+        this.customPreviewImageCallback,
+        this.customLongPress,
+        this.onPreviewImageTapMenu
     });
 
     @override
@@ -161,6 +173,10 @@ class ChatViewItem extends StatelessWidget {
                                 itemBodyTextStyle: itemBodyTextStyle,
                                 audioPlayStatus: audioPlayStatus,
                                 audioTimelength: audioTimelength,
+                                previewImageLongPressMenu: previewImageLongPressMenu,
+                                onPreviewImageTapMenu: onPreviewImageTapMenu,
+                                customPreviewImageCallback: customPreviewImageCallback,
+                                customLongPress: customLongPress,
                             ),
                             // 己方
                             if (senderRight)

@@ -18,7 +18,7 @@ class Avatar extends StatefulWidget {
     /// 自定义头像盒子
     final Widget? customAvatarWidget;
     /// 头像点击回调
-    final Function()? avatarTap;
+    final void Function()? avatarTap;
 
     const Avatar({
         super.key,

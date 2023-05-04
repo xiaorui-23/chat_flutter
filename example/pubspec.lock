@@ -138,6 +138,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.8.2"
+  photo_view:
+    dependency: transitive
+    description:
+      name: photo_view
+      sha256: "8036802a00bae2a78fc197af8a158e3e2f7b500561ed23b4c458107685e645bb"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.14.0"
   sky_engine:
     dependency: transitive
     description: flutter

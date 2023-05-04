@@ -14,9 +14,9 @@ class CustomSelectionArea extends StatefulWidget {
     /// 文本选择控制器
     final TextSelectionControls? selectionControls;
     /// 长按文字菜单选择回调
-    final Function(SelectedContent?)? onSelectionChanged;
+    final void Function(SelectedContent?)? onSelectionChanged;
     /// SelectableText 创建时
-    final Function(FocusNode focusNode)? createSelectableTextCallback;
+    final void Function(FocusNode focusNode)? createSelectableTextCallback;
     /// 显示的工具菜单
     final Widget Function(BuildContext, SelectableRegionState)? contextMenuBuilder;
 

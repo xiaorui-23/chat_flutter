@@ -1,4 +1,18 @@
 
+## 1.1.0
+
+Add image preview function.
+
+Below is a list of newly added parameters.
+Detailed content can be viewed `README.md` or `README_CN.md`.
+
+| Name | Type | Describe | Default value |
+| :----: | :----: | :----: | :----: |
+| `isOpenPreviewImage` | `bool` | 是否开启图片预览  | `false` |
+| `previewImageLongPressMenu` | `List<String>` | Preview Image Long Press to Display Menu  | -- |
+| `onPreviewImageTapMenu` | `Function(String data, int index, List<String> menuList)` | Preview Image Menu Click Callback  | -- |
+| `customPreviewImageCallback` | `Function(String imagePath)` | Custom preview image callback. Note: When passing this parameter, the preview scheme provided by the library will no longer be used.  | -- |
+| `customLongPress` | `Function(BuildContext context)` | Custom long press image display callback  | -- |
 
 ## 1.0.10
 

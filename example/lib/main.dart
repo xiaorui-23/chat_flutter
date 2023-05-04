@@ -24,30 +24,30 @@ class _MyAppState extends State<MyApp> {
         super.initState();
         
         chatRecordList = [
-            ChatViewItem(
+            const ChatViewItem(
                 itemBody: "hello",
             ),
-            ChatViewItem(
+            const ChatViewItem(
                 senderRight: false,
                 itemBody: "Hi",
             ),
-            ChatViewItem(
+            const ChatViewItem(
                 itemBody: "不显示头像",
                 isAvatarShow: false,
                 isOpenTextSelect: true
             ),
-            ChatViewItem(
+            const ChatViewItem(
                 itemBodyType: ChatViewItemRecordBodyType.audio,
             ),
-            ChatViewItem(
+            const ChatViewItem(
                 audioTimelength: 10,
                 itemBodyType: ChatViewItemRecordBodyType.audio,
             ),
-            ChatViewItem(
+            const ChatViewItem(
                 senderRight: false,
                 itemBody: "Hi, 就阿萨德理解啊睡了多久啊是 啊可是建档立卡上的结论是",
             ),
-            ChatViewItem(
+            const ChatViewItem(
                 customItem: Text('自定义消息主体'),
             ),
             ChatViewItem(
@@ -57,7 +57,7 @@ class _MyAppState extends State<MyApp> {
                     _focusNode = focusNode;
                 },
             ),
-            ChatViewItem(
+            const ChatViewItem(
                 senderRight: false,
                 avatarPath: "https://img1.baidu.com/it/u=3007048469,3759326707&fm=253&fmt=auto&app=120&f=JPEG?w=889&h=500",
                 itemBodyRecordTime: '2023-12-13',
@@ -65,23 +65,38 @@ class _MyAppState extends State<MyApp> {
             ),
             ChatViewItem(
                 itemBodyType: ChatViewItemRecordBodyType.image,
+                itemBody: "https://pic35.photophoto.cn/20150511/0034034892281415_b.jpg",
+                previewImageLongPressMenu: const ['保存'],
+                onPreviewImageTapMenu:(data, index, menuList) {
+                    debugPrint("$data $index $menuList");
+                },
+                // customPreviewImageCallback:(imagePath) {
+                //     print(imagePath);
+                // },
+                // customLongPress:(context) {
+                //     print('customLongPress');
+                // },
+            ),
+            const ChatViewItem(
+                senderRight: false,
+                itemBodyType: ChatViewItemRecordBodyType.image,
                 itemBody: "https://img1.baidu.com/it/u=3007048469,3759326707&fm=253&fmt=auto&app=120&f=JPEG?w=889&h=500",
             ),
-            ChatViewItem(
+            const ChatViewItem(
                 senderRight: false,
                 itemBodyType: ChatViewItemRecordBodyType.image,
                 itemBody: "https://img1.baidu.com",
             ),
-            ChatViewItem(
+            const ChatViewItem(
                 senderRight: false,
                 avatarPath: "https://img1.baidu.com/it/u=3007048469,3759326707&fm=253&fmt=auto&app=120&f=JPEG?w=889&h=500",
                 itemBody: "头像网络图片",
             ),
-            ChatViewItem(
+            const ChatViewItem(
                 avatarPath: "assets/logo.png",
                 itemBody: "头像本地图片",
             ),
-            ChatViewItem(
+            const ChatViewItem(
                 itemBodyType: ChatViewItemRecordBodyType.file,
                 itemBody: "我是文件名称",
             ),
@@ -109,6 +124,7 @@ class _MyAppState extends State<MyApp> {
                             Expanded(
                                 child: ChatViewWidget(
                                     isNeedScrollBottom: true,
+                                    // isOpenPreviewImage: true,
                                     children: chatRecordList,
                                     onCreated: (chatViewWidgetController) {},
                                 )

@@ -11,6 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_screenutil: ^5.7.0
+  photo_view: ^0.14.0
 
 dev_dependencies:
   flutter_test:
