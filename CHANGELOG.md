@@ -1,7 +1,27 @@
 
+## 2.0.0
+
+- Reconstructed and assembled `ChatViewItem` parameter transfer to enhance code reading visualization. <br />
+Integration of parameter content based on message display type and avator.
+
+
+- Add functions such as video display and playback. <br />
+Below is a list of newly added parameters. <br />
+
+
+Detailed content can be viewed `README.md` or `README_CN.md`.
+
+| Name | Type | Describe | Default value |
+| :----: | :----: | :----: | :----: |
+| `notPlayingWidget` | `Widget` | Custom widget not played  | -- |
+| `playingFailWidget` | `Widget` | Play Error Custom Widget  | -- |
+| `autoPlaying` | `bool` | Whether to automatically play during interface display  | `true` |
+| `videoLoadFailCallback` | `void Function(Object error)` | Video loading error callback  | -- |
+
+
 ## 1.1.0
 
-Add image preview function.
+Add Image preview function.
 
 Below is a list of newly added parameters.
 Detailed content can be viewed `README.md` or `README_CN.md`.

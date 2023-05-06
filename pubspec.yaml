@@ -1,6 +1,6 @@
 name: chat_flutter
 description: A Flutter plugin toolkit for displaying chat records. Supporting basic content display of images, files, voice, text, and videos.
-version: 1.1.0
+version: 2.0.0
 homepage: https://github.com/xiaorui-23/chat_flutter
 
 environment:
@@ -10,13 +10,18 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  
   flutter_screenutil: ^5.7.0
+  flutter_localization: ^0.1.9
   photo_view: ^0.14.0
+  video_player: ^2.6.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
+  flutter_lints: ^2.0.1
 
 flutter:
 

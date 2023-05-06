@@ -1,7 +1,7 @@
 
 
+import 'package:chat_flutter/utils/parameter_model_set/parameter_model_set.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:chat_flutter/utils/chat_view_item_record_body_type/chat_view_item_record_body_type.dart';
 import 'package:chat_flutter/utils/screenutil/screenutil.dart';
 import 'package:chat_flutter/widgets/avatar/avatar.dart';
@@ -10,103 +10,76 @@ import 'package:chat_flutter/widgets/chat_view_item_record_body/chat_view_item_r
 /// 记录项 item
 class ChatViewItem extends StatelessWidget {
     /// 内容
-    final dynamic itemBody;
-    /// 音频时长
-    /// * 展示单位：s
-    final int audioTimelength;
-    /// 播放状态
-    final bool audioPlayStatus;
+    final String? itemBody;
     /// 自定义记录 item 主体
     final Widget? customItem;
     /// 记录时间
     final String? itemBodyRecordTime;
     /// 是否为 右侧 己方
+    /// * 默认值：true
     final bool senderRight;
-    /// 头像地址
-    final String? avatarPath;
-    /// 默认头像地址
-    final String? defaultAvatarPath;
-    /// 是否展示头像
-    final bool isAvatarShow;
-    /// 头像大小
-    final double? avatarSize;
-    /// 头像颜色
-    final Color? avatarColor;
-    /// 自定义头像
-    final Widget? customAvatar;
     /// 当前记录内容类型
-    /// * 默认为文本
+    /// * 默认为文本 -> ChatViewItemRecordBodyType.text
     final ChatViewItemRecordBodyType itemBodyType;
     /// 记录主体的背景色
+    /// * 默认白色
     final Color backgroundColor;
-    /// 自定义头像盒子
-    final Widget? customAvatarWidget;
-    /// 记录主体的文字样式
-    final TextStyle? itemBodyTextStyle;
-    /// 是否打开长按文字菜单
-    final bool isOpenTextSelect;
-    /// 文本选择控制器
-    final TextSelectionControls? selectionControls;
     /// 自定义时间记录 widget
     final Widget? customRecordTimeWidget;
     /// 自定义时间记录样式
     final TextStyle? customRecordTimeStyle;
     /// 内容主体约束
     final BoxConstraints? chatViewItemRecordBodyBoxConstraints;
-    /// 预览图片长按显示菜单
-    final List<String>? previewImageLongPressMenu;
-    /// 预览图片菜单点击回调
-    final void Function(String data, int index, List<String> menuList)? onPreviewImageTapMenu;
-    /// 自定义预览图片回调
-    final void Function(String imagePath)? customPreviewImageCallback;
-    /// 自定义长按显示菜单回调
-    final void Function(BuildContext context)? customLongPress;
-    /// 显示的工具菜单
-    final Widget Function(BuildContext context, SelectableRegionState selectableRegionState)? contextMenuBuilder;
+
+    /// 文本类型配置内容
+    final ChatViewItemTextTypeModel? textTypeModel;
+    /// 图片类型配置内容
+    final ChatViewItemImageTypeModel? imageTypeModel;
+    /// 视频类型配置内容
+    final ChatViewItemVideoTypeModel? videoTypeModel;
+    /// 文件类型配置内容
+    final ChatViewItemFileTypeModel? fileTypeModel;
+    /// 音频类型配置内容
+    final ChatViewItemAudioTypeModel? audioTypeModel;
+    
+    /// 头像配置内容
+    final ChatViewItemAvatarModel? avatarModel;
+
     /// 内容主体点击事件
     final void Function(ChatViewItemRecordBodyType type)? itemBodyTap;
-    /// 文件、图片、音频 点击事件
+    /// 文件、图片、音频、视频 点击事件
     final void Function(ChatViewItemRecordBodyType type)? itemBodyMediaTap;
-    /// 长按文字菜单选择回调
-    final void Function(SelectedContent?)? onSelectionChanged;
-    /// 头像点击回调
-    final void Function()? avatarTap;
-    /// 可选文字内容 widget 创建时的回调
-    final void Function(FocusNode focusNode)? createSelectableTextCallback;
 
+
+    ChatViewItemAvatarModel get _avatarModel => avatarModel ?? ChatViewItemAvatarModel();
+
+    ChatViewItemTextTypeModel get _textTypeModel => textTypeModel ?? ChatViewItemTextTypeModel();
+    ChatViewItemImageTypeModel get _imageTypeModel => imageTypeModel ?? ChatViewItemImageTypeModel();
+    ChatViewItemVideoTypeModel get _videoTypeModel => videoTypeModel ?? ChatViewItemVideoTypeModel();
+    // 暂不支持额外参数
+    // ChatViewItemFileTypeModel get _fileTypeModel => fileTypeModel ?? ChatViewItemFileTypeModel();
+    ChatViewItemAudioTypeModel get _audioTypeModel => audioTypeModel ?? ChatViewItemAudioTypeModel();
+    
+    
     const ChatViewItem({
         super.key,
         this.itemBody,
-        this.audioTimelength = 0,
-        this.audioPlayStatus = false,
         this.senderRight = true,
-        this.avatarPath,
-        this.defaultAvatarPath,
-        this.isAvatarShow = true,
-        this.selectionControls,
-        this.avatarSize,
-        this.avatarColor,
-        this.customAvatar,
-        this.previewImageLongPressMenu,
         this.itemBodyType = ChatViewItemRecordBodyType.text,
         this.backgroundColor = Colors.white,
-        this.avatarTap,
-        this.itemBodyTextStyle,
+        this.textTypeModel,
+        this.imageTypeModel,
+        this.fileTypeModel,
+        this.videoTypeModel,
+        this.audioTypeModel,
+        this.avatarModel,
         this.itemBodyTap,
         this.itemBodyMediaTap,
-        this.contextMenuBuilder,
-        this.isOpenTextSelect = true,
-        this.onSelectionChanged,
-        this.customAvatarWidget,
         this.itemBodyRecordTime,
-        this.createSelectableTextCallback,
         this.customItem,
         this.customRecordTimeWidget,
         this.customRecordTimeStyle,
         this.chatViewItemRecordBodyBoxConstraints,
-        this.customPreviewImageCallback,
-        this.customLongPress,
-        this.onPreviewImageTapMenu
     });
 
     @override
@@ -145,14 +118,14 @@ class ChatViewItem extends StatelessWidget {
                                     margin: EdgeInsets.only(
                                         top: sh(10)
                                     ),
-                                    child: customAvatar ?? Avatar(
-                                        avatarPath: avatarPath,
-                                        defaultAvatarPath: defaultAvatarPath,
-                                        isAvatarShow: isAvatarShow,
-                                        avatarSize: avatarSize,
-                                        avatarColor: avatarColor,
-                                        avatarTap: avatarTap,
-                                        customAvatarWidget: customAvatarWidget
+                                    child: _avatarModel.customAvatar ?? Avatar(
+                                        avatarPath: _avatarModel.avatarPath,
+                                        defaultAvatarPath: _avatarModel.defaultAvatarPath,
+                                        isAvatarShow: _avatarModel.isAvatarShow,
+                                        avatarSize: _avatarModel.avatarSize,
+                                        avatarColor: _avatarModel.avatarColor,
+                                        avatarTap: _avatarModel.avatarTap,
+                                        customAvatarWidget: _avatarModel.customAvatarWidget
                                     ),
                                 ),
                             // 消息内容
@@ -160,23 +133,31 @@ class ChatViewItem extends StatelessWidget {
                                 senderRight: senderRight,
                                 itemBodyType: itemBodyType,
                                 backgroundColor: backgroundColor,
-                                itemBody: itemBody,
+                                itemBody: itemBody.toString(),
                                 itemBodyTap: itemBodyTap,
                                 itemBodyMediaTap: itemBodyMediaTap,
-                                selectionControls: selectionControls,
-                                isOpenTextSelect: isOpenTextSelect,
-                                contextMenuBuilder: contextMenuBuilder,
-                                onSelectionChanged: onSelectionChanged,
-                                createSelectableTextCallback: createSelectableTextCallback,
                                 chatViewItemRecordBodyBoxConstraints: chatViewItemRecordBodyBoxConstraints,
                                 customItem: customItem,
-                                itemBodyTextStyle: itemBodyTextStyle,
-                                audioPlayStatus: audioPlayStatus,
-                                audioTimelength: audioTimelength,
-                                previewImageLongPressMenu: previewImageLongPressMenu,
-                                onPreviewImageTapMenu: onPreviewImageTapMenu,
-                                customPreviewImageCallback: customPreviewImageCallback,
-                                customLongPress: customLongPress,
+
+                                selectionControls: _textTypeModel.selectionControls,
+                                isOpenTextSelect: _textTypeModel.isOpenTextSelect,
+                                contextMenuBuilder: _textTypeModel.contextMenuBuilder,
+                                onSelectionChanged: _textTypeModel.onSelectionChanged,
+                                createSelectableTextCallback: _textTypeModel.createSelectableTextCallback,
+                                itemBodyTextStyle: _textTypeModel.itemBodyTextStyle,
+
+                                audioPlayStatus: _audioTypeModel.audioPlayStatus,
+                                audioTimelength: _audioTypeModel.audioTimelength,
+
+                                previewImageLongPressMenu: _imageTypeModel.previewImageLongPressMenu,
+                                onPreviewImageTapMenu: _imageTypeModel.onPreviewImageTapMenu,
+                                customPreviewImageCallback: _imageTypeModel.customPreviewImageCallback,
+                                customLongPress: _imageTypeModel.customLongPress,
+
+                                autoPlaying: _videoTypeModel.autoPlaying,
+                                notPlayingWidget: _videoTypeModel.notPlayingWidget,
+                                playingFailWidget: _videoTypeModel.playingFailWidget,
+                                videoLoadFailCallback: _videoTypeModel.videoLoadFailCallback,
                             ),
                             // 己方
                             if (senderRight)
@@ -184,14 +165,14 @@ class ChatViewItem extends StatelessWidget {
                                     margin: EdgeInsets.only(
                                         top: sh(10)
                                     ),
-                                    child: customAvatar ?? Avatar(
-                                        avatarPath: avatarPath,
-                                        defaultAvatarPath: defaultAvatarPath,
-                                        isAvatarShow: isAvatarShow,
-                                        avatarSize: avatarSize,
-                                        avatarColor: avatarColor,
-                                        avatarTap: avatarTap,
-                                        customAvatarWidget: customAvatarWidget
+                                    child: _avatarModel.customAvatar ?? Avatar(
+                                        avatarPath: _avatarModel.avatarPath,
+                                        defaultAvatarPath: _avatarModel.defaultAvatarPath,
+                                        isAvatarShow: _avatarModel.isAvatarShow,
+                                        avatarSize: _avatarModel.avatarSize,
+                                        avatarColor: _avatarModel.avatarColor,
+                                        avatarTap: _avatarModel.avatarTap,
+                                        customAvatarWidget: _avatarModel.customAvatarWidget
                                     ),
                                 ),
                             // 

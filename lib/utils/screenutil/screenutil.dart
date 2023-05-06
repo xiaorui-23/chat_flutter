@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 /// 屏幕适配
 
 /// 初始化
-void initScreenUtil (context, {Size designSize = const Size(375, 750), bool splitScreenMode = true, bool minTextAdapt = true, bool scaleByHeight = true}) {
+void initScreenUtil (context, {Size designSize = const Size(375, 750), bool splitScreenMode = true, bool minTextAdapt = true, bool scaleByHeight = false}) {
     ScreenUtil.init(
         context,
         designSize: designSize,
@@ -33,3 +33,6 @@ double sf (double fontSize) => _screenUtil.setSp(fontSize);
 
 /// 圆角
 double sr(double r) => _screenUtil.radius(r);
+
+/// 获取页面边距信息，如：状态栏高度、底部安全区高度等
+EdgeInsets getMediaQueryInfo (BuildContext context) => MediaQuery.of(context).padding;

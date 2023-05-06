@@ -1,6 +1,8 @@
 
 # chat_flutter
 
+[![pub package](https://img.shields.io/pub/v/chat_flutter.svg)](https://pub.dev/packages/chat_flutter)
+
 This is a component package developed purely for `dart` to display chat record lists, supporting the basic content display of images, files, voice, video, and text.
 
 
@@ -10,7 +12,7 @@ This is a component package developed purely for `dart` to display chat record l
 
 
 
-## Rendering
+# Rendering
 
 
 
@@ -18,9 +20,11 @@ This is a component package developed purely for `dart` to display chat record l
     <img src="https://raw.githubusercontent.com/xiaorui-23/chat_flutter/master/example/assets/rendering/rendering_1.png" width="200" height="400" />
     <img src="https://raw.githubusercontent.com/xiaorui-23/chat_flutter/master/example/assets/rendering/rendering_2.png" width="200" height="400" />
     <img src="https://raw.githubusercontent.com/xiaorui-23/chat_flutter/master/example/assets/rendering/rendering_3.png" width="200" height="400" />
+    <img src="https://raw.githubusercontent.com/xiaorui-23/chat_flutter/master/example/assets/rendering/rendering_4.png" width="200" height="400" />
+    <img src="https://raw.githubusercontent.com/xiaorui-23/chat_flutter/master/example/assets/rendering/rendering_5.png" width="200" height="400" />
 </div>
 
-## Characteristic
+# 1、Characteristic
 
 
 
@@ -36,14 +40,14 @@ The display content supports the following basic content:
 
 
 
-## Install
+# 2、Install
 
 pub.dev Address Navigation：
 
 - pub.dev: [https://pub.dev/packages/chat_flutter](https://pub.dev/packages/chat_flutter)
 - pub.flutter-io.cn: [https://pub.flutter-io.cn/packages/chat_flutter](https://pub.flutter-io.cn/packages/chat_flutter) -> (China Mirror Address)
 
-### 1、
+## 1.
 
 You can directly `pubspec.yaml` in the file `dependencies` add below for installation.
 
@@ -58,7 +62,7 @@ dependencies:
   chat_flutter: ^1.0.0
 ```
 
-### 2、
+## 2.
 
 You can also execute the following command to install from the terminal located in the project root directory:
 
@@ -66,7 +70,7 @@ You can also execute the following command to install from the terminal located 
 flutter pub add chat_flutter
 ```
 
-## Use 
+# 3、Use 
 
 Introduce on the required page:
 
@@ -112,7 +116,7 @@ class _MyAppState extends State<MyApp> {
 More use cases can be found at [Here](https://github.com/xiaorui-23/chat_flutter.git) hit the target `/example/lib/main.dart` review.
 
 
-## Precautions for use
+# 4、Precautions for use
 
 
 
@@ -126,7 +130,7 @@ This plugin does not impose width or height restrictions on the content of the p
 
 
 
-## About the Adaptation of Plugin Models
+# 5、About the Adaptation of Plugin Models
 
 
 
@@ -134,7 +138,7 @@ This plugin itself uses `flutter_screenutil` based on plugins, multiple models h
 
 
 
-## About plugin dependency issues
+# 6、About plugin dependency issues
 
 
 
@@ -142,7 +146,7 @@ After the author discovers that the dependencies used in the plugin have been up
 
 
 
-## About Customization
+# 7、About Customization
 
 
 
@@ -150,7 +154,7 @@ This plugin provides a high degree of customization to facilitate the functional
 
 
 
-## Case study and detailed usage reference guide
+# 8、Case study and detailed usage reference guide
 
 
 
@@ -158,10 +162,10 @@ If you feel that the cases and usage assistance provided on this page cannot hel
 
 
 
-## API Parameter Description
+# 9、API Parameter Description
 
 
-### `ChatViewWidget` Illustrate
+## `ChatViewWidget` Illustrate
 
 | Name | Type | Describe | Default value |
 | :----: | :----: | :----: | :----: |
@@ -172,11 +176,11 @@ If you feel that the cases and usage assistance provided on this page cannot hel
 
 
 
-### `ChatViewItem` Illustrate
+## `ChatViewItem` Illustrate
 
 
 
-#### Common Parameter API
+### Common Parameter API
 
 
 
@@ -184,31 +188,41 @@ If you feel that the cases and usage assistance provided on this page cannot hel
 | :----: | :----: | :----: | :----: |
 | `itemBody` | `dynamic` | Content. according to `itemBodyType` the content conveyed varies depending on the type. When `itemBodyType = ChatViewItemRecordBodyType.audio` time may not be transmitted, and detailed use can refer to case studies.  | -- |
 | `senderRight` | `bool` | Is it on the right side  | `true` |
+| `customRecordTimeWidget` | `Widget` | Custom Time Record `widget` | -- |
+| `customRecordTimeStyle` | `TextStyle` | Custom Time Record Style | -- |
+| `chatViewItemRecordBodyBoxConstraints` | `BoxConstraints` | Content subject constraints | -- |
+| `itemBodyType` | `ChatViewItemRecordBodyType` | Current record content type | `text` |
+| `itemBodyRecordTime` | `String` | Recording time | -- |
+| `backgroundColor` | `Color` | Record the background color of the main body | `Colors.white` |
+| `customItem` | `Widget` | Custom Record Body | -- |
+| `itemBodyTap` | `Function` | Content subject click event | -- |
+| `itemBodyMediaTap` | `Function(ChatViewItemRecordBodyType type)` | File, image, audio, video click events | -- |
+| `textTypeModel` | `ChatViewItemTextTypeModel` | Text type configuration content | -- |
+| `imageTypeModel` | `ChatViewItemImageTypeModel` | Image Type Configuration Content | -- |
+| `videoTypeModel` | `ChatViewItemVideoTypeModel` | Video Type Configuration Content | -- |
+| `fileTypeModel` | `ChatViewItemFileTypeModel` | File Type Configuration Content | -- |
+| `audioTypeModel` | `ChatViewItemAudioTypeModel` | Audio type configuration content | -- |
+| `avatarModel` | `ChatViewItemAvatarModel` | Configuration content of avatar | -- |
+
+
+#### Avatar-`avatarModel` -> `ChatViewItemAvatarModel`
+
+| Name | Type | Describe | Default value |
+| :----: | :----: | :----: | :----: |
 | `avatarPath` | `String` | The avatar address will be the default one when it is not delivered. If it is not delivered, the built-in icon avatar scheme will be used  | -- |
 | `defaultAvatarPath` | `String` | Default avatar address | -- |
 | `isAvatarShow` | `bool` | Is the avatar displayed | `true` |
 | `avatarSize` | `double` | Avatar size | Adapted `45` |
 | `avatarColor` | `Color` | Head color | -- |
 | `customAvatar` | `Widget` | Custom avatar | -- |
-| `customRecordTimeWidget` | `Widget` | Custom Time Record `widget` | -- |
-| `customRecordTimeStyle` | `TextStyle` | Custom Time Record Style | -- |
-| `chatViewItemRecordBodyBoxConstraints` | `BoxConstraints` | Content subject constraints | -- |
-| `itemBodyType` | `ChatViewItemRecordBodyType` | Current record content type | `text` |
 | `customAvatarWidget` | `Widget` | Custom avatar | -- |
-| `itemBodyRecordTime` | `String` | Recording time | -- |
-| `backgroundColor` | `Color` | Record the background color of the main body | `Colors.white` |
-| `customItem` | `Widget` | Custom Record Body | -- |
 | `avatarTap` | `Function` | Head image click callback | -- |
-| `itemBodyTap` | `Function` | Content subject click event | -- |
-| `itemBodyMediaTap` | `Function(ChatViewItemRecordBodyType type)` | File, image, audio, video click events | -- |
+
+### Below are different types of parameters API
 
 
 
-#### Below are different types of parameters API
-
-
-
-#### Text
+#### 1. Text-`textTypeModel` -> `ChatViewItemTextTypeModel`
 
 
 
@@ -223,7 +237,7 @@ If you feel that the cases and usage assistance provided on this page cannot hel
 
 
 
-#### Audio
+#### 2. Audio-`audioTypeModel` -> `ChatViewItemAudioTypeModel`
 
 
 
@@ -234,7 +248,7 @@ If you feel that the cases and usage assistance provided on this page cannot hel
 
 
 
-#### Image
+#### 3. Image-`imageTypeModel` -> `ChatViewItemImageTypeModel`
 
 
 
@@ -246,21 +260,50 @@ If you feel that the cases and usage assistance provided on this page cannot hel
 | `customLongPress` | `Function(BuildContext context)` | Custom long press image display callback  | -- |
 
 
-
-#### Video
-
-
-
-Not currently supported.
+#### 4. File-`fileTypeModel` -> `ChatViewItemFileTypeModel`
 
 
 
-## Contact Author
+No additional information available at the moment.
+
+
+#### 5. Video-`videoTypeModel` -> `ChatViewItemVideoTypeModel`
+
+
+| Name | Type | Describe | Default value |
+| :----: | :----: | :----: | :----: |
+| `notPlayingWidget` | `Widget` | Custom widget not played  | -- |
+| `playingFailWidget` | `Widget` | Play Error Custom Widget  | -- |
+| `autoPlaying` | `bool` | Whether to automatically play during interface display  | `true` |
+| `videoLoadFailCallback` | `void Function(Object error)` | Video loading error callback  | -- |
+
+##### **IOS Additional Configuration**
+
+Be directed against `IOS`, You need to `<project root>/ios/Runner/Info.plist` under the path `Info.plist` add the following configuration to the file.
+
+```plist
+<key>NSAppTransportSecurity</key>
+<dict>
+  <key>NSAllowsArbitraryLoads</key>
+  <true/>
+</dict>
+```
+
+
+
+|             | Android | iOS   | Web   | windows | macos | linux |
+|-------------|---------|-------|-------|---------|-------|-------|
+| **Support** | SDK 16+ | 11.0+ | Any\* | not Support | not Support | not Support |
+
+
+
+
+# 10、Contact Author
 
 
 
 When you encounter problems during use, you can click [Here](https://github.com/xiaorui-23/chat_flutter.git) have `issue` ask a question or contact me through the contact information below. When you see your contact or raise a question `issue` I will reply and contact you as soon as possible.
 
 - [github](https://github.com/xiaorui-23/chat_flutter)
-- [gitee](https://gitee.com/xiaorui-23/flutter_chat)
+- [gitee](https://gitee.com/xiaorui-23/chat_flutter)
 

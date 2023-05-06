@@ -1,6 +1,8 @@
 
 # chat_flutter
 
+[![pub package](https://img.shields.io/pub/v/chat_flutter.svg)](https://pub.dev/packages/chat_flutter)
+
 这是一个纯 `dart` 开发的开发的 聊天记录 列表展示的组件包，支持图片、文件、语音、文字、视频的基础内容展示。
 
 
@@ -10,7 +12,7 @@
 
 
 
-## 效果图
+# 效果图
 
 
 
@@ -18,9 +20,11 @@
     <img src="https://raw.githubusercontent.com/xiaorui-23/chat_flutter/master/example/assets/rendering/rendering_1.png" width="200" height="400" />
     <img src="https://raw.githubusercontent.com/xiaorui-23/chat_flutter/master/example/assets/rendering/rendering_2.png" width="200" height="400" />
     <img src="https://raw.githubusercontent.com/xiaorui-23/chat_flutter/master/example/assets/rendering/rendering_3.png" width="200" height="400" />
+    <img src="https://raw.githubusercontent.com/xiaorui-23/chat_flutter/master/example/assets/rendering/rendering_4.png" width="200" height="400" />
+    <img src="https://raw.githubusercontent.com/xiaorui-23/chat_flutter/master/example/assets/rendering/rendering_5.png" width="200" height="400" />
 </div>
 
-## 特点
+# 一、特点
 
 
 
@@ -37,14 +41,14 @@
 
 
 
-## 安装
+# 二、安装
 
 pub.dev 地址导航：
 
 - pub.dev: [https://pub.dev/packages/chat_flutter](https://pub.dev/packages/chat_flutter)
 - pub.flutter-io.cn: [https://pub.flutter-io.cn/packages/chat_flutter](https://pub.flutter-io.cn/packages/chat_flutter) -> (中国镜像地址)
 
-### 一、
+## 1、
 
 你可以直接在`pubspec.yaml`文件中的`dependencies`下添加以进行安装。
 
@@ -59,7 +63,7 @@ dependencies:
   chat_flutter: ^1.0.0
 ```
 
-### 二、
+## 2、
 
 你还可以在处于项目根目录的终端中执行下面这条命令进行安装：
 
@@ -67,7 +71,7 @@ dependencies:
 flutter pub add chat_flutter
 ```
 
-## 使用 
+# 三、使用 
 
 在需要使用的页面进行引入：
 
@@ -114,7 +118,7 @@ class _MyAppState extends State<MyApp> {
 
 
 
-## 使用注意
+# 四、使用注意
 
 
 
@@ -128,7 +132,7 @@ class _MyAppState extends State<MyApp> {
 
 
 
-## 关于插件机型适配问题
+# 五、关于插件机型适配问题
 
 
 
@@ -136,7 +140,7 @@ class _MyAppState extends State<MyApp> {
 
 
 
-## 关于插件依赖问题
+# 六、关于插件依赖问题
 
 
 
@@ -144,7 +148,7 @@ class _MyAppState extends State<MyApp> {
 
 
 
-## 关于自定义
+# 七、关于自定义
 
 
 
@@ -152,7 +156,7 @@ class _MyAppState extends State<MyApp> {
 
 
 
-## 案例及详细使用参考指南
+# 八、案例及详细使用参考指南
 
 
 
@@ -160,9 +164,9 @@ class _MyAppState extends State<MyApp> {
 
 
 
-## API参数说明
+# 九、API参数说明
 
-### `ChatViewWidget` 说明
+## `ChatViewWidget` 说明
 
 | 名称 | 类型 | 描述 | 默认值 |
 | :----: | :----: | :----: | :----: |
@@ -172,11 +176,11 @@ class _MyAppState extends State<MyApp> {
 | `isOpenPreviewImage` | `bool` | 是否开启图片预览  | `false` |
 
 
-### `ChatViewItem` 说明
+## `ChatViewItem` 说明
 
 
 
-#### 公共参数 API
+### 公共参数 API
 
 
 
@@ -184,33 +188,43 @@ class _MyAppState extends State<MyApp> {
 | :----: | :----: | :----: | :----: |
 | `itemBody` | `dynamic` | 内容。根据`itemBodyType`的类型不同时所传递的内容也不同。当 `itemBodyType = ChatViewItemRecordBodyType.audio`时可不传递，详细使用可参考案例。  | -- |
 | `senderRight` | `bool` | 是否为 右侧 己方  | `true` |
+| `customRecordTimeWidget` | `Widget` | 自定义时间记录 `widget` | -- |
+| `customRecordTimeStyle` | `TextStyle` | 自定义时间记录样式 | -- |
+| `chatViewItemRecordBodyBoxConstraints` | `BoxConstraints` | 内容主体约束 | -- |
+| `itemBodyType` | `ChatViewItemRecordBodyType` | 当前记录内容类型 | `文本｜text` |
+| `itemBodyRecordTime` | `String` | 记录时间 | -- |
+| `backgroundColor` | `Color` | 记录主体的背景色 | `Colors.white` |
+| `customItem` | `Widget` | 自定义记录主体 | -- |
+| `itemBodyTap` | `Function` | 内容主体点击事件 | -- |
+| `itemBodyMediaTap` | `Function(ChatViewItemRecordBodyType type)` | 文件、图片、音频 点击事件 | -- |
+| `textTypeModel` | `ChatViewItemTextTypeModel` | 文本类型配置内容 | -- |
+| `imageTypeModel` | `ChatViewItemImageTypeModel` | 图片类型配置内容 | -- |
+| `videoTypeModel` | `ChatViewItemVideoTypeModel` | 视频类型配置内容 | -- |
+| `fileTypeModel` | `ChatViewItemFileTypeModel` | 文件类型配置内容 | -- |
+| `audioTypeModel` | `ChatViewItemAudioTypeModel` | 音频类型配置内容 | -- |
+| `avatarModel` | `ChatViewItemAvatarModel` | 头像配置内容 | -- |
+
+
+#### 头像-`avatarModel` -> `ChatViewItemAvatarModel`
+
+| 名称 | 类型 | 描述 | 默认值 |
+| :----: | :----: | :----: | :----: |
 | `avatarPath` | `String` | 头像地址, 当未传递时，将采用 默认头像地址，若都未传递，则采用 自带的 icon 头像方案  | -- |
 | `defaultAvatarPath` | `String` | 默认头像地址 | -- |
 | `isAvatarShow` | `bool` | 是否展示头像 | `true` |
 | `avatarSize` | `double` | 头像大小 | 适配后的 `45` |
 | `avatarColor` | `Color` | 头像颜色 | -- |
 | `customAvatar` | `Widget` | 自定义头像 | -- |
-| `customRecordTimeWidget` | `Widget` | 自定义时间记录 `widget` | -- |
-| `customRecordTimeStyle` | `TextStyle` | 自定义时间记录样式 | -- |
-| `chatViewItemRecordBodyBoxConstraints` | `BoxConstraints` | 内容主体约束 | -- |
-| `itemBodyType` | `ChatViewItemRecordBodyType` | 当前记录内容类型 | `文本｜text` |
 | `customAvatarWidget` | `Widget` | 自定义头像 | -- |
-| `itemBodyRecordTime` | `String` | 记录时间 | -- |
-| `backgroundColor` | `Color` | 记录主体的背景色 | `Colors.white` |
-| `customItem` | `Widget` | 自定义记录主体 | -- |
 | `avatarTap` | `Function` | 头像点击回调 | -- |
-| `itemBodyTap` | `Function` | 内容主体点击事件 | -- |
-| `itemBodyMediaTap` | `Function(ChatViewItemRecordBodyType type)` | 文件、图片、音频 点击事件 | -- |
 
 
 
-
-
-#### 下方为不同类型的参数 API
+### 下方为不同类型的参数 API
 
 
 
-#### 文本
+#### 1、文本-`textTypeModel` -> `ChatViewItemTextTypeModel`
 
 
 
@@ -225,7 +239,7 @@ class _MyAppState extends State<MyApp> {
 
 
 
-#### 音频
+#### 2、音频-`audioTypeModel` -> `ChatViewItemAudioTypeModel`
 
 
 
@@ -236,7 +250,7 @@ class _MyAppState extends State<MyApp> {
 
 
 
-#### 图片
+#### 3、图片-`imageTypeModel` -> `ChatViewItemImageTypeModel`
 
 
 
@@ -248,21 +262,49 @@ class _MyAppState extends State<MyApp> {
 | `customLongPress` | `Function(BuildContext context)` | 自定义长按图片显示回调  | -- |
 
 
-
-#### 视频
-
+#### 4、文件-`fileTypeModel` -> `ChatViewItemFileTypeModel`
 
 
-暂不支持。
+暂无额外参数。
 
 
 
-## 联系作者
+#### 5、视频-`videoTypeModel` -> `ChatViewItemVideoTypeModel`
+
+
+| 名称 | 类型 | 描述 | 默认值 |
+| :----: | :----: | :----: | :----: |
+| `notPlayingWidget` | `Widget` | 未播放自定义 widget  | -- |
+| `playingFailWidget` | `Widget` | 播放错误自定义 widget  | -- |
+| `autoPlaying` | `bool` | 在界面展示时是否自动播放  | `true` |
+| `videoLoadFailCallback` | `void Function(Object error)` | 视频加载错误回调  | -- |
+
+
+
+##### **IOS 额外配置**
+
+针对 `IOS`，你需要在 `<project root>/ios/Runner/Info.plist` 路径下的 `Info.plist` 文件中加入如下配置。
+
+```plist
+<key>NSAppTransportSecurity</key>
+<dict>
+  <key>NSAllowsArbitraryLoads</key>
+  <true/>
+</dict>
+```
+
+|             | Android | iOS   | Web   | windows | macos | linux |
+|-------------|---------|-------|-------|---------|-------|-------|
+| **Support** | SDK 16+ | 11.0+ | Any\* | 不支持   | 不支持 | 不支持 |
+
+
+
+# 十、联系作者
 
 
 
 当您在使用的过程中遇到了问题，可点击[这里](https://github.com/xiaorui-23/chat_flutter)进行`issue`提出问题或者通过下方的联系方式联系我，看到您的联系时或提出的`issue`我将第一时间进行回复并联系您。
 
 - [github](https://github.com/xiaorui-23/chat_flutter)
-- [gitee](https://gitee.com/xiaorui-23/flutter_chat)
+- [gitee](https://gitee.com/xiaorui-23/chat_flutter)
 

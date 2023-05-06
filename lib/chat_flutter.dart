@@ -5,7 +5,9 @@ import 'package:chat_flutter/utils/chat_image_list/chat_image_list.dart';
 import 'package:flutter/widgets.dart';
 import 'package:chat_flutter/utils/screenutil/screenutil.dart';
 import 'package:chat_flutter/widgets/chat_view_item/chat_view_item.dart';
+
 export 'package:chat_flutter/widgets/chat_view_item/chat_view_item.dart';
+export 'package:chat_flutter/utils/parameter_model_set/parameter_model_set.dart';
 export 'package:chat_flutter/utils/chat_view_item_record_body_type/chat_view_item_record_body_type.dart';
 
 

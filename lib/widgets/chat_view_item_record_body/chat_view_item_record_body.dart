@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 import 'package:chat_flutter/utils/chat_image_list/chat_image_list.dart';
 import 'package:chat_flutter/utils/preview_image/preview_image.dart';
+import 'package:chat_flutter/widgets/video_box/video_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:chat_flutter/utils/chat_view_item_record_body_type/chat_view_item_record_body_type.dart';
@@ -12,7 +13,7 @@ import 'package:chat_flutter/widgets/custom_selection_area/custom_selection_area
 class ChatViewItemRecordBody extends StatefulWidget {
     
     /// 内容
-    final dynamic itemBody;
+    final String itemBody;
     /// 自定义记录 item 主体
     final Widget? customItem;
     /// 当前记录内容类型
@@ -35,6 +36,14 @@ class ChatViewItemRecordBody extends StatefulWidget {
     final BoxConstraints? chatViewItemRecordBodyBoxConstraints;
     /// 预览图片长按显示菜单
     final List<String>? previewImageLongPressMenu;
+    /// 未播放自定义 widget
+    final Widget? notPlayingWidget;
+    /// 播放错误自定义 widget
+    final Widget? playingFailWidget;
+    /// 在界面展示时是否自动播放
+    final bool autoPlaying;
+    /// 视频加载错误回调
+    final void Function(Object error)? videoLoadFailCallback;
     /// 预览图片菜单点击回调
     final void Function(String data, int index, List<String> menuList)? onPreviewImageTapMenu;
     /// 自定义预览图片回调
@@ -57,7 +66,7 @@ class ChatViewItemRecordBody extends StatefulWidget {
         this.senderRight = true,
         this.itemBodyType = ChatViewItemRecordBodyType.text,
         this.backgroundColor = Colors.white,
-        this.itemBody,
+        this.itemBody = '',
         this.customItem,
         this.itemBodyTextStyle,
         this.chatViewItemRecordBodyBoxConstraints,
@@ -70,6 +79,10 @@ class ChatViewItemRecordBody extends StatefulWidget {
         this.onSelectionChanged,
         this.contextMenuBuilder,
         this.audioTimelength = 0,
+        this.autoPlaying = true,
+        this.notPlayingWidget,
+        this.playingFailWidget,
+        this.videoLoadFailCallback,
         this.audioPlayStatus = false,
         this.createSelectableTextCallback,
         this.customPreviewImageCallback,
@@ -196,7 +209,7 @@ class _ChatViewItemRecordBodyState extends State<ChatViewItemRecordBody> {
         if (widget.itemBodyType == ChatViewItemRecordBodyType.image) {
             
             // 图片内容
-            final NetworkImage networkImage = NetworkImage('${widget.itemBody}');
+            final NetworkImage networkImage = NetworkImage(widget.itemBody);
             // 预览图片需要的内容
             final ChatImageListUtils chatImageListUtils = ChatImageListUtils(id: math.Random().nextInt(99) * DateTime.now().microsecondsSinceEpoch, imageProvider: networkImage);
             // 添加状态
@@ -233,7 +246,7 @@ class _ChatViewItemRecordBodyState extends State<ChatViewItemRecordBody> {
 
                                 // 自定义预览回调
                                 if (widget.customPreviewImageCallback != null){
-                                    widget.customPreviewImageCallback!('${widget.itemBody}');
+                                    widget.customPreviewImageCallback!(widget.itemBody);
                                     return;
                                 }
 
@@ -319,7 +332,7 @@ class _ChatViewItemRecordBodyState extends State<ChatViewItemRecordBody> {
                                 left: sw(10)
                             ),
                             child: Text(
-                                '${widget.itemBody ?? ""}',
+                                widget.itemBody,
                                 softWrap: true,
                                 style: widget.itemBodyTextStyle ?? TextStyle (
                                     color: const Color(0xff1989fa),
@@ -345,10 +358,28 @@ class _ChatViewItemRecordBodyState extends State<ChatViewItemRecordBody> {
                 ),
             );
         }
+        // 视频
+        else if (widget.itemBodyType == ChatViewItemRecordBodyType.video) {
+            return GestureDetector(
+                onTap: () {
+                    if (widget.itemBodyMediaTap != null){
+                        widget.itemBodyMediaTap!(ChatViewItemRecordBodyType.video);
+                    }
+                },
+                child: VideoBox(
+                    videoPath: widget.itemBody,
+                    backgroundColor: widget.backgroundColor,
+                    autoPlaying: widget.autoPlaying,
+                    notPlayingWidget: widget.notPlayingWidget,
+                    playingFailWidget: widget.playingFailWidget,
+                    videoLoadFailCallback: widget.videoLoadFailCallback,
+                ),
+            );
+        }
         // 文字
         else {
             return Text(
-                '${widget.itemBody}',
+                widget.itemBody,
                 textAlign: TextAlign.left,
                 softWrap: true,
                 style: widget.itemBodyTextStyle ?? TextStyle(
@@ -362,7 +393,7 @@ class _ChatViewItemRecordBodyState extends State<ChatViewItemRecordBody> {
 
 
 /// 需要排除样式内容显示的内容类型
-bool excludeContentType (ChatViewItemRecordBodyType type) => [ChatViewItemRecordBodyType.image].contains(type);
+bool excludeContentType (ChatViewItemRecordBodyType type) => [ChatViewItemRecordBodyType.image, ChatViewItemRecordBodyType.video].contains(type);
 
 
 
