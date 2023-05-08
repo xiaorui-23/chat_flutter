@@ -6,9 +6,10 @@
 这是一个纯 `dart` 开发的开发的 聊天记录 列表展示的组件包，支持图片、文件、语音、文字、视频的基础内容展示。
 
 
-
-
 [English](https://github.com/xiaorui-23/chat_flutter/blob/master/README.md)
+
+
+> 推荐您通过`onCreated`回调中的`chatViewWidgetController`控制器对记录列表进行`add`、`remove`等操作。
 
 
 

@@ -11,6 +11,9 @@ This is a component package developed purely for `dart` to display chat record l
 [中文简体](https://github.com/xiaorui-23/chat_flutter/blob/master/README_CN.md)
 
 
+> We recommend that you use the `chatViewWidgetController` controller in the `onCreated` callback to perform operations such as `add`、 `remove` on the record list.
+
+
 
 # Rendering
 
