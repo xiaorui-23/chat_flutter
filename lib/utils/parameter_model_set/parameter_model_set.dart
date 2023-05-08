@@ -16,9 +16,9 @@ class ChatViewItemTextTypeModel {
     /// 记录主体的文字样式
     final TextStyle? itemBodyTextStyle;
     /// 显示的工具菜单
-    final Widget Function(BuildContext context, SelectableRegionState selectableRegionState)? contextMenuBuilder;
+    final Widget Function(BuildContext context, EditableTextState editableTextState)? contextMenuBuilder;
     /// 长按文字菜单选择回调
-    final void Function(SelectedContent?)? onSelectionChanged;
+    final void Function(TextSelection selection, SelectionChangedCause? cause)? onSelectionChanged;
     /// 可选文字内容 widget 创建时的回调
     final void Function(FocusNode focusNode)? createSelectableTextCallback;
 
@@ -62,11 +62,15 @@ class ChatViewItemVideoTypeModel {
     /// 在界面展示时是否自动播放
     /// * 默认值：true
     final bool autoPlaying;
+    /// 是否启用全屏播放
+    /// * 默认值：true
+    final bool isOpenFullScreenPlay;
     /// 视频加载错误回调
     final void Function(Object error)? videoLoadFailCallback;
 
     ChatViewItemVideoTypeModel({
         this.autoPlaying = true,
+        this.isOpenFullScreenPlay = true,
         this.notPlayingWidget,
         this.playingFailWidget,
         this.videoLoadFailCallback,

@@ -8,8 +8,8 @@ import 'package:chat_flutter/widgets/avatar/avatar.dart';
 import 'package:chat_flutter/widgets/chat_view_item_record_body/chat_view_item_record_body.dart';
 
 /// 记录项 item
-class ChatViewItem extends StatelessWidget {
-    /// 内容
+class ChatViewItem extends StatefulWidget {
+  /// 内容
     final String? itemBody;
     /// 自定义记录 item 主体
     final Widget? customItem;
@@ -49,17 +49,6 @@ class ChatViewItem extends StatelessWidget {
     final void Function(ChatViewItemRecordBodyType type)? itemBodyTap;
     /// 文件、图片、音频、视频 点击事件
     final void Function(ChatViewItemRecordBodyType type)? itemBodyMediaTap;
-
-
-    ChatViewItemAvatarModel get _avatarModel => avatarModel ?? ChatViewItemAvatarModel();
-
-    ChatViewItemTextTypeModel get _textTypeModel => textTypeModel ?? ChatViewItemTextTypeModel();
-    ChatViewItemImageTypeModel get _imageTypeModel => imageTypeModel ?? ChatViewItemImageTypeModel();
-    ChatViewItemVideoTypeModel get _videoTypeModel => videoTypeModel ?? ChatViewItemVideoTypeModel();
-    // 暂不支持额外参数
-    // ChatViewItemFileTypeModel get _fileTypeModel => fileTypeModel ?? ChatViewItemFileTypeModel();
-    ChatViewItemAudioTypeModel get _audioTypeModel => audioTypeModel ?? ChatViewItemAudioTypeModel();
-    
     
     const ChatViewItem({
         super.key,
@@ -83,12 +72,32 @@ class ChatViewItem extends StatelessWidget {
     });
 
     @override
+    State<ChatViewItem> createState() => _ChatViewItemState();
+}
+
+class _ChatViewItemState extends State<ChatViewItem> with AutomaticKeepAliveClientMixin {
+    
+    ChatViewItemAvatarModel get _avatarModel => widget.avatarModel ?? ChatViewItemAvatarModel();
+
+    ChatViewItemTextTypeModel get _textTypeModel => widget.textTypeModel ?? ChatViewItemTextTypeModel();
+    ChatViewItemImageTypeModel get _imageTypeModel => widget.imageTypeModel ?? ChatViewItemImageTypeModel();
+    ChatViewItemVideoTypeModel get _videoTypeModel => widget.videoTypeModel ?? ChatViewItemVideoTypeModel();
+    // 暂不支持额外参数
+    ChatViewItemFileTypeModel get _fileTypeModel => widget.fileTypeModel ?? ChatViewItemFileTypeModel();
+    ChatViewItemAudioTypeModel get _audioTypeModel => widget.audioTypeModel ?? ChatViewItemAudioTypeModel();
+
+    @override
+    bool get wantKeepAlive => true;
+
+    @override
     Widget build(BuildContext context) {
+        super.build(context);
+        
         return Column(
             children: [
                 // 记录时间
-                if (customRecordTimeWidget != null) customRecordTimeWidget!,
-                if(itemBodyRecordTime != null)
+                if (widget.customRecordTimeWidget != null) widget.customRecordTimeWidget!,
+                if(widget.itemBodyRecordTime != null)
                     Container(
                         width: sw(375),
                         margin: EdgeInsets.only(
@@ -97,9 +106,9 @@ class ChatViewItem extends StatelessWidget {
                         ),
                         alignment: Alignment.center,
                         child: Text(
-                            itemBodyRecordTime!,
+                            widget.itemBodyRecordTime!,
                             textAlign: TextAlign.center,
-                            style: customRecordTimeStyle ?? TextStyle(
+                            style: widget.customRecordTimeStyle ?? TextStyle(
                                 fontSize: sf(14),
                                 color: const Color.fromARGB(255, 183, 182, 182)
                             ),
@@ -109,11 +118,12 @@ class ChatViewItem extends StatelessWidget {
                 SizedBox(
                     width: sw(375),
                     child: Row(
-                        mainAxisAlignment: senderRight ? MainAxisAlignment.end : MainAxisAlignment.start,
+                        mainAxisAlignment: widget.senderRight ? MainAxisAlignment.end : MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
                         children: [
                             // 对方
-                            if (!senderRight)
+                            if (!widget.senderRight)
                                 Container(
                                     margin: EdgeInsets.only(
                                         top: sh(10)
@@ -130,37 +140,23 @@ class ChatViewItem extends StatelessWidget {
                                 ),
                             // 消息内容
                             ChatViewItemRecordBody(
-                                senderRight: senderRight,
-                                itemBodyType: itemBodyType,
-                                backgroundColor: backgroundColor,
-                                itemBody: itemBody.toString(),
-                                itemBodyTap: itemBodyTap,
-                                itemBodyMediaTap: itemBodyMediaTap,
-                                chatViewItemRecordBodyBoxConstraints: chatViewItemRecordBodyBoxConstraints,
-                                customItem: customItem,
-
-                                selectionControls: _textTypeModel.selectionControls,
-                                isOpenTextSelect: _textTypeModel.isOpenTextSelect,
-                                contextMenuBuilder: _textTypeModel.contextMenuBuilder,
-                                onSelectionChanged: _textTypeModel.onSelectionChanged,
-                                createSelectableTextCallback: _textTypeModel.createSelectableTextCallback,
-                                itemBodyTextStyle: _textTypeModel.itemBodyTextStyle,
-
-                                audioPlayStatus: _audioTypeModel.audioPlayStatus,
-                                audioTimelength: _audioTypeModel.audioTimelength,
-
-                                previewImageLongPressMenu: _imageTypeModel.previewImageLongPressMenu,
-                                onPreviewImageTapMenu: _imageTypeModel.onPreviewImageTapMenu,
-                                customPreviewImageCallback: _imageTypeModel.customPreviewImageCallback,
-                                customLongPress: _imageTypeModel.customLongPress,
-
-                                autoPlaying: _videoTypeModel.autoPlaying,
-                                notPlayingWidget: _videoTypeModel.notPlayingWidget,
-                                playingFailWidget: _videoTypeModel.playingFailWidget,
-                                videoLoadFailCallback: _videoTypeModel.videoLoadFailCallback,
+                                senderRight: widget.senderRight,
+                                itemBodyType: widget.itemBodyType,
+                                backgroundColor: widget.backgroundColor,
+                                itemBody: (widget.itemBody ?? '').toString(),
+                                itemBodyTap: widget.itemBodyTap,
+                                itemBodyMediaTap: widget.itemBodyMediaTap,
+                                chatViewItemRecordBodyBoxConstraints: widget.chatViewItemRecordBodyBoxConstraints,
+                                customItem: widget.customItem,
+        
+                                textTypeModel: _textTypeModel,
+                                audioTypeModel: _audioTypeModel,
+                                imageTypeModel: _imageTypeModel,
+                                videoTypeModel: _videoTypeModel,
+                                fileTypeModel: _fileTypeModel,
                             ),
                             // 己方
-                            if (senderRight)
+                            if (widget.senderRight)
                                 Container(
                                     margin: EdgeInsets.only(
                                         top: sh(10)

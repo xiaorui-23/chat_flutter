@@ -36,7 +36,7 @@
 - 文件 -> file
 - 文字 -> text
 - 音频 -> audio
-- 视频 -> video  <--> 暂不支持
+- 视频 -> video
 
 
 
@@ -196,7 +196,7 @@ class _MyAppState extends State<MyApp> {
 | `backgroundColor` | `Color` | 记录主体的背景色 | `Colors.white` |
 | `customItem` | `Widget` | 自定义记录主体 | -- |
 | `itemBodyTap` | `Function` | 内容主体点击事件 | -- |
-| `itemBodyMediaTap` | `Function(ChatViewItemRecordBodyType type)` | 文件、图片、音频 点击事件 | -- |
+| `itemBodyMediaTap` | `Function(ChatViewItemRecordBodyType type)` | 文件、图片、音频、视频 点击事件 | -- |
 | `textTypeModel` | `ChatViewItemTextTypeModel` | 文本类型配置内容 | -- |
 | `imageTypeModel` | `ChatViewItemImageTypeModel` | 图片类型配置内容 | -- |
 | `videoTypeModel` | `ChatViewItemVideoTypeModel` | 视频类型配置内容 | -- |
@@ -209,7 +209,7 @@ class _MyAppState extends State<MyApp> {
 
 | 名称 | 类型 | 描述 | 默认值 |
 | :----: | :----: | :----: | :----: |
-| `avatarPath` | `String` | 头像地址, 当未传递时，将采用 默认头像地址，若都未传递，则采用 自带的 icon 头像方案  | -- |
+| `avatarPath` | `String` | 头像地址, 当未传递时，将采用 默认头像地址，若都未传递，则采用 自带的 `icon` 头像方案  | -- |
 | `defaultAvatarPath` | `String` | 默认头像地址 | -- |
 | `isAvatarShow` | `bool` | 是否展示头像 | `true` |
 | `avatarSize` | `double` | 头像大小 | 适配后的 `45` |
@@ -233,8 +233,8 @@ class _MyAppState extends State<MyApp> {
 | `selectionControls` | `TextSelectionControls` | 文本选择控制器。当 `isOpenTextSelect` 开启有效。 | -- |
 | `itemBodyTextStyle` | `TextStyle` | 记录主体的文字样式 | `TextStyle (color: const Color(0xff1989fa),fontSize: 16` |
 | `isOpenTextSelect` | `bool` | 是否打开长按文字菜单 | `true` |
-| `contextMenuBuilder` | `Widget Function(BuildContext context, SelectableRegionState selectableRegionState)` | 显示的工具菜单 | -- |
-| `onSelectionChanged` | `Function(SelectedContent?)` | 长按文字菜单选择回调 | -- |
+| `contextMenuBuilder` | `Widget Function(BuildContext context, EditableTextState editableTextState)` | 显示的工具菜单 | -- |
+| `onSelectionChanged` | `void Function(TextSelection selection, SelectionChangedCause? cause)` | 长按文字菜单选择回调 | -- |
 | `createSelectableTextCallback` | `Function(FocusNode focusNode)` | 可选文字内容 `widget` 创建时的回调 | -- |
 
 

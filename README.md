@@ -36,7 +36,7 @@ The display content supports the following basic content:
 - 文件 -> file
 - 文字 -> text
 - 音频 -> audio
-- 视频 -> video  <--> Not currently supported
+- 视频 -> video
 
 
 
@@ -209,7 +209,7 @@ If you feel that the cases and usage assistance provided on this page cannot hel
 
 | Name | Type | Describe | Default value |
 | :----: | :----: | :----: | :----: |
-| `avatarPath` | `String` | The avatar address will be the default one when it is not delivered. If it is not delivered, the built-in icon avatar scheme will be used  | -- |
+| `avatarPath` | `String` | The avatar address will be the default one when it is not delivered. If it is not delivered, the built-in `icon` avatar scheme will be used  | -- |
 | `defaultAvatarPath` | `String` | Default avatar address | -- |
 | `isAvatarShow` | `bool` | Is the avatar displayed | `true` |
 | `avatarSize` | `double` | Avatar size | Adapted `45` |
@@ -231,8 +231,8 @@ If you feel that the cases and usage assistance provided on this page cannot hel
 | `selectionControls` | `TextSelectionControls` | Text selection controller. When `isOpenTextSelect` the activation is valid. | -- |
 | `itemBodyTextStyle` | `TextStyle` | Record the text style of the main body | `TextStyle (color: const Color(0xff1989fa),fontSize: 16` |
 | `isOpenTextSelect` | `bool` | Do you want to open the long press text menu | `true` |
-| `contextMenuBuilder` | `Widget Function(BuildContext context, SelectableRegionState selectableRegionState)` | Displayed Tools Menu | -- |
-| `onSelectionChanged` | `Function(SelectedContent?)` | Long press the text menu to select a callback | -- |
+| `contextMenuBuilder` | `Widget Function(BuildContext context, EditableTextState editableTextState)` | Displayed Tools Menu | -- |
+| `onSelectionChanged` | `void Function(TextSelection selection, SelectionChangedCause? cause)` | Long press the text menu to select a callback | -- |
 | `createSelectableTextCallback` | `Function(FocusNode focusNode)` | Optional Text Content `widget` callback during creation | -- |
 
 
