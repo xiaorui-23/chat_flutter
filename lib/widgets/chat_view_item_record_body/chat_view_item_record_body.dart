@@ -9,7 +9,7 @@ import 'package:chat_flutter/widgets/audio_box/audio_box.dart';
 import 'package:chat_flutter/widgets/custom_selection_area/custom_selection_area.dart';
 
 /// 内容主体
-class ChatViewItemRecordBody extends StatefulWidget {
+class ChatViewItemRecordBody extends StatelessWidget {
     
     /// 内容
     final String itemBody;
@@ -58,119 +58,123 @@ class ChatViewItemRecordBody extends StatefulWidget {
     });
 
     
-    @override
-    State<ChatViewItemRecordBody> createState() => _ChatViewItemRecordBodyState();
-}
-
-class _ChatViewItemRecordBodyState extends State<ChatViewItemRecordBody> {
     /// 图片加载失败状态
     /// * true 为加载失败
-    bool _imageLoadFailStatus = false;
+    static final Map<String, int> _imageLoadFailStatus = {'value': 0};
 
     @override
     Widget build(BuildContext context) {
-        return Container(
-            padding: EdgeInsets.only(
-                top: sh(10),
-                bottom: sh(10)
-            ),
-            child: Stack(
-                children: [
-                    widget.customItem ?? Container(
-                        margin: EdgeInsets.only(
-                            right: sw(widget.senderRight ? 23 : 0),
-                            left: sw(!widget.senderRight ? 23 : 0)
-                        ),
-                        padding: excludeContentType(widget.itemBodyType) && !_imageLoadFailStatus ? null :  EdgeInsets.only(
-                            left: sw(10),
-                            right: sw(10),
-                            top: sh(10),
-                            bottom: sh(10)
-                        ),
-                        constraints: widget.chatViewItemRecordBodyBoxConstraints ?? BoxConstraints(
-                            maxWidth: sw(170),
-                            minHeight: sh(35),
-                        ),
-                        decoration: excludeContentType(widget.itemBodyType) && !_imageLoadFailStatus ? null : BoxDecoration(
-                            color: widget.backgroundColor,
-                            borderRadius: BorderRadius.all(Radius.circular(sr(10))),
-                        ),
-                        child: GestureDetector(
-                            onTap: () {
-                                if(widget.itemBodyTap != null){
-                                    widget.itemBodyTap!(widget.itemBodyType);
-                                }
-                            },
-                            child: _typeHandlerWidget(
-                                onImageError: (exception, stackTrace) {
-                                    _imageLoadFailStatus = true;
-                    
-                                    if (mounted){
-                                        setState(() {});
-                                    }
-                                },
-                            )
-                        ),
+        return StatefulBuilder(
+            builder: (buildContext, setState) {
+                return Container(
+                    padding: EdgeInsets.only(
+                        top: sh(10),
+                        bottom: sh(10)
                     ),
-                    // 箭头图标
-                    if (widget.customItem == null && (!excludeContentType(widget.itemBodyType) || _imageLoadFailStatus))
-                        Positioned(
-                            top: sh(10),
-                            right: widget.senderRight ? 0 : null,
-                            left: !widget.senderRight ? 0 : null,
-                            child: Container(
-                                decoration: BoxDecoration(
-                                    border:  Border(
-                                        bottom: BorderSide(
-                                            width: sw(12),
-                                            color: Colors.transparent,
-                                        ),
-                                        top: BorderSide(
-                                            width: sw(12),
-                                            color: Colors.transparent,
-                                        ),
-                                        left: BorderSide(
-                                            width: sw(12),
-                                            color: widget.senderRight ? widget.backgroundColor : Colors.transparent,
-                                        ),
-                                        right: BorderSide(
-                                            width: sw(12),
-                                            color: !widget.senderRight ? widget.backgroundColor : Colors.transparent,
-                                        )
+                    child: Stack(
+                        children: [
+                            customItem ?? Container(
+                                margin: EdgeInsets.only(
+                                    right: sw(senderRight ? 15 : 0),
+                                    left: sw(!senderRight ? 15 : 0)
+                                ),
+                                padding: _excludeContentType(itemBodyType) && _imageLoadFailStatus['value'] == 0 ? null :  EdgeInsets.only(
+                                    left: sw(10),
+                                    right: sw(10),
+                                    top: sh(10),
+                                    bottom: sh(10)
+                                ),
+                                constraints: chatViewItemRecordBodyBoxConstraints ?? BoxConstraints(
+                                    maxWidth: sw(170),
+                                    minHeight: sh(35),
+                                ),
+                                decoration: _excludeContentType(itemBodyType) && _imageLoadFailStatus['value'] == 0 ? null : BoxDecoration(
+                                    color: backgroundColor,
+                                    borderRadius: BorderRadius.all(Radius.circular(sr(10))),
+                                ),
+                                child: GestureDetector(
+                                    onTap: () {
+                                        if(itemBodyTap != null){
+                                            itemBodyTap!(itemBodyType);
+                                        }
+                                    },
+                                    child: _typeHandlerWidget(
+                                        onImageError: (exception, stackTrace) {
+                                            _imageLoadFailStatus['value'] = 1;
+                            
+                                            if (buildContext.mounted){
+                                                setState(() {});
+                                            }
+                                        },
                                     )
                                 ),
-                            )
-                        ),
-                    // 
-                ],
-            ),
+                            ),
+                            // 箭头图标
+                            if (customItem == null && (_imageLoadFailStatus['value'] == 1 || !_excludeContentType(itemBodyType)))
+                                Positioned(
+                                    top: sh(7),
+                                    right: senderRight ? sw(-5) : null,
+                                    left: !senderRight ? sw(-5) : null,
+                                    child: ClipRect(
+                                        clipper: _ClipperPath(
+                                            senderRight: senderRight
+                                        ),
+                                        child: Container(
+                                            decoration: BoxDecoration(
+                                                border:  Border(
+                                                    bottom: BorderSide(
+                                                        width: sw(10),
+                                                        color: Colors.transparent,
+                                                    ),
+                                                    top: BorderSide(
+                                                        width: sw(10),
+                                                        color: Colors.transparent,
+                                                    ),
+                                                    left: BorderSide(
+                                                        width: sw(10),
+                                                        color: senderRight ? backgroundColor : Colors.transparent,
+                                                    ),
+                                                    right: BorderSide(
+                                                        width: sw(10),
+                                                        color: !senderRight ? backgroundColor : Colors.transparent,
+                                                    )
+                                                )
+                                            ),
+                                        ),
+                                    )
+                                ),
+                            // 
+                        ],
+                    ),
+                );
+            }
         );
     }
 
     /// 根据 记录类型返回对应 widget
     Widget _typeHandlerWidget ({Function(Object exception, StackTrace? stackTrace)? onImageError}) {
         // 图片
-        if (widget.itemBodyType == ChatViewItemRecordBodyType.image) {
+        if (itemBodyType == ChatViewItemRecordBodyType.image) {
             return GestureDetector(
                 onTap: () {
-                    if (widget.itemBodyMediaTap != null){
-                        widget.itemBodyMediaTap!(ChatViewItemRecordBodyType.image);
+                    if (itemBodyMediaTap != null){
+                        itemBodyMediaTap!(ChatViewItemRecordBodyType.image);
                     }
                 },
                 child: ImageBox(
-                    imageLoadFailStatus: _imageLoadFailStatus,
-                    imagePath: widget.itemBody,
-                    imageTypeModel: widget.imageTypeModel,
+                    imageLoadFailStatus: _imageLoadFailStatus['value'] == 1,
+                    imagePath: itemBody,
+                    imageTypeModel: imageTypeModel,
                     onImageError: onImageError,
                 ),
             );
         }
         // 文件
-        else if (widget.itemBodyType == ChatViewItemRecordBodyType.file) {
+        else if (itemBodyType == ChatViewItemRecordBodyType.file) {
             return GestureDetector(
                 onTap: () {
-                    if (widget.itemBodyMediaTap != null){
-                        widget.itemBodyMediaTap!(ChatViewItemRecordBodyType.file);
+                    if (itemBodyMediaTap != null){
+                        itemBodyMediaTap!(ChatViewItemRecordBodyType.file);
                     }
                 },
                 child: Row(
@@ -191,9 +195,9 @@ class _ChatViewItemRecordBodyState extends State<ChatViewItemRecordBody> {
                                 left: sw(10)
                             ),
                             child: Text(
-                                widget.itemBody,
+                                itemBody,
                                 softWrap: true,
-                                style: widget.textTypeModel.itemBodyTextStyle ?? TextStyle (
+                                style: textTypeModel.itemBodyTextStyle ?? TextStyle (
                                     color: const Color(0xff1989fa),
                                     fontSize: sf(16)
                                 ),
@@ -204,52 +208,52 @@ class _ChatViewItemRecordBodyState extends State<ChatViewItemRecordBody> {
             );
         }
         // 音频
-        else if (widget.itemBodyType == ChatViewItemRecordBodyType.audio) {
+        else if (itemBodyType == ChatViewItemRecordBodyType.audio) {
             return GestureDetector(
                 onTap: () {
-                    if (widget.itemBodyMediaTap != null){
-                        widget.itemBodyMediaTap!(ChatViewItemRecordBodyType.audio);
+                    if (itemBodyMediaTap != null){
+                        itemBodyMediaTap!(ChatViewItemRecordBodyType.audio);
                     }
                 },
                 child: AudioBox(
-                    audioTimelength: widget.audioTypeModel.audioTimelength,
-                    audioPlayStatus: widget.audioTypeModel.audioPlayStatus,
+                    audioTimelength: audioTypeModel.audioTimelength,
+                    audioPlayStatus: audioTypeModel.audioPlayStatus,
                 ),
             );
         }
         // 视频
-        else if (widget.itemBodyType == ChatViewItemRecordBodyType.video) {
+        else if (itemBodyType == ChatViewItemRecordBodyType.video) {
             return GestureDetector(
                 onTap: () {
-                    if (widget.itemBodyMediaTap != null){
-                        widget.itemBodyMediaTap!(ChatViewItemRecordBodyType.video);
+                    if (itemBodyMediaTap != null){
+                        itemBodyMediaTap!(ChatViewItemRecordBodyType.video);
                     }
                 },
                 child: VideoBox(
-                    videoPath: widget.itemBody,
-                    backgroundColor: widget.backgroundColor,
-                    autoPlaying: widget.videoTypeModel.autoPlaying,
-                    notPlayingWidget: widget.videoTypeModel.notPlayingWidget,
-                    playingFailWidget: widget.videoTypeModel.playingFailWidget,
-                    isOpenFullScreenPlay: widget.videoTypeModel.isOpenFullScreenPlay,
-                    videoLoadFailCallback: widget.videoTypeModel.videoLoadFailCallback,
+                    videoPath: itemBody,
+                    backgroundColor: backgroundColor,
+                    autoPlaying: videoTypeModel.autoPlaying,
+                    notPlayingWidget: videoTypeModel.notPlayingWidget,
+                    playingFailWidget: videoTypeModel.playingFailWidget,
+                    isOpenFullScreenPlay: videoTypeModel.isOpenFullScreenPlay,
+                    videoLoadFailCallback: videoTypeModel.videoLoadFailCallback,
                 ),
             );
         }
         // 文字
         else {
             return CustomSelectionArea(
-                isOpen: widget.textTypeModel.isOpenTextSelect && widget.itemBodyType == ChatViewItemRecordBodyType.text,
-                itemBodyTextStyle: widget.textTypeModel.itemBodyTextStyle,
-                onSelectionChanged: widget.textTypeModel.onSelectionChanged,
-                contextMenuBuilder: widget.textTypeModel.contextMenuBuilder,
-                selectionControls: widget.textTypeModel.selectionControls,
-                createSelectableTextCallback: widget.textTypeModel.createSelectableTextCallback,
+                isOpen: textTypeModel.isOpenTextSelect && itemBodyType == ChatViewItemRecordBodyType.text,
+                itemBodyTextStyle: textTypeModel.itemBodyTextStyle,
+                onSelectionChanged: textTypeModel.onSelectionChanged,
+                contextMenuBuilder: textTypeModel.contextMenuBuilder,
+                selectionControls: textTypeModel.selectionControls,
+                createSelectableTextCallback: textTypeModel.createSelectableTextCallback,
                 child: Text(
-                    widget.itemBody,
+                    itemBody,
                     textAlign: TextAlign.left,
                     softWrap: true,
-                    style: widget.textTypeModel.itemBodyTextStyle ?? TextStyle(
+                    style: textTypeModel.itemBodyTextStyle ?? TextStyle(
                         fontSize: sf(15),
                         color: Colors.black
                     )
@@ -261,7 +265,30 @@ class _ChatViewItemRecordBodyState extends State<ChatViewItemRecordBody> {
 
 
 /// 需要排除样式内容显示的内容类型
-bool excludeContentType (ChatViewItemRecordBodyType type) => [ChatViewItemRecordBodyType.image, ChatViewItemRecordBodyType.video].contains(type);
+/// true 表示属于需要排除的样式的内容类型
+bool _excludeContentType (ChatViewItemRecordBodyType type) => [ChatViewItemRecordBodyType.image, ChatViewItemRecordBodyType.video].contains(type);
+
+/// 裁切
+class _ClipperPath extends CustomClipper<Rect>{
+    /// 是否为己方
+    /// * true 为己方
+    final bool senderRight;
+
+    _ClipperPath({
+        required this.senderRight
+    });
+
+    @override
+    Rect getClip(Size size) => Rect.fromLTRB(
+        sw(!senderRight ? 10 : 0), 
+        0, 
+        senderRight ? size.width - sw(10) : size.width, 
+        size.height
+    );
+
+    @override
+    bool shouldReclip(CustomClipper<Rect> oldClipper) => true;
+}
 
 
 

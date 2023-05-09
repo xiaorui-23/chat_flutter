@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:chat_flutter/utils/screenutil/screenutil.dart';
 
 /// 头像
-class Avatar extends StatefulWidget {
+class Avatar extends StatelessWidget {
 
     /// 头像地址
     final String? avatarPath;
@@ -31,18 +31,6 @@ class Avatar extends StatefulWidget {
         this.customAvatarWidget
     });
 
-
-    @override
-    State<Avatar> createState() => _AvatarState();
-}
-
-class _AvatarState extends State<Avatar> {
-    
-    /// 头像加载失败状态
-    bool _avatarErrorStatus = false;
-    /// 默认头像加载失败状态
-    bool _defaultAvatarErrorStatus = false;
-
     /// 头像地址处理
     /// * [_avatarPath] 头像地址
     /// * [_defaultAvatarPath] 默认头像地址
@@ -53,11 +41,6 @@ class _AvatarState extends State<Avatar> {
         bool isAssetsPath = true;
         // 当前需要使用的地址
         String currentUsePath = tempAvatarPath ?? tampDefaultAvatarPath ?? '';
-
-        // 头像加载失败，采用默认头像
-        if (_avatarErrorStatus) {
-            currentUsePath = tampDefaultAvatarPath ?? '';
-        }
 
         // 判断当前地址是否使用默认地址
         if (tempAvatarPath != null){
@@ -78,43 +61,39 @@ class _AvatarState extends State<Avatar> {
         return NetworkImage(currentUsePath);
     }
     
+    ImageProvider get _imageProvider => _handlerAvatarPath (avatarPath, defaultAvatarPath);
+
     @override
     Widget build(BuildContext context) {
-        return StatefulBuilder(
-            builder: (BuildContext context, setState) {
-                return widget.isAvatarShow ? GestureDetector(
-                    onTap: widget.avatarTap,
-                    child: widget.customAvatarWidget ?? Container(
-                        width: widget.avatarSize ?? sz(45),
-                        height: widget.avatarSize ?? sz(45),
-                        decoration: (widget.avatarPath != null || widget.defaultAvatarPath != null || !_avatarErrorStatus || !_defaultAvatarErrorStatus) ? BoxDecoration(
-                            image:  DecorationImage(
-                                fit: BoxFit.cover,
-                                image: _handlerAvatarPath (widget.avatarPath, widget.defaultAvatarPath),
-                                onError: (exception, stackTrace) {
-                                    if (_avatarErrorStatus) {
-                                        _defaultAvatarErrorStatus = true;
-                                    } else {
-                                        _avatarErrorStatus = true;
-                                    }
+        if (!isAvatarShow){
+            return Container();
+        }
 
-                                    Future.delayed(const Duration(milliseconds: 300), () {
-                                        if(mounted) {
-                                            setState(() {});
-                                        }
-                                    });
-                                },
-                            ),
-                            borderRadius: BorderRadius.circular(widget.avatarSize ?? sz(45))
-                        ) : null,
-                        child: ((widget.avatarPath == null && widget.defaultAvatarPath == null) || (_avatarErrorStatus && _defaultAvatarErrorStatus)) ? Icon(
+        return GestureDetector(
+            onTap: avatarTap,
+            child: customAvatarWidget ?? Container(
+                width: avatarSize ?? sz(45),
+                height: avatarSize ?? sz(45),
+                clipBehavior: Clip.antiAlias,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(avatarSize ?? sz(45))
+                ),
+                child: Image(
+                    width: avatarSize ?? sz(45),
+                    height: avatarSize ?? sz(45),
+                    fit: BoxFit.cover,
+                    image: _imageProvider,
+                    errorBuilder:(context, error, stackTrace) {
+                        return Icon(
                             Icons.account_circle,
-                            size: widget.avatarSize ?? sz(45),
-                            color: widget.avatarColor,
-                        ) : null,
-                    ),
-                ) : Container();
-            }
+                            size: avatarSize ?? sz(45),
+                            color: avatarColor,
+                        );
+                    },
+                ),
+            ),
         );
     }
 }
+
+

@@ -1,7 +1,7 @@
 
 ## 2.0.0
 
-- Optimize known issues.
+- Optimize known issues and some performance issues.
 
 - Reconstructed and assembled `ChatViewItem` parameter transfer to enhance code reading visualization. <br />
 Integration of parameter content based on message display type and avator.

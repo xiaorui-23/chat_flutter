@@ -93,11 +93,11 @@ class _MyAppState extends State<MyApp> {
             //     autoPlaying: true,
             // ),
         ),
-        // const ChatViewItem(
-        //     senderRight: false,
-        //     itemBodyType: ChatViewItemRecordBodyType.image,
-        //     itemBody: "https://img1.baidu.com",
-        // ),
+        const ChatViewItem(
+            senderRight: false,
+            itemBodyType: ChatViewItemRecordBodyType.image,
+            itemBody: "https://img1.baidu.com",
+        ),
         ChatViewItem(
             senderRight: false,
             avatarModel: ChatViewItemAvatarModel(
@@ -144,7 +144,7 @@ class _MyAppState extends State<MyApp> {
                                 child: 
                                 ChatViewWidget(
                                     isNeedScrollBottom: true,
-                                    // isOpenPreviewImage: true,
+                                    isOpenPreviewImage: true,
                                     children: chatRecordList,
                                     onCreated:(chatViewWidgetListViewController, chatViewWidgetController) {
 
@@ -153,7 +153,7 @@ class _MyAppState extends State<MyApp> {
                                             chatViewWidgetController.add(const ChatViewItem(
                                                 senderRight: false,
                                                 itemBodyType: ChatViewItemRecordBodyType.image,
-                                                itemBody: "https://img1.baidu.com/it/u=3007048469,3759326707&fm=253&fmt=auto&app=120&f=JPEG?w=889&h=500",
+                                                itemBody: "https://pic35.photophoto.cn/20150511/0034034892281415_b.jpg",
                                             ));
                                         });
                                     },

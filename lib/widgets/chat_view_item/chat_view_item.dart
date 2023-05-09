@@ -8,7 +8,7 @@ import 'package:chat_flutter/widgets/avatar/avatar.dart';
 import 'package:chat_flutter/widgets/chat_view_item_record_body/chat_view_item_record_body.dart';
 
 /// 记录项 item
-class ChatViewItem extends StatefulWidget {
+class ChatViewItem extends StatelessWidget {
   /// 内容
     final String? itemBody;
     /// 自定义记录 item 主体
@@ -71,62 +71,39 @@ class ChatViewItem extends StatefulWidget {
         this.chatViewItemRecordBodyBoxConstraints,
     });
 
-    @override
-    State<ChatViewItem> createState() => _ChatViewItemState();
-}
 
-class _ChatViewItemState extends State<ChatViewItem> with AutomaticKeepAliveClientMixin {
     
-    ChatViewItemAvatarModel get _avatarModel => widget.avatarModel ?? ChatViewItemAvatarModel();
+    ChatViewItemAvatarModel get _avatarModel => avatarModel ?? ChatViewItemAvatarModel();
 
-    ChatViewItemTextTypeModel get _textTypeModel => widget.textTypeModel ?? ChatViewItemTextTypeModel();
-    ChatViewItemImageTypeModel get _imageTypeModel => widget.imageTypeModel ?? ChatViewItemImageTypeModel();
-    ChatViewItemVideoTypeModel get _videoTypeModel => widget.videoTypeModel ?? ChatViewItemVideoTypeModel();
+    ChatViewItemTextTypeModel get _textTypeModel => textTypeModel ?? ChatViewItemTextTypeModel();
+    ChatViewItemImageTypeModel get _imageTypeModel => imageTypeModel ?? ChatViewItemImageTypeModel();
+    ChatViewItemVideoTypeModel get _videoTypeModel => videoTypeModel ?? ChatViewItemVideoTypeModel();
     // 暂不支持额外参数
-    ChatViewItemFileTypeModel get _fileTypeModel => widget.fileTypeModel ?? ChatViewItemFileTypeModel();
-    ChatViewItemAudioTypeModel get _audioTypeModel => widget.audioTypeModel ?? ChatViewItemAudioTypeModel();
+    ChatViewItemFileTypeModel get _fileTypeModel => fileTypeModel ?? ChatViewItemFileTypeModel();
+    ChatViewItemAudioTypeModel get _audioTypeModel => audioTypeModel ?? ChatViewItemAudioTypeModel();
 
-    @override
-    bool get wantKeepAlive => true;
 
     @override
     Widget build(BuildContext context) {
-        super.build(context);
-        
-        return Column(
-            children: [
-                // 记录时间
-                if (widget.customRecordTimeWidget != null) widget.customRecordTimeWidget!,
-                if(widget.itemBodyRecordTime != null)
-                    Container(
-                        width: sw(375),
-                        margin: EdgeInsets.only(
-                            top: sh(10),
-                            bottom: sh(10)
-                        ),
-                        alignment: Alignment.center,
-                        child: Text(
-                            widget.itemBodyRecordTime!,
-                            textAlign: TextAlign.center,
-                            style: widget.customRecordTimeStyle ?? TextStyle(
-                                fontSize: sf(14),
-                                color: const Color.fromARGB(255, 183, 182, 182)
-                            ),
-                        ),
-                    ),
-                // 内容主体
-                SizedBox(
-                    width: sw(375),
-                    child: Row(
-                        mainAxisAlignment: widget.senderRight ? MainAxisAlignment.end : MainAxisAlignment.start,
+        return Container(
+            width: sw(375),
+            decoration: const BoxDecoration(),
+            child: Column(
+                children: [
+                    // 记录时间
+                    _recordTimeWidget (),
+                    // 内容主体
+                    Row(
+                        mainAxisAlignment: senderRight ? MainAxisAlignment.end : MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
+                        mainAxisSize: MainAxisSize.max,
                         children: [
                             // 对方
-                            if (!widget.senderRight)
+                            if (!senderRight)
                                 Container(
                                     margin: EdgeInsets.only(
-                                        top: sh(10)
+                                        top: sh(10),
+                                        right: sw(5)
                                     ),
                                     child: _avatarModel.customAvatar ?? Avatar(
                                         avatarPath: _avatarModel.avatarPath,
@@ -140,15 +117,15 @@ class _ChatViewItemState extends State<ChatViewItem> with AutomaticKeepAliveClie
                                 ),
                             // 消息内容
                             ChatViewItemRecordBody(
-                                senderRight: widget.senderRight,
-                                itemBodyType: widget.itemBodyType,
-                                backgroundColor: widget.backgroundColor,
-                                itemBody: (widget.itemBody ?? '').toString(),
-                                itemBodyTap: widget.itemBodyTap,
-                                itemBodyMediaTap: widget.itemBodyMediaTap,
-                                chatViewItemRecordBodyBoxConstraints: widget.chatViewItemRecordBodyBoxConstraints,
-                                customItem: widget.customItem,
-        
+                                senderRight: senderRight,
+                                itemBodyType: itemBodyType,
+                                backgroundColor: backgroundColor,
+                                itemBody: (itemBody ?? '').toString(),
+                                itemBodyTap: itemBodyTap,
+                                itemBodyMediaTap: itemBodyMediaTap,
+                                chatViewItemRecordBodyBoxConstraints: chatViewItemRecordBodyBoxConstraints,
+                                customItem: customItem,
+            
                                 textTypeModel: _textTypeModel,
                                 audioTypeModel: _audioTypeModel,
                                 imageTypeModel: _imageTypeModel,
@@ -156,10 +133,11 @@ class _ChatViewItemState extends State<ChatViewItem> with AutomaticKeepAliveClie
                                 fileTypeModel: _fileTypeModel,
                             ),
                             // 己方
-                            if (widget.senderRight)
+                            if (senderRight)
                                 Container(
                                     margin: EdgeInsets.only(
-                                        top: sh(10)
+                                        top: sh(10),
+                                        left: sw(5)
                                     ),
                                     child: _avatarModel.customAvatar ?? Avatar(
                                         avatarPath: _avatarModel.avatarPath,
@@ -174,10 +152,36 @@ class _ChatViewItemState extends State<ChatViewItem> with AutomaticKeepAliveClie
                             // 
                         ],
                     ),
-                ),
-                // 
-            ],
+                    // 
+                ],
+            ),
         );
+    }
+
+    /// 记录时间
+    Widget _recordTimeWidget () {
+        if (customRecordTimeWidget != null && itemBodyRecordTime == null) {
+            return customRecordTimeWidget!;
+        }else if (itemBodyRecordTime != null) {
+            Container(
+                width: sw(375),
+                margin: EdgeInsets.only(
+                    top: sh(10),
+                    bottom: sh(10)
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                    itemBodyRecordTime!,
+                    textAlign: TextAlign.center,
+                    style: customRecordTimeStyle ?? TextStyle(
+                        fontSize: sf(14),
+                        color: const Color.fromARGB(255, 183, 182, 182)
+                    ),
+                ),
+            );
+        }
+
+        return Container();
     }
 }
 

@@ -33,7 +33,7 @@ class ImageBox extends StatefulWidget {
 
 class _ImageBoxState extends State<ImageBox> {
     // 图片内容
-    NetworkImage? networkImage;
+    NetworkImage get networkImage => NetworkImage(widget.imagePath);
     // 预览图片需要的内容
     ChatImageListUtils? chatImageListUtils;
     // 添加状态
@@ -44,99 +44,116 @@ class _ImageBoxState extends State<ImageBox> {
     double height = 160;
 
     @override
-    void initState() {
-        super.initState();
-
-        networkImage = NetworkImage(widget.imagePath);
-
-        if (networkImage != null){
-            chatImageListUtils = ChatImageListUtils(id: math.Random().nextInt(99) * DateTime.now().microsecondsSinceEpoch, imageProvider: networkImage!);
-        }
-
-        try {
-
-            networkImage?.resolve(const ImageConfiguration()).addListener(ImageStreamListener((ImageInfo imageInfo, bool synchronousCall) { 
-
-                width = imageInfo.image.width * 1.0;
-                height = imageInfo.image.height * 1.0;
-
-                // 添加当前图片内容
-                if (!addStatus){
-                    ChatImageList.addImageList(chatImageListUtils!);
-                }
-
-                setState(() {
-                  
-                });
-                
-            }));
-
-        } catch (error) {
-            debugPrint("chat_flutter 插件提示：图片 -> ${widget.imagePath} <- 信息获取失败");
-        }
-    }
-
-    @override
     Widget build(BuildContext context) {
         return Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-                // 加载失败
-                if (widget.imageLoadFailStatus) 
-                    Text(
-                        '图片加载失败...',
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            fontSize: sf(15),
-                            color: Colors.black
-                        ),
-                    )
-                else 
-                // 加载成功
-                    GestureDetector(
-                        onTap: () {
-                            // 预览图片
-                            if (ChatImageList.isOpenPreviewImage) {
+                // 图片内容
+                GestureDetector(
+                    onTap: () {
+                        if (widget.imageLoadFailStatus) {
+                            return;
+                        }
+                        // 预览图片
+                        if (ChatImageList.isOpenPreviewImage) {
 
-                                // 自定义预览回调
-                                if (widget.imageTypeModel.customPreviewImageCallback != null){
-                                    widget.imageTypeModel.customPreviewImageCallback!(widget.imagePath);
-                                    return;
-                                }
+                            // 自定义预览回调
+                            if (widget.imageTypeModel.customPreviewImageCallback != null){
+                                widget.imageTypeModel.customPreviewImageCallback!(widget.imagePath);
+                                return;
+                            }
 
-                                // 获取当前图片所在索引
-                                int index = ChatImageList.indexWhereImageList((element) => element.id == chatImageListUtils!.id);
+                            // 获取当前图片所在索引
+                            int index = ChatImageList.indexWhereImageList((element) => element.id == chatImageListUtils!.id);
 
-                                List<ChatImageListUtils> listInfo = ChatImageList.imageList.reversed.toList();
+                            List<ChatImageListUtils> listInfo = ChatImageList.imageList.reversed.toList();
 
-                                previewImage(
-                                    context: context, 
-                                    imageList: listInfo,
-                                    index: index,
-                                    menuList: widget.imageTypeModel.previewImageLongPressMenu,
-                                    onTapMenu: widget.imageTypeModel.onPreviewImageTapMenu,
-                                    customLongPress: widget.imageTypeModel.customLongPress
+                            previewImage(
+                                context: context, 
+                                imageList: listInfo,
+                                index: index,
+                                menuList: widget.imageTypeModel.previewImageLongPressMenu,
+                                onTapMenu: widget.imageTypeModel.onPreviewImageTapMenu,
+                                customLongPress: widget.imageTypeModel.customLongPress
+                            );
+                        }
+                    },
+                    child:FutureBuilder(
+                        future: _getImageInfo(),
+                        builder:(context, snapshot) {
+                            if (snapshot.error == null && (snapshot.connectionState != ConnectionState.done || snapshot.data == null)) {
+                                return SizedBox(
+                                    width: sz(20),
+                                    height: sz(20),
+                                    child: CircularProgressIndicator(
+                                        strokeWidth: sz(2),
+                                    ),
                                 );
                             }
-                        },
-                        child: Container(
-                            width: sz(width),
-                            height: sz(height),
-                            constraints: BoxConstraints(
-                                maxWidth: sz(160),
-                                maxHeight: sz(160)
-                            ),
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
+
+                            width = snapshot.data!.image.width * 1.0;
+                            height = snapshot.data!.image.height * 1.0;
+
+                            return Container(
+                                width: sz(width),
+                                height: sz(height),
+                                constraints: BoxConstraints(
+                                    maxWidth: sz(160),
+                                    maxHeight: sz(160)
+                                ),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(0)
+                                ),
+                                clipBehavior: Clip.antiAlias,
+                                child: Image(
+                                    width: sz(width),
+                                    height: sz(height),
                                     fit: BoxFit.cover,
-                                    image: networkImage!,
-                                    onError: widget.onImageError,
+                                    image: networkImage,
+                                    errorBuilder: (context, error, stackTrace) {
+                                        if (widget.onImageError != null){
+                                            widget.onImageError!(error, stackTrace);
+                                        }
+
+                                        return Text(
+                                            '图片加载失败...',
+                                            textAlign: TextAlign.left,
+                                            style: TextStyle(
+                                                fontSize: sf(15),
+                                                color: Colors.black
+                                            ),
+                                        );
+                                    },
                                 )
-                            ),
-                        ),
+                            );
+                        }
                     ),
+                ),
                 // 
             ],
         );
+    }
+
+    /// 获取图片信息
+    Future<ImageInfo?> _getImageInfo () async {
+        chatImageListUtils = ChatImageListUtils(id: math.Random().nextInt(99) * DateTime.now().microsecondsSinceEpoch, imageProvider: networkImage);
+        ImageStream imageStream = networkImage.resolve(const ImageConfiguration());
+        ImageInfo? imageInfoData;
+        
+        ImageStreamListener? listener;
+        listener = ImageStreamListener((ImageInfo imageInfo, bool synchronousCall) { 
+            // 添加当前图片内容
+            if (!addStatus){
+                ChatImageList.addImageList(chatImageListUtils!);
+            }
+
+            imageInfoData = imageInfo;
+
+            imageStream.removeListener(listener!);
+        });
+
+        imageStream.addListener(listener);
+
+        return imageInfoData;
     }
 }
