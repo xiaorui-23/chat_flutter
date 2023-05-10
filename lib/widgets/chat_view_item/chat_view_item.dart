@@ -45,6 +45,9 @@ class ChatViewItem extends StatelessWidget {
     /// 头像配置内容
     final ChatViewItemAvatarModel? avatarModel;
 
+    /// 过渡 progressIndicator
+    final CommonParamModel? commonParamModel;
+
     /// 内容主体点击事件
     final void Function(ChatViewItemRecordBodyType type)? itemBodyTap;
     /// 文件、图片、音频、视频 点击事件
@@ -56,12 +59,16 @@ class ChatViewItem extends StatelessWidget {
         this.senderRight = true,
         this.itemBodyType = ChatViewItemRecordBodyType.text,
         this.backgroundColor = Colors.white,
+
         this.textTypeModel,
         this.imageTypeModel,
         this.fileTypeModel,
         this.videoTypeModel,
         this.audioTypeModel,
         this.avatarModel,
+
+        this.commonParamModel,
+
         this.itemBodyTap,
         this.itemBodyMediaTap,
         this.itemBodyRecordTime,
@@ -78,9 +85,13 @@ class ChatViewItem extends StatelessWidget {
     ChatViewItemTextTypeModel get _textTypeModel => textTypeModel ?? ChatViewItemTextTypeModel();
     ChatViewItemImageTypeModel get _imageTypeModel => imageTypeModel ?? ChatViewItemImageTypeModel();
     ChatViewItemVideoTypeModel get _videoTypeModel => videoTypeModel ?? ChatViewItemVideoTypeModel();
+    ChatViewItemAudioTypeModel get _audioTypeModel => audioTypeModel ?? ChatViewItemAudioTypeModel();
+
     // 暂不支持额外参数
     ChatViewItemFileTypeModel get _fileTypeModel => fileTypeModel ?? ChatViewItemFileTypeModel();
-    ChatViewItemAudioTypeModel get _audioTypeModel => audioTypeModel ?? ChatViewItemAudioTypeModel();
+
+    CommonParamModel get _commonParamModel => commonParamModel ?? CommonParamModel();
+    
 
 
     @override
@@ -131,6 +142,8 @@ class ChatViewItem extends StatelessWidget {
                                 imageTypeModel: _imageTypeModel,
                                 videoTypeModel: _videoTypeModel,
                                 fileTypeModel: _fileTypeModel,
+
+                                commonParamModel: _commonParamModel,
                             ),
                             // 己方
                             if (senderRight)

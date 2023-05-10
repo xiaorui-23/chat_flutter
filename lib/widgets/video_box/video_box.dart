@@ -19,6 +19,8 @@ class VideoBox extends StatefulWidget {
     final bool autoPlaying;
     /// 是否启用全屏播放
     final bool isOpenFullScreenPlay;
+    /// 自定义加载过度 Progress
+    final ProgressIndicator progressIndicator;
     /// 视频加载错误回调
     final void Function(Object error)? videoLoadFailCallback;
 
@@ -26,6 +28,7 @@ class VideoBox extends StatefulWidget {
         super.key,
         required this.videoPath,
         required this.backgroundColor,
+        required this.progressIndicator,
         this.autoPlaying = true,
         this.isOpenFullScreenPlay = true,
         this.notPlayingWidget,
@@ -129,7 +132,7 @@ class _VideoBoxState extends State<VideoBox> {
                             // 加载中
                             return Container(
                                 alignment: Alignment.center,
-                                child: const CircularProgressIndicator(),
+                                child: widget.progressIndicator,
                             );
                         },
                     ),

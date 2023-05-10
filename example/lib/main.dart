@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:chat_flutter/chat_flutter.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
   runApp(const MyApp());
@@ -126,6 +127,13 @@ class _MyAppState extends State<MyApp> {
     @override
     Widget build(BuildContext context) {
         return MaterialApp(
+            locale: const Locale('zh'),
+            localizationsDelegates: const [
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate
+            ],
+            supportedLocales: const [Locale('zh', 'CH')],
             home: Scaffold(
                 appBar: AppBar(
                     centerTitle: true,

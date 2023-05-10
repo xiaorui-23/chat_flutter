@@ -1,12 +1,12 @@
 
 
+import 'package:chat_flutter/utils/screenutil/screenutil.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 /// 参数合集 Model 类型 
 
 
-/// 文本
+/// 文本 model
 class ChatViewItemTextTypeModel {
     /// 文本选择控制器
     final TextSelectionControls? selectionControls;
@@ -33,7 +33,7 @@ class ChatViewItemTextTypeModel {
 
 }
 
-/// 图片
+/// 图片 model
 class ChatViewItemImageTypeModel {
     /// 预览图片长按显示菜单
     final List<String>? previewImageLongPressMenu;
@@ -52,7 +52,7 @@ class ChatViewItemImageTypeModel {
     });
 }
 
-/// 视频
+/// 视频 model
 class ChatViewItemVideoTypeModel {
 
     /// 未播放自定义 widget
@@ -77,7 +77,7 @@ class ChatViewItemVideoTypeModel {
     });
 }
 
-/// 文件
+/// 文件 model
 class ChatViewItemFileTypeModel {
     /// 文件大小
     final double fileSize;
@@ -87,7 +87,7 @@ class ChatViewItemFileTypeModel {
     });
 }
 
-/// 音频
+/// 音频 model
 class ChatViewItemAudioTypeModel {
     /// 音频时长
     /// * 默认值：0
@@ -104,7 +104,7 @@ class ChatViewItemAudioTypeModel {
 }
 
 
-/// 头像
+/// 头像 model
 class ChatViewItemAvatarModel {
     /// 头像地址
     final String? avatarPath;
@@ -136,5 +136,21 @@ class ChatViewItemAvatarModel {
     });
 }
 
+/// 公共参数 model 
+class CommonParamModel {
+    /// 自定义加载过度 Progress
+    /// * 当为传递自定义时采用默认
+    ProgressIndicator? progressIndicator;
+    /// 默认加载过度 Progress
+    ProgressIndicator defaultProgressIndicator = CircularProgressIndicator (strokeWidth: sf(2));
+    /// 是否开启过渡加载
+    /// * true 为开启
+    bool isOpenTransitionLoad;
+
+    CommonParamModel({
+        this.progressIndicator,
+        this.isOpenTransitionLoad = true
+    });
+}
 
 

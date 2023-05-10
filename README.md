@@ -8,10 +8,13 @@ This is a component package developed purely for `dart` to display chat record l
 
 
 
-[中文简体](https://github.com/xiaorui-23/chat_flutter/blob/master/README_CN.md)
+Language: [中文简体](https://github.com/xiaorui-23/chat_flutter/blob/master/README_CN.md)
 
 
 > We recommend that you use the `chatViewWidgetController` controller in the `onCreated` callback to perform operations such as `add`、 `remove` on the record list.
+
+
+
 
 
 
@@ -145,7 +148,13 @@ This plugin itself uses `flutter_screenutil` based on plugins, multiple models h
 
 
 
-After the author discovers that the dependencies used in the plugin have been updated, they will be updated as soon as possible. For a smoother experience during use, it is recommended that you update the plugin as soon as possible, or `pubspec.yaml` add before version number in the file `^` symbol for using the latest version of the plugin
+After the author discovers that the dependencies used in the plugin have been updated, they will be updated as soon as possible. For a smoother experience during use, it is recommended that you update the plugin as soon as possible, or `pubspec.yaml` add before version number in the file `^` symbol for using the latest version of the plugin.
+
+Currently, some functional implementations rely on the following plugins:
+
+- flutter_screenutil
+- photo_view
+- video_player
 
 
 
@@ -206,6 +215,7 @@ If you feel that the cases and usage assistance provided on this page cannot hel
 | `fileTypeModel` | `ChatViewItemFileTypeModel` | File Type Configuration Content | -- |
 | `audioTypeModel` | `ChatViewItemAudioTypeModel` | Audio type configuration content | -- |
 | `avatarModel` | `ChatViewItemAvatarModel` | Configuration content of avatar | -- |
+| `commonParamModel` | `CommonParamModel` | transition progressIndicator | -- |
 
 
 #### Avatar-`avatarModel` -> `ChatViewItemAvatarModel`
@@ -220,6 +230,15 @@ If you feel that the cases and usage assistance provided on this page cannot hel
 | `customAvatar` | `Widget` | Custom avatar | -- |
 | `customAvatarWidget` | `Widget` | Custom avatar | -- |
 | `avatarTap` | `Function` | Head image click callback | -- |
+
+
+#### Load Transition-`commonParamModel` -> `CommonParamModel`
+
+| Name | Type | Describe | Default value |
+| :----: | :----: | :----: | :----: |
+| `progressIndicator` | `ProgressIndicator` | Custom overload Progress | -- |
+| `isOpenTransitionLoad` | `bool` | Is transition loading enabled | `true` |
+
 
 ### Below are different types of parameters API
 
@@ -299,9 +318,38 @@ Be directed against `IOS`, You need to `<project root>/ios/Runner/Info.plist` un
 | **Support** | SDK 16+ | 11.0+ | Any\* | not Support | not Support | not Support |
 
 
+# 10、About Internationalization
+
+Tips: The fixed text content involved in the plugin itself, such as reminders and displays, has been adapted to the language environment. Currently, only the following language environments are supported:
+
+- CH -> Chinese
+- US -> English (default)
+
+If you need to switch and modify, please refer to the following code format for modification:
+
+```dart
+import 'package:flutter_localizations/flutter_localizations.dart';
+```
+
+```dart
+@override
+Widget build(BuildContext context) {
+    return MaterialApp(
+        locale: const Locale('zh'),
+        localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate
+        ],
+        supportedLocales: const [Locale('zh', 'CH')],
+    );
+}
+```
+
+> Tips: In the above code `flutter_localizations` The toolkit requires you to manually install it yourself.
 
 
-# 10、Contact Author
+# 11、Contact Author
 
 
 

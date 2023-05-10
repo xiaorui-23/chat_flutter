@@ -6,11 +6,11 @@
 这是一个纯 `dart` 开发的开发的 聊天记录 列表展示的组件包，支持图片、文件、语音、文字、视频的基础内容展示。
 
 
-[English](https://github.com/xiaorui-23/chat_flutter/blob/master/README.md)
+语言：[English](https://github.com/xiaorui-23/chat_flutter/blob/master/README.md)
+
 
 
 > 推荐您通过`onCreated`回调中的`chatViewWidgetController`控制器对记录列表进行`add`、`remove`等操作。
-
 
 
 # 效果图
@@ -144,8 +144,13 @@ class _MyAppState extends State<MyApp> {
 # 六、关于插件依赖问题
 
 
-
 作者发现插件中使用的依赖有更新后，将在第一时间进行依赖更新。为了您在使用过程中有更顺畅的体验，建议您第一时间更新插件，或者在`pubspec.yaml`文件中版本号前添加`^`符号，以便使用最新版本的插件。
+
+目前部分功能实现依赖于以下插件：
+
+- flutter_screenutil
+- photo_view
+- video_player
 
 
 
@@ -204,6 +209,7 @@ class _MyAppState extends State<MyApp> {
 | `fileTypeModel` | `ChatViewItemFileTypeModel` | 文件类型配置内容 | -- |
 | `audioTypeModel` | `ChatViewItemAudioTypeModel` | 音频类型配置内容 | -- |
 | `avatarModel` | `ChatViewItemAvatarModel` | 头像配置内容 | -- |
+| `commonParamModel` | `CommonParamModel` | 加载过渡 progressIndicator | -- |
 
 
 #### 头像-`avatarModel` -> `ChatViewItemAvatarModel`
@@ -218,6 +224,14 @@ class _MyAppState extends State<MyApp> {
 | `customAvatar` | `Widget` | 自定义头像 | -- |
 | `customAvatarWidget` | `Widget` | 自定义头像 | -- |
 | `avatarTap` | `Function` | 头像点击回调 | -- |
+
+#### 加载过渡-`commonParamModel` -> `CommonParamModel`
+
+| 名称 | 类型 | 描述 | 默认值 |
+| :----: | :----: | :----: | :----: |
+| `progressIndicator` | `ProgressIndicator` | 自定义加载过度 Progress | -- |
+| `isOpenTransitionLoad` | `bool` | 是否开启过渡加载 | `true` |
+
 
 
 
@@ -300,7 +314,37 @@ class _MyAppState extends State<MyApp> {
 
 
 
-# 十、联系作者
+# 十、关于国际化
+
+插件工具包本身涉及到的提醒、展示等固定文字内容已做语言坏境适配。目前仅支持以下语言环境：
+
+- CH -> 中文
+- US -> 英文 (默认)
+
+如需进行切换及修改可参考采用下方代码形式进行修改：
+
+```dart
+import 'package:flutter_localizations/flutter_localizations.dart';
+```
+
+```dart
+@override
+Widget build(BuildContext context) {
+    return MaterialApp(
+        locale: const Locale('zh'),
+        localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate
+        ],
+        supportedLocales: const [Locale('zh', 'CH')],
+    );
+}
+```
+
+> Tips: 上述代码中`flutter_localizations`的工具包需要您自己手动安装。
+
+# 十一、联系作者
 
 
 

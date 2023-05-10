@@ -1,4 +1,10 @@
 
+
+import 'dart:async';
+import 'dart:ui' as ui;
+import 'dart:math' as math;
+import 'package:chat_flutter/utils/chat_image_list/chat_image_list.dart';
+import 'package:chat_flutter/utils/get_language_environment/get_language_environment.dart';
 import 'package:chat_flutter/utils/parameter_model_set/parameter_model_set.dart';
 import 'package:chat_flutter/widgets/image_box/image_box.dart';
 import 'package:chat_flutter/widgets/video_box/video_box.dart';
@@ -9,7 +15,7 @@ import 'package:chat_flutter/widgets/audio_box/audio_box.dart';
 import 'package:chat_flutter/widgets/custom_selection_area/custom_selection_area.dart';
 
 /// 内容主体
-class ChatViewItemRecordBody extends StatelessWidget {
+class ChatViewItemRecordBody extends StatefulWidget {
     
     /// 内容
     final String itemBody;
@@ -39,15 +45,22 @@ class ChatViewItemRecordBody extends StatelessWidget {
     /// 音频类型配置内容
     final ChatViewItemAudioTypeModel audioTypeModel;
 
+    /// 过度 progressIndicator
+    final CommonParamModel commonParamModel;
+
     const ChatViewItemRecordBody({
         super.key,
         required this.senderRight,
         required this.itemBody,
+
         required this.textTypeModel,
         required this.imageTypeModel,
         required this.fileTypeModel,
         required this.videoTypeModel,
         required this.audioTypeModel,
+
+        required this.commonParamModel,
+
         required this.itemBodyType,
         required this.backgroundColor,
 
@@ -57,15 +70,32 @@ class ChatViewItemRecordBody extends StatelessWidget {
         this.itemBodyMediaTap,
     });
 
-    
-    /// 图片加载失败状态
-    /// * true 为加载失败
-    static final Map<String, int> _imageLoadFailStatus = {'value': 0};
+    @override
+    State<ChatViewItemRecordBody> createState() => _ChatViewItemRecordBodyState();
+}
+
+class _ChatViewItemRecordBodyState extends State<ChatViewItemRecordBody> {
+    /// 图片内容
+    ImageProvider? get imageProviderInfo => widget.itemBodyType == ChatViewItemRecordBodyType.image ? NetworkImage(widget.itemBody) : null;
+
+    /// ChatImageListUtils 图片添加状态
+    /// * true 为已添加
+    bool _addStatus = false;
+    /// 预览图片需要的内容
+    ChatImageListUtils? _chatImageListUtils;
 
     @override
     Widget build(BuildContext context) {
-        return StatefulBuilder(
-            builder: (buildContext, setState) {
+        return FutureBuilder(
+            future: _typeHandlerWidget(),
+            builder:(context, snapshot) {
+                if (snapshot.data == null){
+                    return Container(
+                        alignment: Alignment.center,
+                        child: widget.commonParamModel.isOpenTransitionLoad ? widget.commonParamModel.progressIndicator ?? widget.commonParamModel.defaultProgressIndicator : null,
+                    );
+                }
+
                 return Container(
                     padding: EdgeInsets.only(
                         top: sh(10),
@@ -73,51 +103,53 @@ class ChatViewItemRecordBody extends StatelessWidget {
                     ),
                     child: Stack(
                         children: [
-                            customItem ?? Container(
+                            widget.customItem ?? Container(
                                 margin: EdgeInsets.only(
-                                    right: sw(senderRight ? 15 : 0),
-                                    left: sw(!senderRight ? 15 : 0)
+                                    right: sw(widget.senderRight ? 15 : 0),
+                                    left: sw(!widget.senderRight ? 15 : 0)
                                 ),
-                                padding: _excludeContentType(itemBodyType) && _imageLoadFailStatus['value'] == 0 ? null :  EdgeInsets.only(
+                                padding: _excludeContentType(widget.itemBodyType) && snapshot.data!.isImageLoad ? null :  EdgeInsets.only(
                                     left: sw(10),
                                     right: sw(10),
                                     top: sh(10),
                                     bottom: sh(10)
                                 ),
-                                constraints: chatViewItemRecordBodyBoxConstraints ?? BoxConstraints(
+                                constraints: widget.chatViewItemRecordBodyBoxConstraints ?? BoxConstraints(
                                     maxWidth: sw(170),
                                     minHeight: sh(35),
                                 ),
-                                decoration: _excludeContentType(itemBodyType) && _imageLoadFailStatus['value'] == 0 ? null : BoxDecoration(
-                                    color: backgroundColor,
+                                decoration: _excludeContentType(widget.itemBodyType) && snapshot.data!.isImageLoad ? null : BoxDecoration(
+                                    color: widget.backgroundColor,
                                     borderRadius: BorderRadius.all(Radius.circular(sr(10))),
                                 ),
                                 child: GestureDetector(
                                     onTap: () {
-                                        if(itemBodyTap != null){
-                                            itemBodyTap!(itemBodyType);
+                                        if(widget.itemBodyTap != null){
+                                            widget.itemBodyTap!(widget.itemBodyType);
                                         }
                                     },
-                                    child: _typeHandlerWidget(
-                                        onImageError: (exception, stackTrace) {
-                                            _imageLoadFailStatus['value'] = 1;
-                            
-                                            if (buildContext.mounted){
-                                                setState(() {});
-                                            }
-                                        },
-                                    )
+                                    child: !snapshot.data!.isImageLoad && widget.itemBodyType == ChatViewItemRecordBodyType.image ? 
+                                        Text(
+                                            '${GetLanguageEnvironment.getLanguageEnvConvertValue('Image loading failed')}...',
+                                            textAlign: TextAlign.left,
+                                            style: TextStyle(
+                                                fontSize: sf(15),
+                                                color: Colors.black
+                                            ),
+                                        )
+                                        :
+                                        snapshot.data!.widget 
                                 ),
                             ),
                             // 箭头图标
-                            if (customItem == null && (_imageLoadFailStatus['value'] == 1 || !_excludeContentType(itemBodyType)))
+                            if (widget.customItem == null && (!snapshot.data!.isImageLoad || !_excludeContentType(widget.itemBodyType)))
                                 Positioned(
                                     top: sh(7),
-                                    right: senderRight ? sw(-5) : null,
-                                    left: !senderRight ? sw(-5) : null,
+                                    right: widget.senderRight ? sw(-5) : null,
+                                    left: !widget.senderRight ? sw(-5) : null,
                                     child: ClipRect(
                                         clipper: _ClipperPath(
-                                            senderRight: senderRight
+                                            senderRight: widget.senderRight
                                         ),
                                         child: Container(
                                             decoration: BoxDecoration(
@@ -132,11 +164,11 @@ class ChatViewItemRecordBody extends StatelessWidget {
                                                     ),
                                                     left: BorderSide(
                                                         width: sw(10),
-                                                        color: senderRight ? backgroundColor : Colors.transparent,
+                                                        color: widget.senderRight ? widget.backgroundColor : Colors.transparent,
                                                     ),
                                                     right: BorderSide(
                                                         width: sw(10),
-                                                        color: !senderRight ? backgroundColor : Colors.transparent,
+                                                        color: !widget.senderRight ? widget.backgroundColor : Colors.transparent,
                                                     )
                                                 )
                                             ),
@@ -152,29 +184,47 @@ class ChatViewItemRecordBody extends StatelessWidget {
     }
 
     /// 根据 记录类型返回对应 widget
-    Widget _typeHandlerWidget ({Function(Object exception, StackTrace? stackTrace)? onImageError}) {
+    Future<_TypeRenderModel> _typeHandlerWidget () async {
+        /// 类型 widget
+        Widget widgets;
+        /// 图片可加载状态
+        /// * true 为可加载
+        bool isImageLoad = true;
+
+
         // 图片
-        if (itemBodyType == ChatViewItemRecordBodyType.image) {
-            return GestureDetector(
+        if (widget.itemBodyType == ChatViewItemRecordBodyType.image) {
+            // 获取到的图片信息
+            ui.Image? imageInfo;
+
+            try {
+                imageInfo = await _getImageInfo ();
+            } catch (error) {
+                isImageLoad = false;
+            }
+            
+            widgets = GestureDetector(
                 onTap: () {
-                    if (itemBodyMediaTap != null){
-                        itemBodyMediaTap!(ChatViewItemRecordBodyType.image);
+                    if (isImageLoad && widget.itemBodyMediaTap != null){
+                        widget.itemBodyMediaTap!(ChatViewItemRecordBodyType.image);
                     }
                 },
                 child: ImageBox(
-                    imageLoadFailStatus: _imageLoadFailStatus['value'] == 1,
-                    imagePath: itemBody,
-                    imageTypeModel: imageTypeModel,
-                    onImageError: onImageError,
+                    imagePath: widget.itemBody,
+                    imageInfo: imageInfo,
+                    imageProviderInfo: imageProviderInfo,
+                    isImageLoad: isImageLoad,
+                    imageTypeModel: widget.imageTypeModel,
+                    chatImageListUtils: _chatImageListUtils,
                 ),
             );
         }
         // 文件
-        else if (itemBodyType == ChatViewItemRecordBodyType.file) {
-            return GestureDetector(
+        else if (widget.itemBodyType == ChatViewItemRecordBodyType.file) {
+            widgets = GestureDetector(
                 onTap: () {
-                    if (itemBodyMediaTap != null){
-                        itemBodyMediaTap!(ChatViewItemRecordBodyType.file);
+                    if (widget.itemBodyMediaTap != null){
+                        widget.itemBodyMediaTap!(ChatViewItemRecordBodyType.file);
                     }
                 },
                 child: Row(
@@ -195,9 +245,9 @@ class ChatViewItemRecordBody extends StatelessWidget {
                                 left: sw(10)
                             ),
                             child: Text(
-                                itemBody,
+                                widget.itemBody,
                                 softWrap: true,
-                                style: textTypeModel.itemBodyTextStyle ?? TextStyle (
+                                style: widget.textTypeModel.itemBodyTextStyle ?? TextStyle (
                                     color: const Color(0xff1989fa),
                                     fontSize: sf(16)
                                 ),
@@ -208,59 +258,102 @@ class ChatViewItemRecordBody extends StatelessWidget {
             );
         }
         // 音频
-        else if (itemBodyType == ChatViewItemRecordBodyType.audio) {
-            return GestureDetector(
+        else if (widget.itemBodyType == ChatViewItemRecordBodyType.audio) {
+            widgets = GestureDetector(
                 onTap: () {
-                    if (itemBodyMediaTap != null){
-                        itemBodyMediaTap!(ChatViewItemRecordBodyType.audio);
+                    if (widget.itemBodyMediaTap != null){
+                        widget.itemBodyMediaTap!(ChatViewItemRecordBodyType.audio);
                     }
                 },
                 child: AudioBox(
-                    audioTimelength: audioTypeModel.audioTimelength,
-                    audioPlayStatus: audioTypeModel.audioPlayStatus,
+                    audioTimelength: widget.audioTypeModel.audioTimelength,
+                    audioPlayStatus: widget.audioTypeModel.audioPlayStatus,
                 ),
             );
         }
         // 视频
-        else if (itemBodyType == ChatViewItemRecordBodyType.video) {
-            return GestureDetector(
+        else if (widget.itemBodyType == ChatViewItemRecordBodyType.video) {
+            widgets = GestureDetector(
                 onTap: () {
-                    if (itemBodyMediaTap != null){
-                        itemBodyMediaTap!(ChatViewItemRecordBodyType.video);
+                    if (widget.itemBodyMediaTap != null){
+                        widget.itemBodyMediaTap!(ChatViewItemRecordBodyType.video);
                     }
                 },
                 child: VideoBox(
-                    videoPath: itemBody,
-                    backgroundColor: backgroundColor,
-                    autoPlaying: videoTypeModel.autoPlaying,
-                    notPlayingWidget: videoTypeModel.notPlayingWidget,
-                    playingFailWidget: videoTypeModel.playingFailWidget,
-                    isOpenFullScreenPlay: videoTypeModel.isOpenFullScreenPlay,
-                    videoLoadFailCallback: videoTypeModel.videoLoadFailCallback,
+                    videoPath: widget.itemBody,
+                    backgroundColor: widget.backgroundColor,
+                    autoPlaying: widget.videoTypeModel.autoPlaying,
+                    notPlayingWidget: widget.videoTypeModel.notPlayingWidget,
+                    playingFailWidget: widget.videoTypeModel.playingFailWidget,
+                    progressIndicator: widget.commonParamModel.progressIndicator ?? widget.commonParamModel.defaultProgressIndicator,
+                    isOpenFullScreenPlay: widget.videoTypeModel.isOpenFullScreenPlay,
+                    videoLoadFailCallback: widget.videoTypeModel.videoLoadFailCallback,
                 ),
             );
         }
         // 文字
         else {
-            return CustomSelectionArea(
-                isOpen: textTypeModel.isOpenTextSelect && itemBodyType == ChatViewItemRecordBodyType.text,
-                itemBodyTextStyle: textTypeModel.itemBodyTextStyle,
-                onSelectionChanged: textTypeModel.onSelectionChanged,
-                contextMenuBuilder: textTypeModel.contextMenuBuilder,
-                selectionControls: textTypeModel.selectionControls,
-                createSelectableTextCallback: textTypeModel.createSelectableTextCallback,
+            widgets = CustomSelectionArea(
+                isOpen: widget.textTypeModel.isOpenTextSelect && widget.itemBodyType == ChatViewItemRecordBodyType.text,
+                itemBodyTextStyle: widget.textTypeModel.itemBodyTextStyle,
+                onSelectionChanged: widget.textTypeModel.onSelectionChanged,
+                contextMenuBuilder: widget.textTypeModel.contextMenuBuilder,
+                selectionControls: widget.textTypeModel.selectionControls,
+                createSelectableTextCallback: widget.textTypeModel.createSelectableTextCallback,
                 child: Text(
-                    itemBody,
+                    widget.itemBody,
                     textAlign: TextAlign.left,
                     softWrap: true,
-                    style: textTypeModel.itemBodyTextStyle ?? TextStyle(
+                    style: widget.textTypeModel.itemBodyTextStyle ?? TextStyle(
                         fontSize: sf(15),
                         color: Colors.black
                     )
                 )
             );
         }
+
+        return _TypeRenderModel(
+            widget: widgets, 
+            isImageLoad: isImageLoad,
+        );
     }
+
+    /// 获取图片信息
+    Future<ui.Image?> _getImageInfo () {
+        if (imageProviderInfo == null) {
+            return Future.value(null);
+        }
+
+        _chatImageListUtils = ChatImageListUtils(id: math.Random().nextInt(99) * DateTime.now().microsecondsSinceEpoch, imageProvider: imageProviderInfo!);
+        ImageStream imageStream = imageProviderInfo!.resolve(ImageConfiguration.empty);
+        
+        Completer<ui.Image> completer = Completer<ui.Image>();
+
+        // 监听错误
+        void listenerError (exception, stackTrace) => completer.completeError(exception, stackTrace);
+
+        // 监听文件流
+        void listener (ImageInfo imageInfo, bool synchronousCall){
+            // 添加当前图片内容
+            if (!_addStatus){
+                ChatImageList.addImageList(_chatImageListUtils!);
+                _addStatus = true;
+            }
+
+
+            ui.Image image = imageInfo.image;
+            // 获取到文件流
+            completer.complete(image);
+            // 移除监听器
+            imageStream.removeListener(ImageStreamListener(listener, onError: listenerError));
+        }
+
+        // 添加监听器
+        imageStream.addListener(ImageStreamListener(listener, onError: listenerError));
+
+        return completer.future;
+    }
+
 }
 
 
@@ -290,5 +383,19 @@ class _ClipperPath extends CustomClipper<Rect>{
     bool shouldReclip(CustomClipper<Rect> oldClipper) => true;
 }
 
+/// 类型渲染数据 model
+class _TypeRenderModel {
+    /// widget
+    final Widget widget;
+    /// 图片是否可加载
+    /// * true 为可加载
+    /// * itemBodyType == ChatViewItemRecordBodyType.image 有效
+    final bool isImageLoad;
 
+
+    const _TypeRenderModel ({
+        required this.widget,
+        required this.isImageLoad
+    });
+}
 

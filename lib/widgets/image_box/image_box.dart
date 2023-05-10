@@ -1,5 +1,6 @@
 
-import 'dart:math' as math;
+
+import 'dart:ui' as ui;
 import 'package:chat_flutter/utils/chat_image_list/chat_image_list.dart';
 import 'package:chat_flutter/utils/parameter_model_set/parameter_model_set.dart';
 import 'package:chat_flutter/utils/screenutil/screenutil.dart';
@@ -8,152 +9,91 @@ import 'package:flutter/material.dart';
 
 /// 图片盒子
 
-class ImageBox extends StatefulWidget {
+class ImageBox extends StatelessWidget {
     /// 图片路径
     final String imagePath;
-    /// 图片加载失败状态
-    /// * true 为加载失败
-    final bool imageLoadFailStatus;
-    /// 图片加载失败回调
-    final Function(Object exception, StackTrace? stackTrace)? onImageError;
+    /// 获取到的图片信息
+    final ui.Image? imageInfo;
+    /// 图片内容
+    final ImageProvider? imageProviderInfo;
     /// 图片类型配置内容
     final ChatViewItemImageTypeModel imageTypeModel;
+    /// 图片可加载状态
+    /// * true 为可加载
+    final bool isImageLoad;
+    /// 预览图片需要的内容
+    final ChatImageListUtils? chatImageListUtils;
 
     const ImageBox({
         super.key,
-        required this.imageLoadFailStatus,
         required this.imagePath,
         required this.imageTypeModel,
-        this.onImageError
+        required this.isImageLoad,
+        this.imageProviderInfo,
+        this.imageInfo,
+        this.chatImageListUtils
     });
 
-    @override
-    State<ImageBox> createState() => _ImageBoxState();
-}
-
-class _ImageBoxState extends State<ImageBox> {
-    // 图片内容
-    NetworkImage get networkImage => NetworkImage(widget.imagePath);
-    // 预览图片需要的内容
-    ChatImageListUtils? chatImageListUtils;
-    // 添加状态
-    bool addStatus = false;
     /// 图片宽度
-    double width = 160;
+    double get width => imageInfo == null ? 160 : imageInfo!.width * 1.0;
     /// 图片高度
-    double height = 160;
+    double get height => imageInfo == null ? 160 : imageInfo!.height * 1.0;
+
+    /// 图片最大展示宽度
+    double get maxWidth => 160;
+    /// 图片最大展示高度
+    double get maxHeight => 160;
 
     @override
     Widget build(BuildContext context) {
-        return Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-                // 图片内容
-                GestureDetector(
-                    onTap: () {
-                        if (widget.imageLoadFailStatus) {
-                            return;
-                        }
-                        // 预览图片
-                        if (ChatImageList.isOpenPreviewImage) {
+        if (!isImageLoad) {
+            Container();
+        }
 
-                            // 自定义预览回调
-                            if (widget.imageTypeModel.customPreviewImageCallback != null){
-                                widget.imageTypeModel.customPreviewImageCallback!(widget.imagePath);
-                                return;
-                            }
+        return GestureDetector(
+            onTap: () {
+                // 预览图片
+                if (ChatImageList.isOpenPreviewImage) {
 
-                            // 获取当前图片所在索引
-                            int index = ChatImageList.indexWhereImageList((element) => element.id == chatImageListUtils!.id);
+                    // 自定义预览回调
+                    if (imageTypeModel.customPreviewImageCallback != null){
+                        imageTypeModel.customPreviewImageCallback!(imagePath);
+                        return;
+                    }
 
-                            List<ChatImageListUtils> listInfo = ChatImageList.imageList.reversed.toList();
+                    // 获取当前图片所在索引
+                    int index = ChatImageList.indexWhereImageList((element) => element.id == chatImageListUtils!.id);
 
-                            previewImage(
-                                context: context, 
-                                imageList: listInfo,
-                                index: index,
-                                menuList: widget.imageTypeModel.previewImageLongPressMenu,
-                                onTapMenu: widget.imageTypeModel.onPreviewImageTapMenu,
-                                customLongPress: widget.imageTypeModel.customLongPress
-                            );
-                        }
-                    },
-                    child:FutureBuilder(
-                        future: _getImageInfo(),
-                        builder:(context, snapshot) {
-                            if (snapshot.error == null && (snapshot.connectionState != ConnectionState.done || snapshot.data == null)) {
-                                return SizedBox(
-                                    width: sz(20),
-                                    height: sz(20),
-                                    child: CircularProgressIndicator(
-                                        strokeWidth: sz(2),
-                                    ),
-                                );
-                            }
+                    List<ChatImageListUtils> listInfo = ChatImageList.imageList.reversed.toList();
 
-                            width = snapshot.data!.image.width * 1.0;
-                            height = snapshot.data!.image.height * 1.0;
-
-                            return Container(
-                                width: sz(width),
-                                height: sz(height),
-                                constraints: BoxConstraints(
-                                    maxWidth: sz(160),
-                                    maxHeight: sz(160)
-                                ),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(0)
-                                ),
-                                clipBehavior: Clip.antiAlias,
-                                child: Image(
-                                    width: sz(width),
-                                    height: sz(height),
-                                    fit: BoxFit.cover,
-                                    image: networkImage,
-                                    errorBuilder: (context, error, stackTrace) {
-                                        if (widget.onImageError != null){
-                                            widget.onImageError!(error, stackTrace);
-                                        }
-
-                                        return Text(
-                                            '图片加载失败...',
-                                            textAlign: TextAlign.left,
-                                            style: TextStyle(
-                                                fontSize: sf(15),
-                                                color: Colors.black
-                                            ),
-                                        );
-                                    },
-                                )
-                            );
-                        }
-                    ),
+                    previewImage(
+                        context: context, 
+                        imageList: listInfo,
+                        index: index,
+                        menuList: imageTypeModel.previewImageLongPressMenu,
+                        onTapMenu: imageTypeModel.onPreviewImageTapMenu,
+                        customLongPress: imageTypeModel.customLongPress
+                    );
+                }
+            },
+            child: Container(
+                width: sz(width),
+                height: sz(height),
+                constraints: BoxConstraints(
+                    maxWidth: sz(maxWidth),
+                    maxHeight: sz(maxHeight)
                 ),
-                // 
-            ],
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(0)
+                ),
+                clipBehavior: Clip.antiAlias,
+                child: Image(
+                    width: sz(width),
+                    height: sz(height),
+                    fit: BoxFit.cover,
+                    image: imageProviderInfo!,
+                )
+            )
         );
-    }
-
-    /// 获取图片信息
-    Future<ImageInfo?> _getImageInfo () async {
-        chatImageListUtils = ChatImageListUtils(id: math.Random().nextInt(99) * DateTime.now().microsecondsSinceEpoch, imageProvider: networkImage);
-        ImageStream imageStream = networkImage.resolve(const ImageConfiguration());
-        ImageInfo? imageInfoData;
-        
-        ImageStreamListener? listener;
-        listener = ImageStreamListener((ImageInfo imageInfo, bool synchronousCall) { 
-            // 添加当前图片内容
-            if (!addStatus){
-                ChatImageList.addImageList(chatImageListUtils!);
-            }
-
-            imageInfoData = imageInfo;
-
-            imageStream.removeListener(listener!);
-        });
-
-        imageStream.addListener(listener);
-
-        return imageInfoData;
     }
 }

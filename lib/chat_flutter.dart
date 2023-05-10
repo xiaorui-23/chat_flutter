@@ -2,11 +2,10 @@
 library chat_flutter;
 
 import 'package:chat_flutter/utils/chat_image_list/chat_image_list.dart';
-import 'package:chat_flutter/utils/stable/stable.dart';
+import 'package:chat_flutter/utils/get_language_environment/get_language_environment.dart';
 import 'package:flutter/widgets.dart';
 import 'package:chat_flutter/utils/screenutil/screenutil.dart';
 import 'package:chat_flutter/widgets/chat_view_item/chat_view_item.dart';
-import 'package:chat_flutter/utils/chat_view_item_record_body_type/chat_view_item_record_body_type.dart';
 
 export 'package:chat_flutter/widgets/chat_view_item/chat_view_item.dart';
 export 'package:chat_flutter/utils/parameter_model_set/parameter_model_set.dart';
@@ -43,12 +42,18 @@ class _ChatViewWidgetState extends State<ChatViewWidget> {
     final ScrollController _chatViewWidgetListViewController = ScrollController ();
     final ChatViewWidgetController _chatViewWidgetController = ChatViewWidgetController ();
 
+    Future<List<ChatViewItem>>? _getIsLoadDataFuture;
+
+    List<ChatViewItem> _children = [];
+
     @override
     void initState() {
         super.initState();
         
         // 执行创建完成时回调
         _created ();
+
+        _getIsLoadDataFuture = _getIsLoadData();
 
         // 注册监听器
         _chatViewWidgetController.registerListeningCallback(_registerListeningCallback);
@@ -65,12 +70,15 @@ class _ChatViewWidgetState extends State<ChatViewWidget> {
     @override
     Widget build(BuildContext context) {
         initScreenUtil(context);
+        
+        /// 获取当前语言环境
+        GetLanguageEnvironment.getCurrentLanguageEnv(context);
 
         // 对一些需要在构建时需要进行修改的参数进行修改
         _buildModifyParam ();
         
         return FutureBuilder(
-            future: _initStateScrollBottom(),
+            future: _getIsLoadDataFuture,
             builder:(context, snapshot) {
                 if (snapshot.connectionState != ConnectionState.done) {
                     return Container();
@@ -84,8 +92,8 @@ class _ChatViewWidgetState extends State<ChatViewWidget> {
                         physics: const AlwaysScrollableScrollPhysics(),
                         reverse: widget.isNeedScrollBottom,
                         shrinkWrap: true,
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (BuildContext context, int index) => snapshot.data![index],
+                        itemCount: _children.length,
+                        itemBuilder: (BuildContext context, int index) => _children[index],
                     ),
                 );
             },
@@ -93,8 +101,14 @@ class _ChatViewWidgetState extends State<ChatViewWidget> {
 
     }
 
+    /// 获取 可渲染列表
+    Future<List<ChatViewItem>> _getIsLoadData () async {
+        _children = _initStateScrollBottom();
+        return _children;
+    }
+
     /// 根据 初始渲染时是否需要滑动到底部 状态进行设置当前列表记录
-    Future<List<ChatViewItem>> _initStateScrollBottom () async {
+    List<ChatViewItem> _initStateScrollBottom () {
         if (!widget.isNeedScrollBottom){
             return widget.children ?? [];
         }
@@ -133,6 +147,8 @@ class _ChatViewWidgetState extends State<ChatViewWidget> {
                 widget.children!.clear();
                 break;
         }
+
+        _children = _initStateScrollBottom();
 
         _chatViewWidgetListViewController.animateTo(
             widget.isNeedScrollBottom ? 0 : _chatViewWidgetListViewController.position.maxScrollExtent,
