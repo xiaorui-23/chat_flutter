@@ -12,6 +12,14 @@
 
 > 推荐您通过`onCreated`回调中的`chatViewWidgetController`控制器对记录列表进行`add`、`remove`等操作。
 
+插件工具包支持以下平台，注⚠️部分功能非全平台支持：
+- Android
+- IOS
+- WEB
+- Windows
+- Macos
+- Linux
+
 
 # 效果图
 

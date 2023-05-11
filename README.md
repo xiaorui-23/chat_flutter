@@ -14,7 +14,13 @@ Language: [中文简体](https://github.com/xiaorui-23/chat_flutter/blob/master/
 > We recommend that you use the `chatViewWidgetController` controller in the `onCreated` callback to perform operations such as `add`、 `remove` on the record list.
 
 
-
+The plugin toolkit supports the following platforms, note ⚠️ Some functions are not fully platform supported:
+- Android
+- IOS
+- WEB
+- Windows
+- Macos
+- Linux
 
 
 
