@@ -1,6 +1,5 @@
 
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:chat_flutter/chat_flutter.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -17,7 +16,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-    FocusNode? _focusNode;
 
     List<ChatViewItem> chatRecordList = [];
 
@@ -48,43 +46,36 @@ class _MyAppState extends State<MyApp> {
                     // title: const Text('chat_flutter 插件展示案例'),
                 ),
                 backgroundColor: const Color.fromARGB(255, 239, 238, 234),
-                body: GestureDetector(
-                    onTap: () {
-                        if (_focusNode != null){
-                            _focusNode!.unfocus();
-                        }
-                    },
-                    child: Column(
-                        children: [
-                            Expanded(
-                                child: 
-                                ChatViewWidget(
-                                    isNeedScrollBottom: true,
-                                    isOpenPreviewImage: true,
-                                    children: chatRecordList,
-                                    onCreated:(chatViewWidgetListViewController, chatViewWidgetController) {
-                                        _chatViewWidgetController = chatViewWidgetController;
-                                        // 模拟发送消息
-                                        Future.delayed(const Duration(seconds: 3), () {
-                                            chatViewWidgetController.add(const ChatViewItem(
-                                                senderRight: false,
-                                                itemBodyType: ChatViewItemRecordBodyType.image,
-                                                itemBody: "https://pic35.photophoto.cn/20150511/0034034892281415_b.jpg",
-                                            ));
-                                        });
+                body: Column(
+                    children: [
+                        Expanded(
+                            child: ChatViewWidget(
+                                isNeedScrollBottom: true,
+                                isOpenPreviewImage: true,
+                                children: chatRecordList,
+                                onCreated:(chatViewWidgetListViewController, chatViewWidgetController) {
+                                    _chatViewWidgetController = chatViewWidgetController;
+                                    // 模拟发送消息
+                                    Future.delayed(const Duration(seconds: 3), () {
+                                        chatViewWidgetController.add(const ChatViewItem(
+                                            senderRight: false,
+                                            itemBodyType: ChatViewItemRecordBodyType.image,
+                                            itemBody: "https://pic35.photophoto.cn/20150511/0034034892281415_b.jpg",
+                                        ));
+                                    });
 
-                                        // Timer.periodic(const Duration(seconds: 3), (timer) { 
-                                        //     chatViewWidgetController.add(const ChatViewItem(
-                                        //         senderRight: false,
-                                        //         itemBodyType: ChatViewItemRecordBodyType.image,
-                                        //         itemBody: "https://pic35.photophoto.cn/20150511/0034034892281415_b.jpg",
-                                        //     ));
-                                        // });
-                                    },
-                                )
+                                    // Timer.periodic(const Duration(seconds: 3), (timer) { 
+                                    //     chatViewWidgetController.add(const ChatViewItem(
+                                    //         senderRight: false,
+                                    //         itemBodyType: ChatViewItemRecordBodyType.image,
+                                    //         itemBody: "https://pic35.photophoto.cn/20150511/0034034892281415_b.jpg",
+                                    //     ));
+                                    // });
+                                },
                             ),
-                        ],
-                    ),
+                        )
+                        //
+                    ],
                 ),
             ),
         );

@@ -8,7 +8,6 @@ import 'package:chat_flutter/widgets/avatar/avatar.dart';
 import 'package:chat_flutter/widgets/chat_view_item_record_body/chat_view_item_record_body.dart';
 
 /// 记录项 item
-
 class ChatViewItem extends StatefulWidget {
   /// 内容
     final String? itemBody;
@@ -82,7 +81,6 @@ class ChatViewItem extends StatefulWidget {
     @override
     State<ChatViewItem> createState() => _ChatViewItemState();
 }
-
 class _ChatViewItemState extends State<ChatViewItem> with AutomaticKeepAliveClientMixin {
     
     ChatViewItemAvatarModel get _avatarModel => widget.avatarModel ?? ChatViewItemAvatarModel();

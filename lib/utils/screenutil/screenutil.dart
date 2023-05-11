@@ -4,19 +4,20 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 /// 屏幕适配
 
-/// 初始化
-void initScreenUtil (context, {Size designSize = const Size(375, 750), bool splitScreenMode = true, bool minTextAdapt = true, bool scaleByHeight = false}) {
-    ScreenUtil.init(
-        context,
-        designSize: designSize,
-        splitScreenMode: splitScreenMode,
-        minTextAdapt: minTextAdapt,
-        scaleByHeight: scaleByHeight
-    );
-}
+
+/// ScreenUtil 初始化
+void screenUtilInit (
+    BuildContext context, { 
+        Size designSize = const Size(375, 750), 
+        bool splitScreenMode = false,
+        bool minTextAdapt = false,
+        bool scaleByHeight = false,
+    }
+) => ScreenUtil.init(context, designSize: designSize, splitScreenMode: splitScreenMode, scaleByHeight: scaleByHeight);
 
 /// 实例
 ScreenUtil _screenUtil = ScreenUtil();
+
 
 
 /// 宽度

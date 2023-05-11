@@ -76,6 +76,7 @@ class Avatar extends StatelessWidget {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(avatarSize ?? sz(45))
                 ),
+                alignment: Alignment.center,
                 child: FutureBuilder(
                     future: _handlerAvatarPath (avatarPath, defaultAvatarPath),
                     builder:(context, snapshot) {

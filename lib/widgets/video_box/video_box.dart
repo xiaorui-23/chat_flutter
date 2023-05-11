@@ -250,189 +250,196 @@ class _FullScreenPlayVideoBoxState extends State<_FullScreenPlayVideoBox> {
                         // 顶部安全区
                         SizedBox(
                             width: sw(375),
-                            height: getMediaQueryInfo(context).bottom,
+                            height: getMediaQueryInfo(context).top,
                         ),
                         // 内容
                         Expanded(
-                            child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                    // 视频内容
-                                    AspectRatio(
-                                        aspectRatio: 4 / 3,
-                                        child: FutureBuilder(
-                                            future: _fullScreenPlayVideoBoxInitializeVideoPlayerFuture,
-                                            builder: (context, snapshot) {
-                                                // 加载完成
-                                                if (snapshot.connectionState == ConnectionState.done) {
-                                                    _videoLoadFailError = snapshot.error;
-                                    
-                                                    // 自动播放视频
-                                                    if (_videoLoadFailError == null && !_videoPlayed){
-                                                        Future.delayed(const Duration(milliseconds: 1000), () {
-                                                            if (mounted){
-                                                                _playVideo ();
-                                                                
-                                                                setState(() {
+                            child: SingleChildScrollView(
+                                physics: const BouncingScrollPhysics(),
+                                child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                        // 模拟间距-居中
+                                        SizedBox(
+                                            width: sw(375),
+                                            height: sh(200),
+                                        ),
+                                        // 视频内容
+                                        AspectRatio(
+                                            aspectRatio: 4 / 3,
+                                            child: FutureBuilder(
+                                                future: _fullScreenPlayVideoBoxInitializeVideoPlayerFuture,
+                                                builder: (context, snapshot) {
+                                                    // 加载完成
+                                                    if (snapshot.connectionState == ConnectionState.done) {
+                                                        _videoLoadFailError = snapshot.error;
+                                        
+                                                        // 自动播放视频
+                                                        if (_videoLoadFailError == null && !_videoPlayed){
+                                                            Future.delayed(const Duration(milliseconds: 1000), () {
+                                                                if (mounted){
+                                                                    _playVideo ();
                                                                     
-                                                                });
-                                                            }
-                                                        });
-                                                    }
-                                                                
-                                                    return Stack(
-                                                        children: [
-                                                            // 视频
-                                                            VideoPlayer(_fullScreenPlayVideoBoxController!),
-                                                            // 播放按钮
-                                                            if (!_videoIsPLaying && !_fullScreenPlayVideoBoxController!.value.isPlaying)
-                                                                Positioned(
-                                                                    child: Center(
-                                                                        child: snapshot.error == null ? GestureDetector(
-                                                                            onTap: () {
-                                                                                if (_fullScreenPlayVideoBoxController!.value.isPlaying){
-                                                                                    _fullScreenPlayVideoBoxController?.pause();
-                                                                                    _videoIsPLaying = false;
-                                                                                } else {
-                                                                                    _fullScreenPlayVideoBoxController?.play();
-                                                                                    _videoIsPLaying = true;
-                                                                                }
-                                    
-                                                                                setState(() {
-                                                                                
-                                                                                });
-                                                                            },
-                                                                            child: widget.notPlayingWidget ?? Icon(
-                                                                                Icons.play_circle_outline_rounded,
+                                                                    setState(() {
+                                                                        
+                                                                    });
+                                                                }
+                                                            });
+                                                        }
+                                                                    
+                                                        return Stack(
+                                                            children: [
+                                                                // 视频
+                                                                VideoPlayer(_fullScreenPlayVideoBoxController!),
+                                                                // 播放按钮
+                                                                if (!_videoIsPLaying && !_fullScreenPlayVideoBoxController!.value.isPlaying)
+                                                                    Positioned(
+                                                                        child: Center(
+                                                                            child: snapshot.error == null ? GestureDetector(
+                                                                                onTap: () {
+                                                                                    if (_fullScreenPlayVideoBoxController!.value.isPlaying){
+                                                                                        _fullScreenPlayVideoBoxController?.pause();
+                                                                                        _videoIsPLaying = false;
+                                                                                    } else {
+                                                                                        _fullScreenPlayVideoBoxController?.play();
+                                                                                        _videoIsPLaying = true;
+                                                                                    }
+                                        
+                                                                                    setState(() {
+                                                                                    
+                                                                                    });
+                                                                                },
+                                                                                child: widget.notPlayingWidget ?? Icon(
+                                                                                    Icons.play_circle_outline_rounded,
+                                                                                    size: sf(30),
+                                                                                    color: Colors.white,
+                                                                                ),
+                                                                            ) : widget.playingFailWidget ?? Icon(
+                                                                                Icons.cancel_outlined,
                                                                                 size: sf(30),
                                                                                 color: Colors.white,
                                                                             ),
-                                                                        ) : widget.playingFailWidget ?? Icon(
-                                                                            Icons.cancel_outlined,
-                                                                            size: sf(30),
-                                                                            color: Colors.white,
-                                                                        ),
-                                                                    )
-                                                                ),
-                                                            // 
-                                                        ],
-                                                    );
-                                                }
-                                                // 加载中
-                                                return const Center(
-                                                    child: CircularProgressIndicator(),
-                                                );
-                                            },
-                                        ),
-                                    ),
-                                    // 工具栏
-                                    if (_fullScreenPlayVideoBoxController != null)
-                                        Container(
-                                            width: sw(375),
-                                            margin: EdgeInsets.only(
-                                                top: sh(10)
-                                            ),
-                                            child: Row(
-                                                children: [
-                                                    // 暂停/播放
-                                                    GestureDetector(
-                                                        onTap: () {
-                                                            if (_fullScreenPlayVideoBoxController!.value.isPlaying){
-                                                                _fullScreenPlayVideoBoxController?.pause();
-                                                                _videoIsPLaying = false;
-                                                            } else {
-                                                                _fullScreenPlayVideoBoxController?.play();
-                                                                _videoIsPLaying = true;
-                                                            }
-
-                                                            setState(() {
-                                                            
-                                                            });
-                                                        },
-                                                        child: Icon(
-                                                            _fullScreenPlayVideoBoxController!.value.isPlaying ? Icons.pause_circle_outline_rounded : Icons.play_circle_outline_rounded,
-                                                            color: Colors.white,
-                                                            size: sf(28),
-                                                        ),
-                                                    ),
-                                                    // 进度条
-                                                    Expanded(
-                                                        child: Container(
-                                                            margin: EdgeInsets.only(
-                                                                left: sw(10),
-                                                                right: sw(10)
-                                                            ),
-                                                            child: SliderTheme(
-                                                                data: SliderThemeData(
-                                                                    thumbShape: RoundSliderThumbShape(
-                                                                        enabledThumbRadius: sf(7)
+                                                                        )
                                                                     ),
-                                                                    trackShape: _CustomRoundedRectSliderTrackShape()
-                                                                ),
-                                                                child: Slider(
-                                                                    max: _fullScreenPlayVideoBoxController!.value.duration.inMilliseconds.truncateToDouble(),
-                                                                    value: _fullScreenPlayVideoBoxController!.value.position.inMilliseconds.truncateToDouble(),
-                                                                    onChanged: (newRating) {
-                                                                        _fullScreenPlayVideoBoxController?.seekTo(Duration(milliseconds: newRating.truncate()));
-                                                                        
-                                                                        if (!_fullScreenPlayVideoBoxController!.value.isPlaying && mounted){
-                                                                            _fullScreenPlayVideoBoxController?.play();
-                                                                            _videoIsPLaying = true;
-                                                                            setState(() {
-                                                                                
-                                                                            });
-                                                                        }
-                                                                    },
-                                                                ),
-                                                            ),
-                                                        ),
-                                                    ),
-                                                    // 播放进度
-                                                    Container(
-                                                        margin: EdgeInsets.only(
-                                                            left: sw(5)
-                                                        ),
-                                                        child: Text(
-                                                            _timeLengthSplit(_fullScreenPlayVideoBoxController!.value.position, _fullScreenPlayVideoBoxController!.value.duration),
-                                                            style: TextStyle(
+                                                                // 
+                                                            ],
+                                                        );
+                                                    }
+                                                    // 加载中
+                                                    return const Center(
+                                                        child: CircularProgressIndicator(),
+                                                    );
+                                                },
+                                            ),
+                                        ),
+                                        // 工具栏
+                                        if (_fullScreenPlayVideoBoxController != null)
+                                            Container(
+                                                width: sw(375),
+                                                margin: EdgeInsets.only(
+                                                    top: sh(10)
+                                                ),
+                                                child: Row(
+                                                    children: [
+                                                        // 暂停/播放
+                                                        GestureDetector(
+                                                            onTap: () {
+                                                                if (_fullScreenPlayVideoBoxController!.value.isPlaying){
+                                                                    _fullScreenPlayVideoBoxController?.pause();
+                                                                    _videoIsPLaying = false;
+                                                                } else {
+                                                                    _fullScreenPlayVideoBoxController?.play();
+                                                                    _videoIsPLaying = true;
+                                                                }
+                                
+                                                                setState(() {
+                                                                
+                                                                });
+                                                            },
+                                                            child: Icon(
+                                                                _fullScreenPlayVideoBoxController!.value.isPlaying ? Icons.pause_circle_outline_rounded : Icons.play_circle_outline_rounded,
                                                                 color: Colors.white,
-                                                                fontSize: sf(12)
+                                                                size: sf(28),
                                                             ),
                                                         ),
-                                                    ),
-                                                    // 静音/未静音
-                                                    GestureDetector(
-                                                        onTap: () {
-                                                            if (_muteStatus){
-                                                                _muteStatus = false;
-                                                                _fullScreenPlayVideoBoxController?.setVolume(0.5);
-                                                            } else {
-                                                                _muteStatus = true;
-                                                                _fullScreenPlayVideoBoxController?.setVolume(0);
-                                                            }
-
-                                                            setState(() {
-                                                            
-                                                            });
-                                                        },
-                                                        child: Container(
+                                                        // 进度条
+                                                        Expanded(
+                                                            child: Container(
+                                                                margin: EdgeInsets.only(
+                                                                    left: sw(10),
+                                                                    right: sw(10)
+                                                                ),
+                                                                child: SliderTheme(
+                                                                    data: SliderThemeData(
+                                                                        thumbShape: RoundSliderThumbShape(
+                                                                            enabledThumbRadius: sf(7)
+                                                                        ),
+                                                                        trackShape: _CustomRoundedRectSliderTrackShape()
+                                                                    ),
+                                                                    child: Slider(
+                                                                        max: _fullScreenPlayVideoBoxController!.value.duration.inMilliseconds.truncateToDouble(),
+                                                                        value: _fullScreenPlayVideoBoxController!.value.position.inMilliseconds.truncateToDouble(),
+                                                                        onChanged: (newRating) {
+                                                                            _fullScreenPlayVideoBoxController?.seekTo(Duration(milliseconds: newRating.truncate()));
+                                                                            
+                                                                            if (!_fullScreenPlayVideoBoxController!.value.isPlaying && mounted){
+                                                                                _fullScreenPlayVideoBoxController?.play();
+                                                                                _videoIsPLaying = true;
+                                                                                setState(() {
+                                                                                    
+                                                                                });
+                                                                            }
+                                                                        },
+                                                                    ),
+                                                                ),
+                                                            ),
+                                                        ),
+                                                        // 播放进度
+                                                        Container(
                                                             margin: EdgeInsets.only(
                                                                 left: sw(5)
                                                             ),
-                                                            child: Icon(
-                                                                _muteStatus ? Icons.volume_off_sharp : Icons.volume_up,
-                                                                color: Colors.white,
-                                                                size: sf(24),
+                                                            child: Text(
+                                                                _timeLengthSplit(_fullScreenPlayVideoBoxController!.value.position, _fullScreenPlayVideoBoxController!.value.duration),
+                                                                style: TextStyle(
+                                                                    color: Colors.white,
+                                                                    fontSize: sf(12)
+                                                                ),
                                                             ),
                                                         ),
-                                                    ),
-                                                ],
+                                                        // 静音/未静音
+                                                        GestureDetector(
+                                                            onTap: () {
+                                                                if (_muteStatus){
+                                                                    _muteStatus = false;
+                                                                    _fullScreenPlayVideoBoxController?.setVolume(0.5);
+                                                                } else {
+                                                                    _muteStatus = true;
+                                                                    _fullScreenPlayVideoBoxController?.setVolume(0);
+                                                                }
+                                
+                                                                setState(() {
+                                                                
+                                                                });
+                                                            },
+                                                            child: Container(
+                                                                margin: EdgeInsets.only(
+                                                                    left: sw(5)
+                                                                ),
+                                                                child: Icon(
+                                                                    _muteStatus ? Icons.volume_off_sharp : Icons.volume_up,
+                                                                    color: Colors.white,
+                                                                    size: sf(24),
+                                                                ),
+                                                            ),
+                                                        ),
+                                                    ],
+                                                ),
                                             ),
-                                        ),
-                                    
-                                    // 
-                                ],
+                                        // 
+                                    ],
+                                ),
                             )
                         ),
                         // 底部安全区

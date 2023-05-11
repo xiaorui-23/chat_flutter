@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 
 /// 获取当前语言环境
-/// * 默认 US
+/// * 默认 CH
 class GetLanguageEnvironment {
     /// 当前语言环境
     static String? _currentLanguageEnv = 'CH';
