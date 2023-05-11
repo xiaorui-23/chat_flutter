@@ -1,8 +1,10 @@
 
+## 2.0.2
 
+Optimize known issues.
 ## 2.0.1
 
-- Modify Document Description.
+Modify Document Description.
 
 ## 2.0.0
 

@@ -43,7 +43,7 @@ class ChatViewWidget extends StatefulWidget {
 
   const ChatViewWidget(
       {super.key,
-      required this.children,
+      this.children,
       this.isNeedScrollBottom = false,
       this.isOpenPreviewImage = false,
       this.physics = const AlwaysScrollableScrollPhysics(),
