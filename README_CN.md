@@ -122,15 +122,27 @@ class _MyAppState extends State<MyApp> {
 # 四、使用注意
 
 
-
-本插件只提供展示，不提供功能的实现。如以下功能并未实现：
+#### 1、本插件只提供展示，不提供功能的实现。如以下功能并未实现：
 
 - 当展示记录内容为音频时，本插件并未实现音频的播放，需要使用者自己实现音频播放功能。
 
+#### 2、使用注意
 
+- 本插件未对插件内容进行宽度、高度限制，故此您在使用的过程中需要对插件包裹的`widget`盒子进行设定宽高。
 
-本插件未对插件内容进行宽度、高度限制，故此您在使用的过程中需要对插件包裹的`widget`盒子进行设定宽高。
-
+- 若你在使用的过程中，在`release`模式下出现渲染问题，请按照下方描述进行修改：
+  
+在您的项目`项目/android/app/build.gradle`文件中`buildTypes`的`release`模式添加如下代码：
+```gradle
+buildTypes {
+    release {
+        signingConfig signingConfigs.debug
+        // 添加如下代码
+        shrinkResources false // 关闭代码混淆
+        minifyEnabled false // 关闭资源缩小
+    }
+}
+```
 
 
 # 五、关于插件机型适配问题
@@ -318,8 +330,8 @@ class _MyAppState extends State<MyApp> {
 
 插件工具包本身涉及到的提醒、展示等固定文字内容已做语言坏境适配。目前仅支持以下语言环境：
 
-- CH -> 中文
-- US -> 英文 (默认)
+- CH -> 中文 (默认)
+- US -> 英文
 
 如需进行切换及修改可参考采用下方代码形式进行修改：
 

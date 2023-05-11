@@ -8,7 +8,8 @@ import 'package:chat_flutter/widgets/avatar/avatar.dart';
 import 'package:chat_flutter/widgets/chat_view_item_record_body/chat_view_item_record_body.dart';
 
 /// 记录项 item
-class ChatViewItem extends StatelessWidget {
+
+class ChatViewItem extends StatefulWidget {
   /// 内容
     final String? itemBody;
     /// 自定义记录 item 主体
@@ -78,24 +79,31 @@ class ChatViewItem extends StatelessWidget {
         this.chatViewItemRecordBodyBoxConstraints,
     });
 
+    @override
+    State<ChatViewItem> createState() => _ChatViewItemState();
+}
 
+class _ChatViewItemState extends State<ChatViewItem> with AutomaticKeepAliveClientMixin {
     
-    ChatViewItemAvatarModel get _avatarModel => avatarModel ?? ChatViewItemAvatarModel();
+    ChatViewItemAvatarModel get _avatarModel => widget.avatarModel ?? ChatViewItemAvatarModel();
 
-    ChatViewItemTextTypeModel get _textTypeModel => textTypeModel ?? ChatViewItemTextTypeModel();
-    ChatViewItemImageTypeModel get _imageTypeModel => imageTypeModel ?? ChatViewItemImageTypeModel();
-    ChatViewItemVideoTypeModel get _videoTypeModel => videoTypeModel ?? ChatViewItemVideoTypeModel();
-    ChatViewItemAudioTypeModel get _audioTypeModel => audioTypeModel ?? ChatViewItemAudioTypeModel();
+    ChatViewItemTextTypeModel get _textTypeModel => widget.textTypeModel ?? ChatViewItemTextTypeModel();
+    ChatViewItemImageTypeModel get _imageTypeModel => widget.imageTypeModel ?? ChatViewItemImageTypeModel();
+    ChatViewItemVideoTypeModel get _videoTypeModel => widget.videoTypeModel ?? ChatViewItemVideoTypeModel();
+    ChatViewItemAudioTypeModel get _audioTypeModel => widget.audioTypeModel ?? ChatViewItemAudioTypeModel();
 
     // 暂不支持额外参数
-    ChatViewItemFileTypeModel get _fileTypeModel => fileTypeModel ?? ChatViewItemFileTypeModel();
+    ChatViewItemFileTypeModel get _fileTypeModel => widget.fileTypeModel ?? ChatViewItemFileTypeModel();
 
-    CommonParamModel get _commonParamModel => commonParamModel ?? CommonParamModel();
+    CommonParamModel get _commonParamModel => widget.commonParamModel ?? CommonParamModel();
     
-
+    @override
+    bool get wantKeepAlive => true;
 
     @override
     Widget build(BuildContext context) {
+        super.build(context);
+        
         return Container(
             width: sw(375),
             decoration: const BoxDecoration(),
@@ -105,12 +113,12 @@ class ChatViewItem extends StatelessWidget {
                     _recordTimeWidget (),
                     // 内容主体
                     Row(
-                        mainAxisAlignment: senderRight ? MainAxisAlignment.end : MainAxisAlignment.start,
+                        mainAxisAlignment: widget.senderRight ? MainAxisAlignment.end : MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.max,
                         children: [
                             // 对方
-                            if (!senderRight)
+                            if (!widget.senderRight)
                                 Container(
                                     margin: EdgeInsets.only(
                                         top: sh(10),
@@ -128,14 +136,14 @@ class ChatViewItem extends StatelessWidget {
                                 ),
                             // 消息内容
                             ChatViewItemRecordBody(
-                                senderRight: senderRight,
-                                itemBodyType: itemBodyType,
-                                backgroundColor: backgroundColor,
-                                itemBody: (itemBody ?? '').toString(),
-                                itemBodyTap: itemBodyTap,
-                                itemBodyMediaTap: itemBodyMediaTap,
-                                chatViewItemRecordBodyBoxConstraints: chatViewItemRecordBodyBoxConstraints,
-                                customItem: customItem,
+                                senderRight: widget.senderRight,
+                                itemBodyType: widget.itemBodyType,
+                                backgroundColor: widget.backgroundColor,
+                                itemBody: (widget.itemBody ?? '').toString(),
+                                itemBodyTap: widget.itemBodyTap,
+                                itemBodyMediaTap: widget.itemBodyMediaTap,
+                                chatViewItemRecordBodyBoxConstraints: widget.chatViewItemRecordBodyBoxConstraints,
+                                customItem: widget.customItem,
             
                                 textTypeModel: _textTypeModel,
                                 audioTypeModel: _audioTypeModel,
@@ -146,7 +154,7 @@ class ChatViewItem extends StatelessWidget {
                                 commonParamModel: _commonParamModel,
                             ),
                             // 己方
-                            if (senderRight)
+                            if (widget.senderRight)
                                 Container(
                                     margin: EdgeInsets.only(
                                         top: sh(10),
@@ -173,9 +181,9 @@ class ChatViewItem extends StatelessWidget {
 
     /// 记录时间
     Widget _recordTimeWidget () {
-        if (customRecordTimeWidget != null && itemBodyRecordTime == null) {
-            return customRecordTimeWidget!;
-        }else if (itemBodyRecordTime != null) {
+        if (widget.customRecordTimeWidget != null && widget.itemBodyRecordTime == null) {
+            return widget.customRecordTimeWidget!;
+        }else if (widget.itemBodyRecordTime != null) {
             Container(
                 width: sw(375),
                 margin: EdgeInsets.only(
@@ -184,9 +192,9 @@ class ChatViewItem extends StatelessWidget {
                 ),
                 alignment: Alignment.center,
                 child: Text(
-                    itemBodyRecordTime!,
+                    widget.itemBodyRecordTime!,
                     textAlign: TextAlign.center,
-                    style: customRecordTimeStyle ?? TextStyle(
+                    style: widget.customRecordTimeStyle ?? TextStyle(
                         fontSize: sf(14),
                         color: const Color.fromARGB(255, 183, 182, 182)
                     ),

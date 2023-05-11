@@ -34,7 +34,7 @@ class Avatar extends StatelessWidget {
     /// 头像地址处理
     /// * [_avatarPath] 头像地址
     /// * [_defaultAvatarPath] 默认头像地址
-    ImageProvider _handlerAvatarPath (String? tempAvatarPath, String? tampDefaultAvatarPath) {
+    Future<ImageProvider> _handlerAvatarPath (String? tempAvatarPath, String? tampDefaultAvatarPath) async {
         // 当前是否使用默认地址
         bool isUseDefaultAvatarPath = true;
         // 当前地址是否是 assets 地址
@@ -61,8 +61,6 @@ class Avatar extends StatelessWidget {
         return NetworkImage(currentUsePath);
     }
     
-    ImageProvider get _imageProvider => _handlerAvatarPath (avatarPath, defaultAvatarPath);
-
     @override
     Widget build(BuildContext context) {
         if (!isAvatarShow){
@@ -78,16 +76,33 @@ class Avatar extends StatelessWidget {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(avatarSize ?? sz(45))
                 ),
-                child: Image(
-                    width: avatarSize ?? sz(45),
-                    height: avatarSize ?? sz(45),
-                    fit: BoxFit.cover,
-                    image: _imageProvider,
-                    errorBuilder:(context, error, stackTrace) {
-                        return Icon(
-                            Icons.account_circle,
-                            size: avatarSize ?? sz(45),
-                            color: avatarColor,
+                child: FutureBuilder(
+                    future: _handlerAvatarPath (avatarPath, defaultAvatarPath),
+                    builder:(context, snapshot) {
+
+                        if (snapshot.data == null){
+                            return customAvatarWidget ?? Container(
+                                width: avatarSize ?? sz(45),
+                                height: avatarSize ?? sz(45),
+                                clipBehavior: Clip.antiAlias,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(avatarSize ?? sz(45))
+                                ),
+                            );
+                        }
+
+                        return Image(
+                            width: avatarSize ?? sz(45),
+                            height: avatarSize ?? sz(45),
+                            fit: BoxFit.cover,
+                            image: snapshot.data!,
+                            errorBuilder:(context, error, stackTrace) {
+                                return Icon(
+                                    Icons.account_circle,
+                                    size: avatarSize ?? sz(45),
+                                    color: avatarColor,
+                                );
+                            },
                         );
                     },
                 ),

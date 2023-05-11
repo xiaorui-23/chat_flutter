@@ -18,10 +18,10 @@ class GetLanguageEnvironment {
     static String getLanguageEnvConvertValue (String value) {
         String newValue = '';
         switch (_currentLanguageEnv) {
-            case 'CH':
-                newValue = _mapInfo['CH'][value] ?? value;
-                break;
             case 'US':
+                newValue = _mapInfo['US'][value] ?? value;
+                break;
+            case 'CH':
             default:
                 newValue = value;
                 break;
@@ -43,7 +43,7 @@ class GetLanguageEnvironment {
 /// * 所有默认值全部为中文
 
 Map<String, dynamic> _mapInfo = {
-    'CH': {
-        'Image loading failed': '图片加载失败'
+    'US': {
+        '图片加载失败': 'Image loading failed'
     }
 };

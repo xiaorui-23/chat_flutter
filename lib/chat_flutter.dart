@@ -16,10 +16,13 @@ export 'package:chat_flutter/utils/chat_view_item_record_body_type/chat_view_ite
 class ChatViewWidget extends StatefulWidget {
 
     /// 记录列表
+    /// * 勿传递大量数据，在`release`或者`profile`模式下可能会出现渲染问题。
+    /// * 推荐使用 `chatViewWidgetController` 进行列表操作，详细使用请查看 https://github.com/xiaorui-23/chat_flutter/blob/master/example/lib/main.dart
     final List<ChatViewItem>? children;
     /// 初始渲染时是否滑动到底部
     final bool isNeedScrollBottom;
     /// 是否开启图片预览
+    /// * true 为开启图片预览
     final bool isOpenPreviewImage;
     /// 创建完成时
     /// * [chatViewWidgetListViewController] 列表展示控制器
@@ -28,7 +31,7 @@ class ChatViewWidget extends StatefulWidget {
 
     const ChatViewWidget({
         super.key,
-        this.children,
+        required this.children,
         this.isNeedScrollBottom = false,
         this.isOpenPreviewImage = false,
         this.onCreated
@@ -42,6 +45,8 @@ class _ChatViewWidgetState extends State<ChatViewWidget> {
     final ScrollController _chatViewWidgetListViewController = ScrollController ();
     final ChatViewWidgetController _chatViewWidgetController = ChatViewWidgetController ();
 
+    List<ChatViewItem> get _childrenListInfo => widget.children ?? [];
+
     Future<List<ChatViewItem>>? _getIsLoadDataFuture;
 
     List<ChatViewItem> _children = [];
@@ -52,11 +57,13 @@ class _ChatViewWidgetState extends State<ChatViewWidget> {
         
         // 执行创建完成时回调
         _created ();
-
+        
+        // 获取可渲染列表
         _getIsLoadDataFuture = _getIsLoadData();
 
         // 注册监听器
         _chatViewWidgetController.registerListeningCallback(_registerListeningCallback);
+
     }
 
     @override
@@ -79,22 +86,23 @@ class _ChatViewWidgetState extends State<ChatViewWidget> {
         
         return FutureBuilder(
             future: _getIsLoadDataFuture,
-            builder:(context, snapshot) {
+            builder: (context, snapshot) {
+                
                 if (snapshot.connectionState != ConnectionState.done) {
                     return Container();
                 }
                 
-                return SizedBox(
-                    width: sw(375),
-                    child: ListView.builder(
-                        controller: _chatViewWidgetListViewController,
-                        padding: const EdgeInsets.all(0),
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        reverse: widget.isNeedScrollBottom,
-                        shrinkWrap: true,
-                        itemCount: _children.length,
-                        itemBuilder: (BuildContext context, int index) => _children[index],
-                    ),
+                return ListView.builder(
+                    addAutomaticKeepAlives: true,
+                    addRepaintBoundaries: true,
+                    addSemanticIndexes: true,
+                    controller: _chatViewWidgetListViewController,
+                    padding: const EdgeInsets.all(0),
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    reverse: widget.isNeedScrollBottom,
+                    shrinkWrap: true,
+                    itemCount: _children.length,
+                    itemBuilder: (BuildContext context, int index) => _children[index],
                 );
             },
         );
@@ -103,17 +111,17 @@ class _ChatViewWidgetState extends State<ChatViewWidget> {
 
     /// 获取 可渲染列表
     Future<List<ChatViewItem>> _getIsLoadData () async {
-        _children = _initStateScrollBottom();
+        _children = await _initStateScrollBottom();
         return _children;
     }
 
     /// 根据 初始渲染时是否需要滑动到底部 状态进行设置当前列表记录
-    List<ChatViewItem> _initStateScrollBottom () {
+    Future<List<ChatViewItem> >_initStateScrollBottom () async {
         if (!widget.isNeedScrollBottom){
-            return widget.children ?? [];
+            return _childrenListInfo;
         }
 
-        return (widget.children ?? []).reversed.toList();
+        return _childrenListInfo.reversed.toList();
     }
 
     /// 对一些需要在构建时需要进行修改的参数进行修改
@@ -127,28 +135,26 @@ class _ChatViewWidgetState extends State<ChatViewWidget> {
     }
 
     /// 记录展示界面控制器-监听器内容
-    void _registerListeningCallback (ChatViewWidgetControllerListenType type, {ChatViewItem? chatViewItem, List<ChatViewItem>? chatViewItemList}) {
+    void _registerListeningCallback (ChatViewWidgetControllerListenType type, {ChatViewItem? chatViewItem, List<ChatViewItem>? chatViewItemList}) async {
         
-        if (widget.children == null) {
-            return;
-        }
+        
 
         switch (type) {
             case ChatViewWidgetControllerListenType.add:
-                widget.children!.add(chatViewItem!);
+                _childrenListInfo.add(chatViewItem!);
                 break;
             case ChatViewWidgetControllerListenType.addAll:
-                widget.children!.addAll(chatViewItemList!);
+                _childrenListInfo.addAll(chatViewItemList!);
                 break;
             case ChatViewWidgetControllerListenType.remove:
-                widget.children!.remove(chatViewItem!);
+                _childrenListInfo.remove(chatViewItem!);
                 break;
             case ChatViewWidgetControllerListenType.clear:
-                widget.children!.clear();
+                _childrenListInfo.clear();
                 break;
         }
 
-        _children = _initStateScrollBottom();
+        _children = await _initStateScrollBottom();
 
         _chatViewWidgetListViewController.animateTo(
             widget.isNeedScrollBottom ? 0 : _chatViewWidgetListViewController.position.maxScrollExtent,
@@ -172,13 +178,15 @@ class _ChatViewWidgetState extends State<ChatViewWidget> {
             widget.onCreated!(_chatViewWidgetListViewController, _chatViewWidgetController);
         }
     }
+
+
 }
 
 
 /// 监听器回调类型
 typedef CallbackType = void Function(ChatViewWidgetControllerListenType type, {ChatViewItem? chatViewItem, List<ChatViewItem>? chatViewItemList});
 
-/// 记录展示界面控制器
+/// 列表展示盒子控制器
 class ChatViewWidgetController {
     /// 已注册监听回调
     final List<CallbackType> _listeningCallback = [];

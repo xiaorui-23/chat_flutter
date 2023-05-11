@@ -126,13 +126,29 @@ More use cases can be found at [Here](https://github.com/xiaorui-23/chat_flutter
 
 
 
-This plugin only provides display and does not provide implementation of functions. If the following functions are not implemented:
+#### 1、This plugin only provides display and does not provide implementation of functions. If the following functions are not implemented:
 
 - When displaying recorded content as audio, this plugin does not implement audio playback, and users need to implement the audio playback function themselves.
 
 
 
-This plugin does not impose width or height restrictions on the content of the plugin, so you need to package the plugin with `widget` set the width and height of the box。
+#### 2、Precautions for use
+
+- This plugin does not impose width or height restrictions on the content of the plugin, so you need to package the plugin with `widget` set the width and height of the box.
+
+- If you encounter rendering issues in the `release` mode during use, please make modifications as described below:
+  
+Add the following code to the `release` mode of `buildTypes` in the `project/android/app/build. gradle` file of your project:
+```gradle
+buildTypes {
+    release {
+        signingConfig signingConfigs.debug
+        // Add the following code
+        shrinkResources false // Turn off code obfuscation
+        minifyEnabled false // Turn off resource reduction
+    }
+}
+```
 
 
 
@@ -322,8 +338,8 @@ Be directed against `IOS`, You need to `<project root>/ios/Runner/Info.plist` un
 
 Tips: The fixed text content involved in the plugin itself, such as reminders and displays, has been adapted to the language environment. Currently, only the following language environments are supported:
 
-- CH -> Chinese
-- US -> English (default)
+- CH -> Chinese (default)
+- US -> English
 
 If you need to switch and modify, please refer to the following code format for modification:
 

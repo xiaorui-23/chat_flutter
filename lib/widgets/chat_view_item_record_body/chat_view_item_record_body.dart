@@ -130,7 +130,7 @@ class _ChatViewItemRecordBodyState extends State<ChatViewItemRecordBody> {
                                     },
                                     child: !snapshot.data!.isImageLoad && widget.itemBodyType == ChatViewItemRecordBodyType.image ? 
                                         Text(
-                                            '${GetLanguageEnvironment.getLanguageEnvConvertValue('Image loading failed')}...',
+                                            '${GetLanguageEnvironment.getLanguageEnvConvertValue('图片加载失败')}...',
                                             textAlign: TextAlign.left,
                                             style: TextStyle(
                                                 fontSize: sf(15),
