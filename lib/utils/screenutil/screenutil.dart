@@ -11,10 +11,11 @@ void screenUtilInit(
   bool minTextAdapt = false,
   bool scaleByHeight = false,
 }) =>
-    ScreenUtil.init(context,
-        designSize: designSize,
-        splitScreenMode: splitScreenMode,
-        scaleByHeight: scaleByHeight);
+    ScreenUtil.init(
+      context,
+      designSize: designSize,
+      splitScreenMode: splitScreenMode,
+    );
 
 /// 实例
 ScreenUtil _screenUtil = ScreenUtil();
@@ -35,5 +36,4 @@ double sf(double fontSize) => _screenUtil.setSp(fontSize);
 double sr(double r) => _screenUtil.radius(r);
 
 /// 获取页面边距信息，如：状态栏高度、底部安全区高度等
-EdgeInsets getMediaQueryInfo(BuildContext context) =>
-    MediaQuery.of(context).padding;
+EdgeInsets getMediaQueryInfo(BuildContext context) => MediaQuery.of(context).padding;
