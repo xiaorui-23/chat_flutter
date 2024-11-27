@@ -64,7 +64,7 @@ class _VideoBoxState extends State<VideoBox> {
   void initState() {
     super.initState();
 
-    _videoBoxController = VideoPlayerController.network(widget.videoPath);
+    _videoBoxController = VideoPlayerController.networkUrl(Uri.parse(widget.videoPath));
 
     _videoBoxInitializeVideoPlayerFuture = _videoBoxController?.initialize();
   }
@@ -97,15 +97,12 @@ class _VideoBoxState extends State<VideoBox> {
                 _videoLoadFailError = snapshot.error;
 
                 // 执行错误回调
-                if (_videoLoadFailError != null &&
-                    widget.videoLoadFailCallback != null) {
+                if (_videoLoadFailError != null && widget.videoLoadFailCallback != null) {
                   widget.videoLoadFailCallback!(_videoLoadFailError!);
                 }
 
                 // 自动播放视频
-                if (_videoLoadFailError == null &&
-                    !_videoPlayed &&
-                    widget.autoPlaying) {
+                if (_videoLoadFailError == null && !_videoPlayed && widget.autoPlaying) {
                   Future.delayed(const Duration(milliseconds: 600), () {
                     if (mounted) {
                       _playVideo();
@@ -160,8 +157,7 @@ class _VideoBoxState extends State<VideoBox> {
     // 播放
     _videoBoxController?.play();
     // 修改播放状态
-    _videoIsPLaying =
-        (_videoBoxController != null && _videoBoxController!.value.isPlaying);
+    _videoIsPLaying = (_videoBoxController != null && _videoBoxController!.value.isPlaying);
     _videoPlayed = true;
 
     _videoBoxController?.addListener(_videoBoxControllerBody);
@@ -207,14 +203,10 @@ class _FullScreenPlayVideoBox extends StatefulWidget {
   final Duration? position;
 
   const _FullScreenPlayVideoBox(
-      {required this.videoPath,
-      this.notPlayingWidget,
-      this.playingFailWidget,
-      this.position});
+      {required this.videoPath, this.notPlayingWidget, this.playingFailWidget, this.position});
 
   @override
-  State<_FullScreenPlayVideoBox> createState() =>
-      _FullScreenPlayVideoBoxState();
+  State<_FullScreenPlayVideoBox> createState() => _FullScreenPlayVideoBoxState();
 }
 
 class _FullScreenPlayVideoBoxState extends State<_FullScreenPlayVideoBox> {
@@ -241,7 +233,7 @@ class _FullScreenPlayVideoBoxState extends State<_FullScreenPlayVideoBox> {
     super.initState();
 
     _fullScreenPlayVideoBoxController =
-        VideoPlayerController.network(widget.videoPath);
+        VideoPlayerController.networkUrl(Uri.parse(widget.videoPath));
 
     _fullScreenPlayVideoBoxInitializeVideoPlayerFuture =
         _fullScreenPlayVideoBoxController?.initialize();
@@ -287,19 +279,15 @@ class _FullScreenPlayVideoBoxState extends State<_FullScreenPlayVideoBox> {
                       AspectRatio(
                         aspectRatio: 4 / 3,
                         child: FutureBuilder(
-                          future:
-                              _fullScreenPlayVideoBoxInitializeVideoPlayerFuture,
+                          future: _fullScreenPlayVideoBoxInitializeVideoPlayerFuture,
                           builder: (context, snapshot) {
                             // 加载完成
-                            if (snapshot.connectionState ==
-                                ConnectionState.done) {
+                            if (snapshot.connectionState == ConnectionState.done) {
                               _videoLoadFailError = snapshot.error;
 
                               // 自动播放视频
-                              if (_videoLoadFailError == null &&
-                                  !_videoPlayed) {
-                                Future.delayed(
-                                    const Duration(milliseconds: 1000), () {
+                              if (_videoLoadFailError == null && !_videoPlayed) {
+                                Future.delayed(const Duration(milliseconds: 1000), () {
                                   if (mounted) {
                                     _playVideo();
 
@@ -311,12 +299,10 @@ class _FullScreenPlayVideoBoxState extends State<_FullScreenPlayVideoBox> {
                               return Stack(
                                 children: [
                                   // 视频
-                                  VideoPlayer(
-                                      _fullScreenPlayVideoBoxController!),
+                                  VideoPlayer(_fullScreenPlayVideoBoxController!),
                                   // 播放按钮
                                   if (!_videoIsPLaying &&
-                                      !_fullScreenPlayVideoBoxController!
-                                          .value.isPlaying)
+                                      !_fullScreenPlayVideoBoxController!.value.isPlaying)
                                     Positioned(
                                         child: Center(
                                       child: snapshot.error == null
@@ -324,12 +310,10 @@ class _FullScreenPlayVideoBoxState extends State<_FullScreenPlayVideoBox> {
                                               onTap: () {
                                                 if (_fullScreenPlayVideoBoxController!
                                                     .value.isPlaying) {
-                                                  _fullScreenPlayVideoBoxController
-                                                      ?.pause();
+                                                  _fullScreenPlayVideoBoxController?.pause();
                                                   _videoIsPLaying = false;
                                                 } else {
-                                                  _fullScreenPlayVideoBoxController
-                                                      ?.play();
+                                                  _fullScreenPlayVideoBoxController?.play();
                                                   _videoIsPLaying = true;
                                                 }
 
@@ -337,8 +321,7 @@ class _FullScreenPlayVideoBoxState extends State<_FullScreenPlayVideoBox> {
                                               },
                                               child: widget.notPlayingWidget ??
                                                   Icon(
-                                                    Icons
-                                                        .play_circle_outline_rounded,
+                                                    Icons.play_circle_outline_rounded,
                                                     size: sf(30),
                                                     color: Colors.white,
                                                   ),
@@ -371,8 +354,7 @@ class _FullScreenPlayVideoBoxState extends State<_FullScreenPlayVideoBox> {
                               // 暂停/播放
                               GestureDetector(
                                 onTap: () {
-                                  if (_fullScreenPlayVideoBoxController!
-                                      .value.isPlaying) {
+                                  if (_fullScreenPlayVideoBoxController!.value.isPlaying) {
                                     _fullScreenPlayVideoBoxController?.pause();
                                     _videoIsPLaying = false;
                                   } else {
@@ -383,8 +365,7 @@ class _FullScreenPlayVideoBoxState extends State<_FullScreenPlayVideoBox> {
                                   setState(() {});
                                 },
                                 child: Icon(
-                                  _fullScreenPlayVideoBoxController!
-                                          .value.isPlaying
+                                  _fullScreenPlayVideoBoxController!.value.isPlaying
                                       ? Icons.pause_circle_outline_rounded
                                       : Icons.play_circle_outline_rounded,
                                   color: Colors.white,
@@ -394,14 +375,12 @@ class _FullScreenPlayVideoBoxState extends State<_FullScreenPlayVideoBox> {
                               // 进度条
                               Expanded(
                                 child: Container(
-                                  margin: EdgeInsets.only(
-                                      left: sw(10), right: sw(10)),
+                                  margin: EdgeInsets.only(left: sw(10), right: sw(10)),
                                   child: SliderTheme(
                                     data: SliderThemeData(
-                                        thumbShape: RoundSliderThumbShape(
-                                            enabledThumbRadius: sf(7)),
-                                        trackShape:
-                                            _CustomRoundedRectSliderTrackShape()),
+                                        thumbShape:
+                                            RoundSliderThumbShape(enabledThumbRadius: sf(7)),
+                                        trackShape: _CustomRoundedRectSliderTrackShape()),
                                     child: Slider(
                                       max: _fullScreenPlayVideoBoxController!
                                           .value.duration.inMilliseconds
@@ -411,15 +390,11 @@ class _FullScreenPlayVideoBoxState extends State<_FullScreenPlayVideoBox> {
                                           .truncateToDouble(),
                                       onChanged: (newRating) {
                                         _fullScreenPlayVideoBoxController
-                                            ?.seekTo(Duration(
-                                                milliseconds:
-                                                    newRating.truncate()));
+                                            ?.seekTo(Duration(milliseconds: newRating.truncate()));
 
-                                        if (!_fullScreenPlayVideoBoxController!
-                                                .value.isPlaying &&
+                                        if (!_fullScreenPlayVideoBoxController!.value.isPlaying &&
                                             mounted) {
-                                          _fullScreenPlayVideoBoxController
-                                              ?.play();
+                                          _fullScreenPlayVideoBoxController?.play();
                                           _videoIsPLaying = true;
                                           setState(() {});
                                         }
@@ -433,12 +408,9 @@ class _FullScreenPlayVideoBoxState extends State<_FullScreenPlayVideoBox> {
                                 margin: EdgeInsets.only(left: sw(5)),
                                 child: Text(
                                   _timeLengthSplit(
-                                      _fullScreenPlayVideoBoxController!
-                                          .value.position,
-                                      _fullScreenPlayVideoBoxController!
-                                          .value.duration),
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: sf(12)),
+                                      _fullScreenPlayVideoBoxController!.value.position,
+                                      _fullScreenPlayVideoBoxController!.value.duration),
+                                  style: TextStyle(color: Colors.white, fontSize: sf(12)),
                                 ),
                               ),
                               // 静音/未静音
@@ -446,12 +418,10 @@ class _FullScreenPlayVideoBoxState extends State<_FullScreenPlayVideoBox> {
                                 onTap: () {
                                   if (_muteStatus) {
                                     _muteStatus = false;
-                                    _fullScreenPlayVideoBoxController
-                                        ?.setVolume(0.5);
+                                    _fullScreenPlayVideoBoxController?.setVolume(0.5);
                                   } else {
                                     _muteStatus = true;
-                                    _fullScreenPlayVideoBoxController
-                                        ?.setVolume(0);
+                                    _fullScreenPlayVideoBoxController?.setVolume(0);
                                   }
 
                                   setState(() {});
@@ -459,9 +429,7 @@ class _FullScreenPlayVideoBoxState extends State<_FullScreenPlayVideoBox> {
                                 child: Container(
                                   margin: EdgeInsets.only(left: sw(5)),
                                   child: Icon(
-                                    _muteStatus
-                                        ? Icons.volume_off_sharp
-                                        : Icons.volume_up,
+                                    _muteStatus ? Icons.volume_off_sharp : Icons.volume_up,
                                     color: Colors.white,
                                     size: sf(24),
                                   ),
@@ -553,8 +521,7 @@ class _CustomRoundedRectSliderTrackShape extends RoundedRectSliderTrackShape {
     final double trackHeight = sliderTheme.trackHeight!;
     final double trackWidth = parentBox.size.width;
     final double trackLeft = offset.dx;
-    final double trackTop =
-        offset.dy + (parentBox.size.height - trackHeight) / 2;
+    final double trackTop = offset.dy + (parentBox.size.height - trackHeight) / 2;
 
     return Rect.fromLTWH(trackLeft, trackTop, trackWidth, trackHeight);
   }
