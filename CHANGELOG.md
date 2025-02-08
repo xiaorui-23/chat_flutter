@@ -1,3 +1,11 @@
+## 3.0.2
+
+Fix rendering issues.
+
+## 3.0.1
+
+Fix known issues.
+
 ## 3.0.0
 
 Adapt to 3.24.0

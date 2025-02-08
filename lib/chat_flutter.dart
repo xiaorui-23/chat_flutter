@@ -55,18 +55,17 @@ class ChatViewWidget extends StatefulWidget {
 
 class _ChatViewWidgetState extends State<ChatViewWidget> {
   final ScrollController _chatViewWidgetListViewController = ScrollController();
-  final ChatViewWidgetController _chatViewWidgetController =
-      ChatViewWidgetController();
-
-  List<ChatViewItem> get _childrenListInfo => widget.children ?? [];
+  final ChatViewWidgetController _chatViewWidgetController = ChatViewWidgetController();
 
   Future<List<ChatViewItem>>? _getIsLoadDataFuture;
 
-  List<ChatViewItem> _children = [];
+  late ValueNotifier<List<ChatViewItem>> _childrenListInfoNotifier;
 
   @override
   void initState() {
     super.initState();
+
+    _childrenListInfoNotifier = ValueNotifier(widget.children ?? []);
 
     // 执行创建完成时回调
     _created();
@@ -75,14 +74,14 @@ class _ChatViewWidgetState extends State<ChatViewWidget> {
     _getIsLoadDataFuture = _getIsLoadData();
 
     // 注册监听器
-    _chatViewWidgetController
-        .registerListeningCallback(_registerListeningCallback);
+    _chatViewWidgetController.registerListeningCallback(_registerListeningCallback);
   }
 
   @override
   void dispose() {
     _chatViewWidgetController.dispose();
     _chatViewWidgetListViewController.dispose();
+    _childrenListInfoNotifier.dispose();
 
     super.dispose();
   }
@@ -103,36 +102,48 @@ class _ChatViewWidgetState extends State<ChatViewWidget> {
         if (snapshot.connectionState != ConnectionState.done) {
           return Container();
         }
+        return ValueListenableBuilder(
+          valueListenable: _childrenListInfoNotifier,
+          builder: (context, value, child) {
+            value = _initStateScrollBottom();
 
-        return ListView.builder(
-          addAutomaticKeepAlives: true,
-          addRepaintBoundaries: true,
-          addSemanticIndexes: true,
-          controller: _chatViewWidgetListViewController,
-          padding: const EdgeInsets.all(0),
-          physics: widget.physics,
-          reverse: widget.isNeedScrollBottom,
-          shrinkWrap: true,
-          itemCount: _children.length,
-          itemBuilder: (BuildContext context, int index) => _children[index],
+            return ListView.builder(
+              addAutomaticKeepAlives: true,
+              addRepaintBoundaries: true,
+              addSemanticIndexes: true,
+              controller: _chatViewWidgetListViewController,
+              padding: const EdgeInsets.all(0),
+              physics: widget.physics,
+              reverse: widget.isNeedScrollBottom,
+              shrinkWrap: true,
+              itemCount: value.length,
+              itemBuilder: (BuildContext context, int index) => value[index],
+            );
+          },
         );
       },
     );
   }
 
+  @override
+  void didUpdateWidget(covariant ChatViewWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    _childrenListInfoNotifier.value = widget.children ?? [];
+  }
+
   /// 获取 可渲染列表
   Future<List<ChatViewItem>> _getIsLoadData() async {
-    _children = await _initStateScrollBottom();
-    return _children;
+    return _initStateScrollBottom();
   }
 
   /// 根据 初始渲染时是否需要滑动到底部 状态进行设置当前列表记录
-  Future<List<ChatViewItem>> _initStateScrollBottom() async {
+  List<ChatViewItem> _initStateScrollBottom() {
     if (!widget.isNeedScrollBottom) {
-      return _childrenListInfo;
+      return _childrenListInfoNotifier.value;
     }
 
-    return _childrenListInfo.reversed.toList();
+    return _childrenListInfoNotifier.value.reversed.toList();
   }
 
   /// 对一些需要在构建时需要进行修改的参数进行修改
@@ -147,29 +158,28 @@ class _ChatViewWidgetState extends State<ChatViewWidget> {
 
   /// 记录展示界面控制器-监听器内容
   void _registerListeningCallback(ChatViewWidgetControllerListenType type,
-      {ChatViewItem? chatViewItem,
-      List<ChatViewItem>? chatViewItemList}) async {
+      {ChatViewItem? chatViewItem, List<ChatViewItem>? chatViewItemList}) async {
+    List<ChatViewItem> tempChildrenListInfoNotifierValue = [..._childrenListInfoNotifier.value];
     switch (type) {
       case ChatViewWidgetControllerListenType.add:
-        _childrenListInfo.add(chatViewItem!);
+        tempChildrenListInfoNotifierValue.add(chatViewItem!);
         break;
       case ChatViewWidgetControllerListenType.addAll:
-        _childrenListInfo.addAll(chatViewItemList!);
+        tempChildrenListInfoNotifierValue.addAll(chatViewItemList!);
         break;
       case ChatViewWidgetControllerListenType.remove:
-        _childrenListInfo.remove(chatViewItem!);
+        tempChildrenListInfoNotifierValue.remove(chatViewItem!);
         break;
       case ChatViewWidgetControllerListenType.clear:
-        _childrenListInfo.clear();
+        tempChildrenListInfoNotifierValue.clear();
         break;
     }
 
-    _children = await _initStateScrollBottom();
+    tempChildrenListInfoNotifierValue = _initStateScrollBottom();
+    _childrenListInfoNotifier.value = [...tempChildrenListInfoNotifierValue];
 
     _chatViewWidgetListViewController.animateTo(
-        widget.isNeedScrollBottom
-            ? 0
-            : _chatViewWidgetListViewController.position.maxScrollExtent,
+        widget.isNeedScrollBottom ? 0 : _chatViewWidgetListViewController.position.maxScrollExtent,
         duration: const Duration(milliseconds: 500),
         curve: Curves.easeIn);
 
@@ -184,8 +194,7 @@ class _ChatViewWidgetState extends State<ChatViewWidget> {
     await Future.delayed(const Duration(milliseconds: 600));
 
     if (widget.onCreated != null) {
-      widget.onCreated!(
-          _chatViewWidgetListViewController, _chatViewWidgetController);
+      widget.onCreated!(_chatViewWidgetListViewController, _chatViewWidgetController);
     }
   }
 }
@@ -227,8 +236,7 @@ class ChatViewWidgetController {
       {ChatViewItem? chatViewItem, List<ChatViewItem>? chatViewItemList}) {
     if (_listeningCallback.isNotEmpty) {
       for (var fn in _listeningCallback) {
-        fn(type,
-            chatViewItem: chatViewItem, chatViewItemList: chatViewItemList);
+        fn(type, chatViewItem: chatViewItem, chatViewItemList: chatViewItemList);
       }
     }
   }
